@@ -1,0 +1,32 @@
+Implement the public quote request form and its API route for this Next.js App Router project.
+
+1. Update app/quote/page.tsx (client component, "use client"):
+   - At the top of the page, prominently display the tagline: "Get your Super quote. Free, no obligation, etc." as a heading (styling can be minimal/placeholder for now — real design comes later)
+   - Below it, a form with these fields:
+     - name (text, required)
+     - email (email, required)
+     - phone (tel, required)
+     - move_date (date, optional)
+     - origin_address (text, optional)
+     - destination_address (text, optional)
+     - move_size (text, optional — plain text input for now, e.g. "studio", "3-bedroom house")
+     - notes (textarea, optional)
+     - a hidden honeypot input named "company_website" (visually hidden via CSS, not display:none or type=hidden — use an off-screen technique so it still gets autofocus/tabindex excluded but real form-filling bots that blindly fill all inputs still populate it; empty by default)
+   - Client-side: require name/email/phone to be non-empty before allowing submit; basic email format check
+   - On submit: POST to /api/quote as JSON with all field values (including the honeypot field's value)
+   - On success (200): replace the form with a simple confirmation message ("Thanks — we'll be in touch soon.")
+   - On failure: show an inline error message, keep the form filled in (don't clear user input on error)
+   - Disable the submit button while the request is in flight
+
+2. Implement app/api/quote/route.ts (replacing the 501 stub):
+   - POST handler, standard Node runtime (no edge needed — remove any `export const runtime = 'edge'` if present)
+   - Parse JSON body; return 400 if malformed
+   - Validate: name, email, phone are present and are non-empty strings. Validate email contains "@" and a "." after it (basic format check, not exhaustive). Return 400 with a clear error message if validation fails.
+   - Honeypot check: if body.company_website is present and non-empty, return 200 with an empty success-shaped response WITHOUT inserting anything into the database (silently drop suspected bot submissions — don't tip off the bot that it was caught)
+   - Read the "site_session" cookie from the request (same cookie used by /api/session). If present, use its value as session_id; if absent, session_id is null. Do not validate that the session_id actually exists in the sessions table — the FK is nullable and ON DELETE SET NULL, so let Postgres handle referential integrity
+   - Using the Supabase admin client (lib/supabase/admin.ts, already exists — reuse it, don't recreate it):
+     - Insert a row into `quotes` with: session_id, name, email, phone, move_date (null if not provided), origin_address (null if not provided), destination_address (null if not provided), move_size (null if not provided), notes (null if not provided). Do not set `status` explicitly — let the column default ('new') apply.
+   - On Supabase insert error: log server-side with console.error, return 500 with a generic client-facing error message (no internal details leaked)
+   - On success: return 200 with an empty JSON body
+
+Do not build any admin-side viewing of quotes yet — this prompt is the public submission path only. Everything should build and run clean with zero TypeScript errors.
