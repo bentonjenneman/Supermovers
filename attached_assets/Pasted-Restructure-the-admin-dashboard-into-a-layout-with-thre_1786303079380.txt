@@ -1,0 +1,31 @@
+Restructure the admin dashboard into a layout with three sections, and build out the Quotes section with status editing, for this Next.js App Router project.
+
+1. Create app/admin/dashboard/layout.tsx (Server Component):
+   - Simple top nav with links to /admin/dashboard/quotes, /admin/dashboard/reviews, /admin/dashboard/tracking
+   - A "Log out" button (client component, e.g. components/admin/LogoutButton.tsx) that POSTs to /api/admin/logout, then redirects to /admin on success (window.location.href is fine here)
+   - Renders {children} below the nav
+   - Reviews and Tracking nav links can point to routes that don't exist yet — that's fine, they'll 404 until built in later prompts. Do not build those pages in this prompt.
+
+2. Replace app/admin/dashboard/page.tsx with a redirect to /admin/dashboard/quotes (use redirect() from next/navigation — this route no longer renders its own content)
+
+3. Create app/admin/dashboard/quotes/page.tsx (Server Component):
+   - Fetch all rows from `quotes` using the Supabase admin client, ordered by created_at descending, selecting all columns
+   - Pass the fetched array as a prop to a client component <QuotesTable initialQuotes={quotes} />
+
+4. Create components/admin/QuotesTable.tsx ("use client"):
+   - Accepts initialQuotes as a prop, holds it in local state (useState)
+   - Renders a table with one row per quote: created_at (formatted as a readable date/time), name, email, phone, move_date, origin_address, destination_address, move_size, notes, and a status <select> (options: new, contacted, quoted, closed) reflecting the current value
+   - On status change: optimistically update local state immediately, then PATCH to /api/admin/quotes/{id} with JSON body { status: newValue }. On failure: revert the local state back to the previous value and show an inline error near that row (e.g. a small red text under the dropdown, clearable/replaced on next change attempt)
+   - If initialQuotes is empty, render "No quotes yet." instead of an empty table
+
+5. Implement app/api/admin/quotes/[id]/route.ts:
+   - PATCH handler, standard Node runtime
+   - This route is already protected by existing middleware (matches /api/admin/:path*) — do not add any additional auth check inside this file
+   - Parse JSON body; validate that body.status is present and is exactly one of: 'new', 'contacted', 'quoted', 'closed'. Return 400 with a clear error message otherwise.
+   - Get the id from the route params (Next.js 14 App Router dynamic segment)
+   - Wrap createAdminClient() in a try/catch (same pattern as the other API routes), log and return generic 500 on failure
+   - Update the `quotes` row where id matches, setting status to the validated value. If no row matches the id (update affects zero rows), return 404.
+   - On Supabase error: log server-side, return 500 with a generic client-facing message
+   - On success: return 200 with an empty JSON body
+
+Do not build the Reviews or Tracking admin sections in this prompt. Everything should build and run clean with zero TypeScript errors.

@@ -1,7 +1,5 @@
+import { redirect } from 'next/navigation'
+
 export default function AdminDashboard() {
-  return (
-    <main>
-      <h1>Admin Dashboard</h1>
-    </main>
-  )
+  redirect('/admin/dashboard/quotes')
 }
