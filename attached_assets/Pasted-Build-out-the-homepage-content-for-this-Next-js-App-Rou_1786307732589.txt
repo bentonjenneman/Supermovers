@@ -1,0 +1,43 @@
+Build out the homepage content for this Next.js App Router project, replacing the placeholder <h1> in app/page.tsx. Add the import: import Image from 'next/image'
+
+1. app/page.tsx as a Server Component with these sections, in order:
+
+HERO:
+- Section: className="relative py-16 md:py-24 text-center overflow-hidden"
+- First child — background photo:
+  <Image src="/hero.jpg" alt="Super Movers crew loading a moving truck" fill priority className="object-cover -z-20" />
+- Second child — dark overlay for text contrast:
+  <div className="absolute inset-0 bg-ink/60 -z-10" />
+- Small pill/badge above the headline: bg-brand-orange text-white text-xs font-bold px-3 py-1.5 rounded, text "Free quotes, 7 days a week"
+- Headline (h1): font-heading font-extrabold text-white text-3xl md:text-5xl, "Moving, delivery and junk removal"
+- Subheading: font-body text-white/80 text-base md:text-lg, "Athens, GA movers. We travel up to 200 miles, free quotes, no hidden fees."
+- Button row: primary Button (from components/ui/Button) href="/quote" label "Get a free quote"; secondary Button href="tel:+14705624020" label "Call (470) 562-4020" — secondary variant needs a white border/text since it sits on the dark hero (pass a className override for this instance only, don't change the shared secondary variant's default colors)
+
+TRUST BADGES:
+- Section below hero, bg-white, py-10, flex row (flex-wrap, justify-center, gap-8)
+- Three Badge components (from components/ui/Badge): label "No hidden fees" accent="blue", label "UGA founded" accent="orange", label "200-mile radius" accent="blue"
+
+SERVICES PREVIEW:
+- Section bg-paper, py-16
+- Section heading (h2): font-heading font-bold text-ink text-2xl text-center mb-10, "What we do"
+- Grid of 3 cards (grid-cols-1 md:grid-cols-3 gap-6, max-w-5xl mx-auto px-4):
+  - Each card: bg-white border border-border rounded-lg p-6
+  - Card 1: heading "Moving" (font-heading font-bold text-ink text-lg), body "Local and long distance, one item or a full house." (font-body text-ink-muted text-sm), link "Learn more →" to /services (text-brand-orange text-sm font-semibold)
+  - Card 2: heading "Delivery", body "Furniture and large-item delivery, up to 200 miles.", same link pattern
+  - Card 3: heading "Junk removal", body "Clear out what you don't need, fast.", same link pattern
+
+MEET SUPER MOVERS:
+- Section bg-white, py-16
+- Section heading (h2): font-heading font-bold text-ink text-2xl text-center, "Meet Super Movers"
+- Below the heading, centered: <img src="/logo.png" alt="Super Movers logo" className="h-28 w-auto mx-auto my-8" />
+- Below that, three distinct subsections stacked vertically (grid-cols-1 md:grid-cols-3 gap-8, max-w-5xl mx-auto px-4), each with its OWN unique heading (font-heading font-bold text-ink text-lg mb-3) and its own paragraph (font-body text-ink-muted text-sm leading-relaxed) — do not repeat any heading three times, each block gets exactly one heading:
+  - "No hidden fees" — "The price we quote you is the price you pay. We show up when we say we will, wrap your furniture before it goes on the truck, and treat your things like they are our own. No surprise charges on moving day."
+  - "Our trucks and crew" — "Box trucks stocked with moving blankets, dollies, straps and shrink wrap — the gear it takes to get your things there without a scratch. One heavy item or a whole house, local or long distance."
+  - "Started by two UGA students" — "Super Movers started with two UGA students who wanted to build something of their own. We went from hauling free furniture finds across town to handling full five-bedroom moves — and we still answer the phone ourselves."
+
+CLOSING CTA:
+- Section bg-brand-blue, py-12, text centered
+- Heading (h2): font-heading font-bold text-white text-2xl, "Ready to move?"
+- Primary Button href="/quote" label "Get a free quote" — needs white background with brand-blue text on this section for contrast (pass a className override for this instance, don't change the shared primary variant's default colors)
+
+Do not touch Header, Footer, Button, or Badge component files — only app/page.tsx. Everything should build and run clean with zero TypeScript errors.
