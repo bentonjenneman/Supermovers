@@ -1,0 +1,32 @@
+Build a real ServiceAreaMap component and the Contact page for this Next.js App Router project.
+
+1. Install dependencies: d3, topojson-client, and their type packages (@types/d3, @types/topojson-client) as dev dependencies.
+
+2. Create components/ServiceAreaMap.tsx as a client component ("use client"):
+   - On mount (useEffect), fetch https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json, render an SVG map using d3-geo and topojson-client — this is the same approach as the existing chat preview, now as real imported packages instead of CDN <script> tags:
+     import * as d3 from 'd3'
+     import * as topojson from 'topojson-client'
+   - viewBox "0 0 900 560", width 100%
+   - Projection: d3.geoMercator().center([-84.0, 34.1]).scale(5300).translate([450, 280])
+   - Render only these states, filtered by feature.properties.name: Georgia, South Carolina, North Carolina, Tennessee, Alabama, Florida, Mississippi, Virginia, Kentucky. Georgia fill #E2EAF3, all others fill #FFFFFF, all stroke #1B2733 stroke-width 1.
+   - Draw the 200-mile radius: d3.geoCircle().center([-83.3576, 33.9519]).radius(2.895)(), fill #D8412B at 0.16 opacity, stroke #D8412B stroke-width 2.
+   - Plot these 11 cities as small dots (radius 4, fill #1B2733) with adjacent text labels (font-family Inter/sans-serif, font-weight 500, font-size 11, fill #1B2733), positioned via the same projection:
+     Atlanta [-84.3880, 33.7490], Augusta [-81.9748, 33.4735], Macon [-83.6324, 32.8407], Columbus [-84.9877, 32.4610], Savannah [-81.0912, 32.0809], Greenville [-82.3940, 34.8526], Columbia [-81.0348, 34.0007], Charlotte [-80.8431, 35.2271], Chattanooga [-85.3097, 35.0456], Knoxville [-83.9207, 35.9606], Asheville [-82.5515, 35.5951]
+   - Plot Athens, GA [-83.3576, 33.9519] last (drawn on top of the other cities): radius 6 circle fill #D8412B stroke #FFFFFF stroke-width 2, plus a small dark rounded label chip (rect fill #1B2733 rx 4) with white bold text "Athens, GA" (font-family Poppins/sans-serif, font-weight 700, font-size 12) positioned to the right of the dot.
+   - While the topology is loading (before the fetch resolves), render a simple centered "Loading map..." placeholder (font-body text-ink-muted text-sm) inside a div matching the eventual map's approximate height, so the layout doesn't jump.
+   - Below the map, render the same legend row as the chat preview: a small square swatch (bg-brand-orange/35 opacity, border-2 border-brand-orange) followed by text "200-mile service radius from Athens, GA" (font-body text-sm text-ink).
+   - Wrap the whole component (map + legend) in a container: bg-paper rounded-lg p-4
+
+3. Create app/contact/page.tsx as a Server Component:
+
+INTRO BAND:
+- Section bg-brand-blue py-14 text-center
+- Heading (h1): font-heading font-extrabold text-white text-3xl md:text-4xl, "Get in touch"
+- Subheading: font-body text-white/80 text-base mt-3, "Call or text 7 days a week — or send us a quote request."
+
+CONTACT INFO + MAP:
+- Section bg-white py-16, max-w-5xl mx-auto px-4, grid grid-cols-1 md:grid-cols-2 gap-10 items-start
+- Left column: heading "Reach us directly" (font-heading font-bold text-ink text-xl mb-4), phone as a tel: link "(470) 562-4020" (font-body font-semibold text-lg text-brand-orange mb-2 block), text "Call or text, 7 days a week" (font-body text-ink-muted text-sm mb-6), text "Athens, GA — serving up to 200 miles" (font-body text-ink-muted text-sm mb-6), primary Button href="/quote" label "Get a free quote"
+- Right column: <ServiceAreaMap />
+
+Do not touch Header, Footer, Button, Badge, or any other existing page files. Everything should build and run clean with zero TypeScript errors.
