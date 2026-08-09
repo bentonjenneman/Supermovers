@@ -47,7 +47,13 @@ export async function POST(request: NextRequest) {
   // Optional session linkage — no FK validation; Postgres handles it
   const sessionId = request.cookies.get('site_session')?.value ?? null
 
-  const supabase = createAdminClient()
+  let supabase: ReturnType<typeof createAdminClient>
+  try {
+    supabase = createAdminClient()
+  } catch (err) {
+    console.error('[quote] Admin client init failed:', err)
+    return NextResponse.json({ error: 'Something went wrong. Please try again.' }, { status: 500 })
+  }
 
   const { error: insertError } = await supabase.from('quotes').insert({
     session_id: sessionId,
