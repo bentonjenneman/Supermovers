@@ -1,0 +1,32 @@
+Populate the Privacy Policy and Terms and Conditions pages with real content for this Next.js App Router project, matching the existing design system.
+
+1. Update app/privacy-policy/page.tsx as a Server Component:
+   - Section: bg-white py-16, max-w-2xl mx-auto px-4
+   - Heading (h1): font-heading font-extrabold text-ink text-3xl mb-2, "Privacy policy"
+   - Date line: font-body text-sm text-ink-muted mb-8, "Last updated: August 9, 2026"
+   - Each subheading: font-heading font-bold text-ink text-lg mt-8 mb-2 (first one mt-0)
+   - Each paragraph: font-body text-ink-muted text-sm leading-relaxed mb-3
+   - Content, in order (subheading, then its paragraph(s)):
+     - "Information we collect" — two paragraphs: "When you browse the site: We use a small analytics cookie to understand how visitors use the site — which pages you view, how you arrived here (referrer), your approximate city/region (based on IP address, not precise location), and your device and browser type. This cookie is only set after you accept cookies via the banner shown on your first visit." and "When you submit a form: If you request a quote, we collect your name, email, phone number, and any move details you provide (move date, addresses, size of move, notes). If you leave a review, we collect your name, star rating, and review text."
+     - "How we use this information" — "To respond to quote requests and follow up with you about your move, to understand how people find and use our site, and to decide which submitted reviews to publish. We do not sell your information to third parties."
+     - "Cookies" — "You can decline non-essential cookies using the banner shown when you first visit. Declining means we won't collect the analytics information described above; the site will still function normally."
+     - "Data storage" — "Information you submit is stored securely using Supabase, our database provider. Access to quote and review submissions is restricted to Super Movers staff."
+     - "Your choices" — "You can request that we delete information you've submitted by contacting us at (470) 562-4020."
+     - "Changes to this policy" — "We may update this policy from time to time. Continued use of the site after changes means you accept the updated policy."
+     - "Contact us" — "Questions about this policy: (470) 562-4020."
+
+2. Update app/terms/page.tsx as a Server Component, same structural pattern (heading, date line, subheadings, paragraphs) as privacy-policy/page.tsx above:
+   - Heading (h1): "Terms and conditions"
+   - Date line: "Last updated: August 9, 2026"
+   - Content, in order:
+     - "Scope of these terms" — "These terms govern your use of this website only. They do not constitute a moving services contract. Actual moving, delivery, or junk removal services are governed by a separate agreement provided at the time of booking, which will include applicable liability, valuation, and claims terms as required by law."
+     - "Use of this site" — "This site is provided for informational purposes and to let you request a free quote. Submitting a quote request does not create a binding agreement — final pricing, availability, and scheduling are confirmed directly with you by phone or email."
+     - "Reviews" — "Reviews submitted through this site are subject to approval before publishing. By submitting a review, you confirm it reflects your honest experience. We reserve the right to decline to publish any submission."
+     - "Intellectual property" — "The content, design, and branding of this site are owned by Super Movers LLC and may not be copied or reused without permission."
+     - "Disclaimer" — "This site and its content are provided \"as is\" without warranties of any kind. We aim for accuracy but do not guarantee the site will be error-free or uninterrupted."
+     - "Limitation of liability" — "To the extent permitted by law, Super Movers LLC is not liable for indirect or incidental damages arising from use of this website."
+     - "Governing law" — "These terms are governed by the laws of the State of Georgia."
+     - "Changes to these terms" — "We may update these terms from time to time. Continued use of the site after changes means you accept the updated terms."
+     - "Contact us" — "Questions about these terms: (470) 562-4020."
+
+Do not touch any other files. Everything should build and run clean with zero TypeScript errors.
