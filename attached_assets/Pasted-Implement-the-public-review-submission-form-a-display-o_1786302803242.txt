@@ -1,0 +1,32 @@
+Implement the public review submission form, a display of already-published reviews, and the review API route for this Next.js App Router project.
+
+1. Update app/reviews/page.tsx as a Server Component (no "use client" at the top level):
+   - Fetch published reviews server-side using the Supabase admin client (lib/supabase/admin.ts) — query the `reviews` table, select id/name/rating/review_text/created_at, filter published = true, order by created_at descending
+   - Render the fetched reviews as a plain unstyled list (name, star rating as plain text e.g. "5/5", review_text). If the list is empty, render a simple "No reviews yet" message — do not treat this as an error state
+   - Below the reviews list, render a client-side form component: <LeaveReviewForm /> (create this as a separate component, see step 2)
+
+2. Create components/LeaveReviewForm.tsx ("use client"):
+   - Fields:
+     - name (text, required)
+     - rating (a select or radio group, integer 1–5, required)
+     - review_text (textarea, required)
+     - a hidden honeypot input named "company_website" (same off-screen technique as the quote form — absolutely positioned off-screen, tabIndex={-1}, autoComplete="off", aria-hidden)
+   - Client-side validation: name and review_text non-empty, rating is an integer between 1 and 5
+   - On submit: POST to /api/review as JSON with name, rating, review_text, company_website (honeypot)
+   - On success (200): replace the form with a confirmation message ("Thanks for your feedback — we review submissions before they're published.")
+   - On failure: show an inline error message, keep the form filled in
+   - Disable the submit button while the request is in flight
+   - Do NOT include any published field or checkbox anywhere in this form — that's a server-only concern
+
+3. Implement app/api/review/route.ts (replacing the 501 stub):
+   - POST handler, standard Node runtime (no edge export)
+   - Parse JSON body; return 400 if malformed
+   - Validate: name and review_text are non-empty strings; rating is an integer between 1 and 5 (reject non-integers, out-of-range values, and missing rating). Return 400 with a clear error message if validation fails.
+   - Honeypot check: if body.company_website is present and non-empty, return 200 with an empty success-shaped response WITHOUT inserting anything into the database
+   - Read the "site_session" cookie from the request, same pattern as app/api/quote/route.ts. If present, use as session_id; if absent, null.
+   - Wrap createAdminClient() in a try/catch, matching the corrected pattern in app/api/quote/route.ts (log with console.error, return a generic 500 on failure)
+   - Insert into `reviews`: session_id, name (trimmed), rating, review_text (trimmed). Always explicitly set published: false regardless of anything in the request body — never let client input reach this column.
+   - On Supabase insert error: log server-side, return 500 with a generic client-facing error message
+   - On success: return 200 with an empty JSON body
+
+Do not build any admin-side approval UI yet — this prompt is the public submission + public published-reviews display only. Everything should build and run clean with zero TypeScript errors.
