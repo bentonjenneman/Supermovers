@@ -1,10 +1,24 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
-import Link from 'next/link'
+import { Poppins, Inter } from 'next/font/google'
 import { CookieConsentProvider } from '@/lib/analytics/consent-context'
 import CookieConsentBanner from '@/components/CookieConsentBanner'
 import PageviewTracker from '@/components/PageviewTracker'
+import Header from '@/components/layout/Header'
+import Footer from '@/components/layout/Footer'
 import './globals.css'
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['600', '700', '800'],
+  variable: '--font-poppins',
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-inter',
+})
 
 export const metadata: Metadata = {
   title: 'My Site',
@@ -13,22 +27,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" className={`${poppins.variable} ${inter.variable}`}>
+      <body className="bg-paper text-ink font-body">
         <CookieConsentProvider>
-          <nav>
-            <Link href="/">Home</Link>
-            <Link href="/services">Services</Link>
-            <Link href="/quote">Get a Quote</Link>
-            <Link href="/about">About</Link>
-            <Link href="/reviews">Reviews</Link>
-            <Link href="/contact">Contact</Link>
-          </nav>
+          <Header />
           {children}
-          <footer>
-            <Link href="/privacy-policy">Privacy Policy</Link>
-            <Link href="/terms">Terms and Conditions</Link>
-          </footer>
+          <Footer />
           <PageviewTracker />
           <CookieConsentBanner />
         </CookieConsentProvider>

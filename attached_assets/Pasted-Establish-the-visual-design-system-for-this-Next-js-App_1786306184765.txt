@@ -1,0 +1,53 @@
+Establish the visual design system for this Next.js App Router project: Tailwind tokens, font loading, shared UI components, and a real Header/Footer replacing the placeholder nav.
+
+1. Update tailwind.config.ts — extend theme.colors with:
+   brand: {
+     orange: '#D8412B',
+     blue: '#1D4E89',
+   },
+   ink: '#1B2733',
+   paper: '#F7F5F1',
+   'ink-muted': '#5A6472',
+   border: '#E3DFD6',
+   tint: {
+     orange: '#FBE7E1',
+     blue: '#E2EAF3',
+   }
+   Extend theme.fontFamily with heading: ['var(--font-poppins)', 'sans-serif'] and body: ['var(--font-inter)', 'sans-serif'].
+
+2. In app/layout.tsx: import Poppins and Inter via next/font/google (not a manual <link> tag — use Next's built-in font optimization):
+   import { Poppins, Inter } from 'next/font/google'
+   const poppins = Poppins({ subsets: ['latin'], weight: ['600','700','800'], variable: '--font-poppins' })
+   const inter = Inter({ subsets: ['latin'], weight: ['400','500','600'], variable: '--font-inter' })
+   Apply both variable classNames to the <html> or <body> tag. Set the body's default background to bg-paper, text color to text-ink, and font-family to font-body.
+
+3. Update app/globals.css: remove any leftover default Next.js starter styles (the default black/white theme colors, default body font) — the Tailwind config now owns all color/font decisions. Keep only Tailwind's base/components/utilities directives and any truly global resets.
+
+4. Create components/ui/Button.tsx:
+   - Props: variant ('primary' | 'secondary'), href (optional — renders a Next.js <Link> if provided, otherwise a <button>), children, className (optional, merged in)
+   - Shared base styles: font-heading font-bold text-sm rounded-md px-5 py-3 transition-colors (rectangular with slightly rounded corners — not a pill)
+   - primary: bg-brand-orange text-white, hover state slightly darker orange
+   - secondary: bg-transparent border-2 border-ink text-ink, hover state bg-ink text-white
+   - Must work as both a link (for navigation) and a real button (for form submits) — check for href to decide which element to render
+
+5. Create components/ui/Badge.tsx:
+   - Props: label (string), accent ('orange' | 'blue')
+   - Renders a circular badge: fixed size (e.g. w-20 h-20), rounded-full, border-2 (border-brand-orange or border-brand-blue based on accent prop), flex centered, with the label text below or inside depending on length — font-heading font-bold text-xs text-ink, text-center
+   - This is the reusable trust-stat/circular-motif component used across the site (homepage trust row, later sections)
+
+6. Create components/layout/Header.tsx (client component if needed for a mobile menu, otherwise server component):
+   - Sticky top header (sticky top-0 z-50), white background, border-b border-ink
+   - Left: logo — <img src="/logo.png"> at a small fixed height (e.g. h-9 w-auto), next to the text "SUPER MOVERS" in font-heading font-extrabold text-ink
+   - Center or right: nav links to Home (/), Services (/services), About (/about), Reviews (/reviews), Contact (/contact) — font-body font-medium text-sm text-ink, hover text-brand-orange
+   - Right: phone number as a tel: link (470) 562-4020 in font-body font-semibold text-sm, plus a primary Button (from step 4) linking to /quote with the label "Get a free quote"
+   - On small screens (below md breakpoint), collapse the nav links behind a simple hamburger toggle (client component state) — phone number and quote button stay visible
+
+7. Create components/layout/Footer.tsx:
+   - Dark background (bg-ink), text-paper
+   - Logo + "Super Movers" wordmark, phone number, "Athens, GA — serving up to 200 miles" line
+   - Links: Privacy Policy (/privacy-policy), Terms and Conditions (/terms)
+   - Copyright line with the current year (computed via new Date().getFullYear(), not hardcoded)
+
+8. Update app/layout.tsx to render <Header /> above {children} and <Footer /> below it, removing the placeholder <nav> and <footer> markup that was in the original scaffold.
+
+Do not restyle any individual page's content in this pass — Home, Services, Quote, etc. all stay as their current placeholder <h1> content. This prompt is the shared design system and site chrome only. Everything should build and run clean with zero TypeScript errors, and the header/footer should already look like part of a real site even though the page content between them doesn't yet.
