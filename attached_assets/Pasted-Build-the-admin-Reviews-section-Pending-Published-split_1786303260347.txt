@@ -1,0 +1,29 @@
+Build the admin Reviews section (Pending/Published split with a publish toggle) for this Next.js App Router project.
+
+1. Update app/admin/dashboard/layout.tsx: no changes needed if the nav link to /admin/dashboard/reviews already exists from the prior prompt — just confirm it does.
+
+2. Create app/admin/dashboard/reviews/page.tsx (Server Component):
+   - Fetch all rows from `reviews` using the Supabase admin client, all columns, ordered by created_at descending
+   - Split into two arrays: pending (published === false) and published (published === true)
+   - Pass both arrays as props to a client component <ReviewsQueue pendingReviews={...} publishedReviews={...} />
+
+3. Create components/admin/ReviewsQueue.tsx ("use client"):
+   - Accepts pendingReviews and publishedReviews as props, holds both in local state (useState)
+   - Renders two sections with clear headings: "Pending" and "Published", each showing its count (e.g. "Pending (4)")
+   - Each review renders: name, rating (e.g. "5/5"), review_text, created_at (formatted readable date/time), and a button:
+     - In the Pending section: a "Publish" button
+     - In the Published section: an "Unpublish" button
+   - On click: optimistically move the review from one local state array to the other immediately, then PATCH to /api/admin/reviews/{id} with JSON body { published: true } or { published: false } as appropriate. On failure: revert the review back to its original array and show an inline error near it.
+   - If a section's array is empty, render "No pending reviews." or "No published reviews yet." respectively instead of an empty list
+
+4. Implement app/api/admin/reviews/[id]/route.ts:
+   - PATCH handler, standard Node runtime
+   - Already protected by existing middleware — no additional auth check needed inside this file
+   - Parse JSON body; validate that body.published is present and is exactly a boolean (true or false — reject strings like "true", numbers, etc.). Return 400 with a clear error message otherwise.
+   - Get the id from the route params
+   - Wrap createAdminClient() in a try/catch, same pattern as the other admin API routes
+   - Update the `reviews` row where id matches, setting published to the validated boolean value. If no row matches (zero rows affected), return 404.
+   - On Supabase error: log server-side, return 500 with a generic client-facing message
+   - On success: return 200 with an empty JSON body
+
+Do not build the Tracking admin section in this prompt. Everything should build and run clean with zero TypeScript errors.
