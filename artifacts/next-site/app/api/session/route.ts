@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
 
         const { error: pvError } = await supabase
           .from('pageviews')
-          .insert({ session_id: existingSessionId, pathname })
+          .insert({ session_id: existingSessionId, page_path: pathname })
 
         if (pvError) {
           console.error('[session] Failed to insert pageview:', pvError)
@@ -131,7 +131,7 @@ async function createNewSession(
   // Landing pageview — one row, not two
   const { error: pvError } = await supabase
     .from('pageviews')
-    .insert({ session_id: newSession.id, pathname })
+    .insert({ session_id: newSession.id, page_path: pathname })
 
   if (pvError) {
     console.error('[session] Failed to insert landing pageview:', pvError)
