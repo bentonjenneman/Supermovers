@@ -1,0 +1,38 @@
+Implement anonymous session/pageview tracking for this Next.js App Router project, gated behind cookie consent.
+
+1. Create lib/analytics/consent-context.tsx ("use client"):
+   - React context providing { consent: 'unknown' | 'accepted' | 'declined', setConsent: (value: 'accepted' | 'declined') => void }
+   - CookieConsentProvider component: on mount, reads document.cookie for a cookie named "cookie_consent"; initializes state to 'accepted', 'declined', or 'unknown' (if absent) accordingly
+   - setConsent(value): writes document.cookie = "cookie_consent=" + value with a 1-year maxAge, path=/, sameSite=lax, secure — and updates the context state
+   - Export a useCookieConsent() hook for consuming the context
+
+2. Create components/CookieConsentBanner.tsx ("use client"):
+   - Uses useCookieConsent()
+   - If consent === 'unknown', render a fixed bottom banner: short message that the site uses cookies for analytics, a link to /privacy-policy, and two buttons: "Accept" (calls setConsent('accepted')) and "Decline" (calls setConsent('declined'))
+   - Renders nothing if consent is 'accepted' or 'declined'
+
+3. Create components/PageviewTracker.tsx ("use client"):
+   - Uses useCookieConsent() and usePathname() from next/navigation
+   - useEffect with dependency [pathname, consent]: if consent !== 'accepted', do nothing. Otherwise, POST to /api/session with JSON body { pathname, referrer: document.referrer }. Fire-and-forget (don't block rendering on the response; log errors to console but don't throw).
+   - Renders nothing (null) — this is a tracking-only component
+
+4. Update app/layout.tsx:
+   - Wrap the existing body content in <CookieConsentProvider>
+   - Render <PageviewTracker /> and <CookieConsentBanner /> inside the provider, alongside the existing nav/footer/children
+
+5. Implement app/api/session/route.ts (replacing the 501 stub):
+   - Add `export const runtime = 'edge'` at the top (required for Cloudflare Pages / next-on-pages to access request.cf)
+   - Import getRequestContext from '@cloudflare/next-on-pages'
+   - POST handler:
+     a. Parse JSON body: { pathname: string, referrer?: string }. Return 400 if pathname is missing/not a string.
+     b. Read the existing "site_session" cookie (httpOnly) from the request, if present.
+     c. Attempt to read Cloudflare geolocation via getRequestContext().cf — wrap in try/catch, since this is unavailable outside the Cloudflare edge (e.g. plain `next dev`). On failure, treat city/region as null. Extract city and region if available.
+     d. Read the User-Agent from request headers directly (do not trust a client-supplied value).
+     e. Using the Supabase server client (service role key):
+        - If "site_session" cookie is present AND corresponds to an existing row in `sessions` (look it up by id): update that row's last_seen_at to now(), insert a new row into `pageviews` with that session_id and the given pathname.
+        - If the cookie is absent OR doesn't match any existing session: insert a new row into `sessions` with landing_page = pathname, referrer = body.referrer ?? null, user_agent, approx_city, approx_region. Then insert a new row into `pageviews` with that new session's id and the given pathname (this is the landing pageview — one row, not two).
+     f. Set (or refresh) the "site_session" cookie in the response: httpOnly, secure, sameSite=lax, path=/, maxAge = 60 * 30 (30 minutes, rolling — reset on every call), value = the session's id (existing or newly created).
+     g. Return 200 with an empty JSON body. Never return the session id or any row data in the response — the client doesn't need it.
+     h. Any Supabase errors: log server-side, return 500 with a generic error message (no internal details leaked to the client).
+
+Do not build the admin Tracking dashboard view yet — this prompt is only the data-collection pipeline (consent, session creation, pageview logging). Everything should build and run clean with zero TypeScript errors.
