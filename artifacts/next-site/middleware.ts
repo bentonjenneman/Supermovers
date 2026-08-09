@@ -12,7 +12,7 @@ export function middleware(request: NextRequest) {
   const adminSessionSecret = process.env.ADMIN_SESSION_SECRET
 
   const isAuthenticated =
-    adminSessionSecret !== undefined && sessionCookie === adminSessionSecret
+    Boolean(adminSessionSecret) && sessionCookie === adminSessionSecret
 
   if (isAuthenticated) {
     return NextResponse.next()
