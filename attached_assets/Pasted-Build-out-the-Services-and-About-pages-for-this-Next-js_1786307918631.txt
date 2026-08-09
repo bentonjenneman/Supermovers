@@ -1,0 +1,39 @@
+Build out the Services and About pages for this Next.js App Router project, replacing their placeholder <h1> content.
+
+1. app/services/page.tsx as a Server Component:
+
+INTRO BAND:
+- Section bg-brand-blue py-14 text-center
+- Heading (h1): font-heading font-extrabold text-white text-3xl md:text-4xl, "Our services"
+- Subheading: font-body text-white/80 text-base mt-3, "Straightforward pricing. No surprises on moving day."
+
+SERVICE SECTIONS (three stacked sections, alternating bg-white / bg-paper):
+- Each: py-16, max-w-3xl mx-auto px-4
+- Section 1 (bg-white) — heading "Moving" (font-heading font-bold text-ink text-2xl mb-4), two paragraphs (font-body text-ink-muted text-base leading-relaxed mb-4): first "Local and long distance, one item or a full house. The price we quote you is the price you pay — we show up when we say we will, wrap your furniture before it goes on the truck, and treat your things like they are our own. No surprise charges on moving day." second "Box trucks stocked with moving blankets, dollies, straps and shrink wrap — the gear it takes to get your things there without a scratch." Then a primary Button href="/quote" label "Get a free quote"
+- Section 2 (bg-paper) — heading "Delivery", one paragraph: "Need something delivered — furniture, an appliance, a single large item — but not a full moving crew? We'll pick it up and drop it off, up to 200 miles from Athens." Then a primary Button href="/quote" label "Get a free quote"
+- Section 3 (bg-white) — heading "Junk removal", one paragraph: "Clearing out a garage, an estate, or just getting rid of what you don't need anymore? We'll haul it away." Then a primary Button href="/quote" label "Get a free quote"
+
+2. app/about/page.tsx as a Server Component:
+
+INTRO BAND:
+- Section bg-brand-blue py-14 text-center
+- Heading (h1): font-heading font-extrabold text-white text-3xl md:text-4xl, "About Super Movers"
+- Subheading: font-body text-white/80 text-base mt-3, "Started by two UGA students who wanted to build something of their own."
+
+ORIGIN STORY:
+- Section bg-white py-16, max-w-3xl mx-auto px-4
+- Heading: font-heading font-bold text-ink text-2xl mb-4, "How we got started"
+- Paragraph: "Super Movers started with two UGA students who wanted to build something of their own. We went from hauling free furniture finds across town to handling full five-bedroom moves — and we still answer the phone ourselves."
+- Below the paragraph, two placeholder headshot circles side by side (flex gap-6 mt-8): each a div w-24 h-24 rounded-full bg-tint-blue flex items-center justify-center with a simple person-outline SVG icon inside (stroke text-brand-blue), and below each circle a small caption "Co-founder" (font-body text-ink-muted text-xs text-center mt-2). Add a code comment above this block: {/* TODO: replace placeholder circles with real founder headshots once supplied */}
+
+WHAT WE STAND FOR:
+- Section bg-paper py-16, grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto px-4
+- Block 1 — heading "No hidden fees" (font-heading font-bold text-ink text-lg mb-3), paragraph (font-body text-ink-muted text-sm leading-relaxed): "The price we quote you is the price you pay. We show up when we say we will, wrap your furniture before it goes on the truck, and treat your things like they are our own."
+- Block 2 — heading "Our trucks and crew", paragraph: "Box trucks stocked with moving blankets, dollies, straps and shrink wrap — the gear it takes to get your things there without a scratch. One heavy item or a whole house, local or long distance."
+
+CLOSING CTA:
+- Section bg-ink py-12 text-center
+- Heading (h2): font-heading font-bold text-white text-2xl, "Ready to get moving?"
+- Primary Button href="/quote" label "Get a free quote" with white background/brand-blue text override for contrast on the dark section (same pattern as the homepage closing CTA — don't touch the shared Button component's defaults)
+
+Do not touch Header, Footer, Button, or Badge component files. Everything should build and run clean with zero TypeScript errors.
