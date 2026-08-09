@@ -1,0 +1,26 @@
+Style the Quote page, Reviews page, and cookie consent banner to match the established design system for this Next.js App Router project. This is a styling-only pass — do not change any existing state, validation logic, fetch/API calls, event handlers, or element attributes (name, type, onChange, etc.). Only add className props and, where needed, wrap existing elements in styled container divs for layout. Every input, button, and form element must keep its exact current behavior.
+
+1. app/quote/page.tsx:
+   - Wrap the page in an intro band + form section structure:
+     - Intro band: bg-brand-blue py-14 text-center — heading (h1) font-heading font-extrabold text-white text-3xl md:text-4xl "Get your Super quote", subheading font-body text-white/80 text-base mt-3 "Free, no obligation. Tell us about your move and we'll get back to you."
+     - Form section: bg-paper py-16, max-w-xl mx-auto px-4
+   - Style the form container: bg-white rounded-lg border border-border p-6 md:p-8
+   - Each field gets: label font-body font-semibold text-sm text-ink mb-1 block, input/textarea font-body text-sm border border-border rounded-md px-3 py-2 w-full focus:outline-none focus:border-brand-orange, wrapped in a div with mb-4
+   - The honeypot input's existing visually-hidden styling stays exactly as it is — do not touch it
+   - Submit button: use the shared Button component (variant="primary"), full width (w-full), keep its existing type="submit" and disabled-while-submitting behavior
+   - Error message (if present): font-body text-sm text-red-600 mb-4
+   - Confirmation message (post-success): font-body text-ink text-center text-lg py-8
+
+2. app/reviews/page.tsx and components/LeaveReviewForm.tsx:
+   - Same intro band pattern on app/reviews/page.tsx: bg-brand-blue py-14 text-center, heading "Reviews", subheading "See what people are saying — or leave your own."
+   - Published reviews list: bg-paper py-16, max-w-2xl mx-auto px-4. Each review in a card: bg-white border border-border rounded-lg p-5 mb-4 — name font-heading font-bold text-ink text-sm, rating as filled/outline star characters or "X/5" in text-brand-orange text-sm, review text font-body text-ink-muted text-sm mt-2, date font-body text-xs text-ink-muted/60 mt-2
+   - Empty state ("No reviews yet"): font-body text-ink-muted text-center py-8
+   - LeaveReviewForm: same form container/field/button styling pattern as the Quote page (white card, bg-paper section, same input/label classes, shared Button component)
+
+3. components/CookieConsentBanner.tsx:
+   - Fixed bottom banner: fixed bottom-0 inset-x-0 z-50 bg-ink text-paper px-4 py-4 md:py-3
+   - Layout: flex flex-col md:flex-row items-center justify-between gap-3 max-w-5xl mx-auto
+   - Message text: font-body text-sm, "We use cookies to understand site traffic and improve your experience." with the existing Privacy Policy link styled text-brand-orange underline hover:text-white
+   - Buttons: Accept as shared Button variant="primary", Decline as a plain text-style button (font-body text-sm text-paper/70 hover:text-paper underline-offset-2 hover:underline, bg-transparent, no border) — keep both buttons' existing onClick handlers untouched
+
+Everything should build and run clean with zero TypeScript errors, and no existing functionality (form submission, validation, honeypot, cookie consent state, review fetching) should change — only appearance.

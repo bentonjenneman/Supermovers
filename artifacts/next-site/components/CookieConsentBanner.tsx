@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useCookieConsent } from '@/lib/analytics/consent-context'
+import Button from '@/components/ui/Button'
 
 export default function CookieConsentBanner() {
   const { consent, setConsent } = useCookieConsent()
@@ -9,58 +10,28 @@ export default function CookieConsentBanner() {
   if (consent !== 'unknown') return null
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        backgroundColor: '#1a1a1a',
-        color: '#fff',
-        padding: '16px 24px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: '16px',
-        flexWrap: 'wrap',
-        zIndex: 9999,
-      }}
-    >
-      <p style={{ margin: 0, fontSize: '0.9rem' }}>
-        We use cookies for analytics to understand how visitors use our site.{' '}
-        <Link href="/privacy-policy" style={{ color: '#a0c4ff' }}>
-          Privacy Policy
-        </Link>
-      </p>
-      <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
-        <button
-          onClick={() => setConsent('accepted')}
-          style={{
-            padding: '8px 16px',
-            backgroundColor: '#fff',
-            color: '#1a1a1a',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            fontSize: '0.9rem',
-          }}
-        >
-          Accept
-        </button>
-        <button
-          onClick={() => setConsent('declined')}
-          style={{
-            padding: '8px 16px',
-            backgroundColor: 'transparent',
-            color: '#fff',
-            border: '1px solid #fff',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            fontSize: '0.9rem',
-          }}
-        >
-          Decline
-        </button>
+    <div className="fixed bottom-0 inset-x-0 z-50 bg-ink text-paper px-4 py-4 md:py-3">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-3 max-w-5xl mx-auto">
+        <p className="font-body text-sm text-center md:text-left">
+          We use cookies to understand site traffic and improve your experience.{' '}
+          <Link
+            href="/privacy-policy"
+            className="text-brand-orange underline hover:text-white"
+          >
+            Privacy Policy
+          </Link>
+        </p>
+        <div className="flex items-center gap-4 shrink-0">
+          <Button variant="primary" onClick={() => setConsent('accepted')}>
+            Accept
+          </Button>
+          <button
+            onClick={() => setConsent('declined')}
+            className="font-body text-sm text-paper/70 hover:text-paper underline-offset-2 hover:underline bg-transparent"
+          >
+            Decline
+          </button>
+        </div>
       </div>
     </div>
   )

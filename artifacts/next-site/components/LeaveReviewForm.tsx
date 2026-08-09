@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, FormEvent } from 'react'
+import Button from '@/components/ui/Button'
 
 interface FormData {
   name: string
@@ -15,6 +16,10 @@ const empty: FormData = {
   review_text: '',
   company_website: '',
 }
+
+const labelCls = 'font-body font-semibold text-sm text-ink mb-1 block'
+const inputCls =
+  'font-body text-sm border border-border rounded-md px-3 py-2 w-full focus:outline-none focus:border-brand-orange'
 
 export default function LeaveReviewForm() {
   const [fields, setFields] = useState<FormData>(empty)
@@ -81,13 +86,19 @@ export default function LeaveReviewForm() {
 
   if (submitted) {
     return (
-      <p>Thanks for your feedback — we review submissions before they&apos;re published.</p>
+      <p className="font-body text-ink text-center text-lg py-8">
+        Thanks for your feedback — we review submissions before they&apos;re published.
+      </p>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate>
-      <h2>Leave a review</h2>
+    <form
+      onSubmit={handleSubmit}
+      noValidate
+      className="bg-white rounded-lg border border-border p-6 md:p-8 mt-8"
+    >
+      <h2 className="font-heading font-bold text-ink text-xl mb-6">Leave a review</h2>
 
       {/* Honeypot — visually hidden, excluded from tab order */}
       <div
@@ -112,8 +123,8 @@ export default function LeaveReviewForm() {
         />
       </div>
 
-      <div>
-        <label htmlFor="review_name">Name *</label>
+      <div className="mb-4">
+        <label htmlFor="review_name" className={labelCls}>Name *</label>
         <input
           id="review_name"
           type="text"
@@ -121,17 +132,19 @@ export default function LeaveReviewForm() {
           onChange={set('name')}
           required
           disabled={loading}
+          className={inputCls}
         />
       </div>
 
-      <div>
-        <label htmlFor="review_rating">Rating *</label>
+      <div className="mb-4">
+        <label htmlFor="review_rating" className={labelCls}>Rating *</label>
         <select
           id="review_rating"
           value={fields.rating}
           onChange={set('rating')}
           required
           disabled={loading}
+          className={inputCls}
         >
           <option value="">Select…</option>
           <option value="5">5 — Excellent</option>
@@ -142,8 +155,8 @@ export default function LeaveReviewForm() {
         </select>
       </div>
 
-      <div>
-        <label htmlFor="review_text">Your review *</label>
+      <div className="mb-4">
+        <label htmlFor="review_text" className={labelCls}>Your review *</label>
         <textarea
           id="review_text"
           value={fields.review_text}
@@ -151,15 +164,25 @@ export default function LeaveReviewForm() {
           rows={5}
           required
           disabled={loading}
+          className={inputCls}
         />
       </div>
 
-      {validationError && <p style={{ color: 'red' }}>{validationError}</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {validationError && (
+        <p className="font-body text-sm text-red-600 mb-4">{validationError}</p>
+      )}
+      {error && (
+        <p className="font-body text-sm text-red-600 mb-4">{error}</p>
+      )}
 
-      <button type="submit" disabled={loading}>
+      <Button
+        variant="primary"
+        type="submit"
+        disabled={loading}
+        className="w-full"
+      >
         {loading ? 'Submitting…' : 'Submit review'}
-      </button>
+      </Button>
     </form>
   )
 }

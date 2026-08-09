@@ -30,22 +30,48 @@ export default async function Reviews() {
 
   return (
     <main>
-      <h1>Reviews</h1>
+      {/* ── INTRO BAND ───────────────────────────────────────────────────── */}
+      <section className="bg-brand-blue py-14 text-center px-4">
+        <h1 className="font-heading font-extrabold text-white text-3xl md:text-4xl">
+          Reviews
+        </h1>
+        <p className="font-body text-white/80 text-base mt-3">
+          See what people are saying — or leave your own.
+        </p>
+      </section>
 
-      {reviews.length === 0 ? (
-        <p>No reviews yet.</p>
-      ) : (
-        <ul>
-          {reviews.map((r) => (
-            <li key={r.id}>
-              <strong>{r.name}</strong> — {r.rating}/5
-              <p>{r.review_text}</p>
-            </li>
-          ))}
-        </ul>
-      )}
+      {/* ── PUBLISHED REVIEWS ────────────────────────────────────────────── */}
+      <section className="bg-paper py-16">
+        <div className="max-w-2xl mx-auto px-4">
+          {reviews.length === 0 ? (
+            <p className="font-body text-ink-muted text-center py-8">
+              No reviews yet.
+            </p>
+          ) : (
+            <div>
+              {reviews.map((r) => (
+                <div
+                  key={r.id}
+                  className="bg-white border border-border rounded-lg p-5 mb-4"
+                >
+                  <p className="font-heading font-bold text-ink text-sm">{r.name}</p>
+                  <p className="text-brand-orange text-sm mt-1">
+                    {'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}
+                    {' '}
+                    <span>{r.rating}/5</span>
+                  </p>
+                  <p className="font-body text-ink-muted text-sm mt-2">{r.review_text}</p>
+                  <p className="font-body text-xs text-ink-muted/60 mt-2">
+                    {new Date(r.created_at).toLocaleDateString()}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
 
-      <LeaveReviewForm />
+          <LeaveReviewForm />
+        </div>
+      </section>
     </main>
   )
 }
