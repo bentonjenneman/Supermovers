@@ -29,6 +29,7 @@ export default function TrackingDashboard({
         <StatCard label="Conversions (30d)" value={summary.conversions} />
       </div>
 
+
       {/* Session table */}
       {sessions.length === 0 ? (
         <p>No visitor activity yet.</p>
@@ -74,11 +75,17 @@ export default function TrackingDashboard({
   )
 }
 
-function StatCard({ label, value }: { label: string; value: number }) {
+function StatCard({ label, value }: { label: string; value: number | null }) {
   return (
     <div style={{ minWidth: '140px' }}>
-      <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>{value}</div>
-      <div style={{ fontSize: '0.9rem' }}>{label}</div>
+      <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>
+        {value === null ? '—' : value}
+      </div>
+      {value === null ? (
+        <div style={{ fontSize: '0.8rem', color: 'red' }}>(failed to load)</div>
+      ) : (
+        <div style={{ fontSize: '0.9rem' }}>{label}</div>
+      )}
     </div>
   )
 }

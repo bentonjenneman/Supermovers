@@ -16,8 +16,8 @@ export interface SessionWithCounts {
 }
 
 export interface TrackingSummary {
-  totalSessions: number
-  totalPageviews: number
+  totalSessions: number | null
+  totalPageviews: number | null
   conversions: number
 }
 
@@ -68,8 +68,8 @@ async function getTrackingData(): Promise<{
 
   return {
     summary: {
-      totalSessions: totalSessions ?? 0,
-      totalPageviews: totalPageviews ?? 0,
+      totalSessions: e1 ? null : (totalSessions ?? 0),
+      totalPageviews: e2 ? null : (totalPageviews ?? 0),
       conversions,
     },
     sessions: (recentSessions ?? []) as SessionWithCounts[],
