@@ -24,7 +24,7 @@ export default function Header() {
           <Link href="/" className="flex items-center gap-2 shrink-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.png" alt="Super Movers logo" className="h-9 w-auto" />
-            <span className="font-heading font-extrabold text-ink text-base leading-tight">
+            <span className="hidden sm:inline font-heading font-extrabold text-ink text-base leading-tight">
               SUPER MOVERS
             </span>
           </Link>
@@ -44,6 +44,15 @@ export default function Header() {
 
           {/* Phone + CTA — always visible */}
           <div className="flex items-center gap-3 shrink-0">
+            <a
+              href="tel:+14705624020"
+              aria-label="Call (470) 562-4020"
+              className="sm:hidden flex items-center justify-center text-ink hover:text-brand-orange transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-1.687.843a11.037 11.037 0 006.105 6.105l.843-1.687a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+              </svg>
+            </a>
             <a
               href="tel:+14705624020"
               className="font-body font-semibold text-sm text-ink hover:text-brand-orange transition-colors hidden sm:block"
@@ -90,12 +99,6 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
-            <a
-              href="tel:+14705624020"
-              className="font-body font-semibold text-sm text-ink hover:text-brand-orange transition-colors py-1 sm:hidden"
-            >
-              (470) 562-4020
-            </a>
           </nav>
         </div>
       )}
