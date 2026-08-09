@@ -1,0 +1,23 @@
+Build the admin Tracking section for this Next.js App Router project.
+
+1. Create lib/analytics/parse-user-agent.ts:
+   - Export a function parseUserAgent(ua: string | null): { device: string; browser: string }
+   - device: check for /Mobile/i or /iPhone/i → "Mobile"; else /iPad|Tablet/i → "Tablet"; else "Desktop". If ua is null/empty, return "Unknown".
+   - browser: check in this order (order matters, since some UAs match multiple patterns) — /Edg\// → "Edge"; /Chrome\// → "Chrome"; /Safari\// (and NOT already matched Chrome) → "Safari"; /Firefox\// → "Firefox"; else "Other". If ua is null/empty, browser is "Unknown".
+   - This is deliberately simple heuristic parsing, not a full UA-parsing library — good enough for admin display purposes only.
+
+2. Create app/admin/dashboard/tracking/page.tsx (Server Component):
+   - Query 1: fetch summary counts —
+     - total sessions where last_seen_at >= (now - 30 days)
+     - total pageviews where created_at >= (now - 30 days) [join through sessions, or query pageviews directly if it has its own created_at — it does]
+     - total sessions in the last 30 days that have at least one related quote OR at least one related review (conversion count)
+   - Query 2: fetch the 200 most recently active sessions using Supabase embedded resource counting:
+     supabase.from('sessions').select('*, pageviews(count), quotes(count), reviews(count)').order('last_seen_at', { ascending: false }).limit(200)
+   - Pass the summary counts and the sessions array as props to a client component <TrackingDashboard summary={...} sessions={...} />
+
+3. Create components/admin/TrackingDashboard.tsx ("use client"):
+   - Top: three summary stat cards — "Sessions (30d)", "Pageviews (30d)", "Conversions (30d)" — each just a label and a number, no charts needed
+   - Below: a table of sessions, one row each, columns: last_seen_at (formatted readable date/time), approx_city + approx_region (formatted as "City, Region", or "Unknown" if both null), referrer (or "Direct" if null), device + browser (using parseUserAgent(session.user_agent) client-side), pageview count (from the embedded pageviews(count)), and a "Converted" column showing a checkmark/yes if quotes(count) > 0 OR reviews(count) > 0, otherwise a dash/no
+   - If the sessions array is empty, render "No visitor activity yet." instead of an empty table
+
+Do not add pagination, date-range filtering, or charts in this pass — summary cards + the capped session table is the full scope for now. Everything should build and run clean with zero TypeScript errors.
