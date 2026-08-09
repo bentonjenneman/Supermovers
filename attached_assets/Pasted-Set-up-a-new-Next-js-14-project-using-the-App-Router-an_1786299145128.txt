@@ -1,0 +1,43 @@
+Set up a new Next.js 14+ project using the App Router and TypeScript, styled with Tailwind CSS, intended for deployment on Cloudflare Pages.
+
+1. Initialize the project with:
+   - TypeScript
+   - Tailwind CSS
+   - App Router (no src/ directory — use root-level /app)
+   - ESLint
+
+2. Install these dependencies:
+   - @supabase/supabase-js
+   - @supabase/ssr
+   - resend
+
+3. Add Cloudflare Pages compatibility:
+   - Install @cloudflare/next-on-pages as a dev dependency
+   - Add a build script "pages:build" that runs `npx @cloudflare/next-on-pages`
+   - Create a wrangler.toml at the project root configured for a Next.js Pages deployment (compatibility_date set to today, compatibility_flags including "nodejs_compat")
+
+4. Create this folder/file structure under /app, with each route file containing only a minimal placeholder component (component name matching the route, just a <main> with an <h1> naming the page — no real content or styling yet):
+   - /app/page.tsx                  (Home)
+   - /app/services/page.tsx         (Services)
+   - /app/quote/page.tsx            (Get a Quote)
+   - /app/about/page.tsx            (About)
+   - /app/reviews/page.tsx          (Reviews)
+   - /app/contact/page.tsx          (Contact)
+   - /app/privacy-policy/page.tsx   (Privacy Policy)
+   - /app/terms/page.tsx            (Terms and Conditions)
+   - /app/admin/page.tsx            (Admin login/dashboard placeholder)
+   - /app/api/quote/route.ts        (empty POST handler stub returning 501)
+   - /app/api/review/route.ts       (empty POST handler stub returning 501)
+   - /app/api/session/route.ts      (empty POST handler stub returning 501)
+
+5. Create /lib/supabase/client.ts and /lib/supabase/server.ts using @supabase/ssr, following the standard Next.js App Router pattern (browser client for client components, server client using cookies() for server components/route handlers). Do not hardcode any keys — read from process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY, and process.env.SUPABASE_SERVICE_ROLE_KEY.
+
+6. Create a .env.local.example file listing (with no real values):
+   NEXT_PUBLIC_SUPABASE_URL=
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=
+   SUPABASE_SERVICE_ROLE_KEY=
+   RESEND_API_KEY=
+
+7. Add a simple root layout at /app/layout.tsx with a <html>/<body> shell, Tailwind globals imported, and placeholder <nav> links to all six public pages (Home, Services, Get a Quote, About, Reviews, Contact) plus a footer with links to Privacy Policy and Terms.
+
+Do not implement any business logic, forms, database queries, or styling beyond Tailwind being wired up correctly. This is scaffolding only — every page should build and run with `next dev` with zero errors before you finish.

@@ -1,44 +1,59 @@
-# [Project name]
+# Next.js Site
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A Next.js 14 App Router scaffold with TypeScript, Tailwind CSS, Supabase SSR, Resend, and Cloudflare Pages compatibility.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
-- `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- `pnpm --filter @workspace/next-site run dev` — run the Next.js dev server (port 24118)
+- `pnpm --filter @workspace/next-site run build` — standard Next.js build
+- `pnpm --filter @workspace/next-site run pages:build` — Cloudflare Pages build via `@cloudflare/next-on-pages`
+- `pnpm --filter @workspace/next-site run typecheck` — typecheck the Next.js app
+- `pnpm --filter @workspace/api-server run dev` — run the shared Express API server
 
 ## Stack
 
-- pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
-- DB: PostgreSQL + Drizzle ORM
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- **Framework:** Next.js 14, App Router, TypeScript, React 18
+- **Styling:** Tailwind CSS v3
+- **Auth/DB:** Supabase (`@supabase/ssr`) — browser + server clients
+- **Email:** Resend
+- **Deployment target:** Cloudflare Pages (`@cloudflare/next-on-pages`, `wrangler.toml`)
+- **Monorepo:** pnpm workspaces, Node.js 24, TypeScript 5.9
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/next-site/app/` — Next.js App Router pages and API routes
+- `artifacts/next-site/lib/supabase/client.ts` — browser Supabase client
+- `artifacts/next-site/lib/supabase/server.ts` — server Supabase client (uses `cookies()`)
+- `artifacts/next-site/wrangler.toml` — Cloudflare Pages config
+- `artifacts/next-site/.env.local.example` — required environment variables template
+- `artifacts/next-site/tailwind.config.ts` — Tailwind v3 config
+- `artifacts/next-site/next.config.mjs` — Next.js config
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- **Next.js 14 (not 15):** Cloudflare Pages adapter (`@cloudflare/next-on-pages`) targets 14.x.
+- **`next.config.mjs` (not `.ts`):** Next.js 14 does not support TypeScript config files.
+- **Tailwind v3:** Next.js 14 App Router works best with Tailwind v3 + PostCSS; Tailwind v4 requires Vite.
+- **React 18:** Pinned to 18.x because the workspace catalog uses React 19 for other packages; this package declares its own dep.
+- **Supabase SSR pattern:** Browser client in `lib/supabase/client.ts`, cookie-based server client in `lib/supabase/server.ts` — both read from env vars, no hardcoded keys.
 
-## Product
+## Required env vars
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+Copy `.env.local.example` to `.env.local` and fill in:
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `RESEND_API_KEY`
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+_Populate as you build._
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Do not use `next.config.ts` — Next.js 14 rejects it at startup; use `next.config.mjs`.
+- Tailwind v3 requires `postcss.config.js` + `tailwind.config.ts` content globs; the `@tailwind` directives go in `app/globals.css`.
+- `cookies()` from `next/headers` is synchronous in Next.js 14 (it becomes async in Next.js 15).
 
 ## Pointers
 
