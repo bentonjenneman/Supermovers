@@ -7,10 +7,11 @@ const variants = {
   primary: 'bg-brand-orange text-white hover:bg-[#B83725]',
   secondary:
     'bg-transparent border-2 border-ink text-ink hover:bg-ink hover:text-white',
+  inverse: 'bg-white text-brand-blue hover:bg-white/90',
 }
 
 interface ButtonBaseProps {
-  variant: 'primary' | 'secondary'
+  variant: 'primary' | 'secondary' | 'inverse'
   children: React.ReactNode
   className?: string
 }

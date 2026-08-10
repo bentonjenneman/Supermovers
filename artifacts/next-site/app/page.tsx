@@ -143,11 +143,7 @@ export default function Home() {
         <h2 className="font-heading font-bold text-white text-2xl mb-6">
           Ready to move?
         </h2>
-        <Button
-          variant="primary"
-          href="/quote"
-          className="bg-white text-brand-blue hover:bg-white/90"
-        >
+        <Button variant="inverse" href="/quote">
           Get a free quote
         </Button>
       </section>
