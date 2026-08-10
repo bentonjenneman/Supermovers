@@ -10,19 +10,24 @@ interface Review {
 }
 
 async function getPublishedReviews(): Promise<Review[]> {
-  const supabase = createAdminClient()
-  const { data, error } = await supabase
-    .from('reviews')
-    .select('id, name, rating, review_text, created_at')
-    .eq('published', true)
-    .order('created_at', { ascending: false })
+  try {
+    const supabase = createAdminClient()
+    const { data, error } = await supabase
+      .from('reviews')
+      .select('id, name, rating, review_text, created_at')
+      .eq('published', true)
+      .order('created_at', { ascending: false })
 
-  if (error) {
-    console.error('[reviews] Failed to fetch reviews:', error)
+    if (error) {
+      console.error('[reviews page] Failed to load published reviews:', error)
+      return []
+    }
+
+    return (data ?? []) as Review[]
+  } catch (err) {
+    console.error('[reviews page] Failed to load published reviews:', err)
     return []
   }
-
-  return (data ?? []) as Review[]
 }
 
 export default async function Reviews() {
