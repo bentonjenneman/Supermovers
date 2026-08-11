@@ -22,7 +22,7 @@ export default function Admin() {
       })
 
       if (res.ok) {
-        router.push('/admin/dashboard')
+        router.push('/admin/dashboard/quotes')
       } else {
         const data = await res.json().catch(() => ({}))
         setError(
