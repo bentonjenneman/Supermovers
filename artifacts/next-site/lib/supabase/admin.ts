@@ -14,7 +14,15 @@ export function createAdminClient() {
     )
   }
 
-  return createClient(url.replace(/\/$/, ''), key, {
+  // Normalize to origin only — strips any accidental /rest/v1 path suffix
+  let cleanUrl: string
+  try {
+    cleanUrl = new URL(url).origin
+  } catch {
+    cleanUrl = url.replace(/\/$/, '')
+  }
+
+  return createClient(cleanUrl, key, {
     auth: {
       autoRefreshToken: false,
       persistSession: false,

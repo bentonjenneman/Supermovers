@@ -21,7 +21,7 @@ export function createClient() {
   }
 
   return createServerClient(
-    (process.env.NEXT_PUBLIC_SUPABASE_URL ?? '').replace(/\/$/, ''),
+    (() => { try { return new URL(process.env.NEXT_PUBLIC_SUPABASE_URL ?? '').origin } catch { return (process.env.NEXT_PUBLIC_SUPABASE_URL ?? '').replace(/\/$/, '') } })(),
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     { cookies: cookieMethods },
   )
