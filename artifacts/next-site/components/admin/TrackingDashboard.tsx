@@ -57,7 +57,7 @@ export default function TrackingDashboard({
 
                 return (
                   <tr key={s.id}>
-                    <td>{new Date(s.last_seen_at).toLocaleString()}</td>
+                    <td suppressHydrationWarning>{new Date(s.last_seen_at).toLocaleString()}</td>
                     <td>{formatLocation(s.approx_city, s.approx_region)}</td>
                     <td>{s.referrer ?? 'Direct'}</td>
                     <td>{device}</td>

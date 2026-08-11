@@ -76,7 +76,7 @@ export default function ReviewsQueue({
               <li key={r.id}>
                 <strong>{r.name}</strong> — {r.rating}/5
                 <p>{r.review_text}</p>
-                <small>{new Date(r.created_at).toLocaleString()}</small>
+                <small suppressHydrationWarning>{new Date(r.created_at).toLocaleString()}</small>
                 <div>
                   <button onClick={() => toggle(r, true)}>Publish</button>
                   {rowError?.id === r.id && (
@@ -101,7 +101,7 @@ export default function ReviewsQueue({
               <li key={r.id}>
                 <strong>{r.name}</strong> — {r.rating}/5
                 <p>{r.review_text}</p>
-                <small>{new Date(r.created_at).toLocaleString()}</small>
+                <small suppressHydrationWarning>{new Date(r.created_at).toLocaleString()}</small>
                 <div>
                   <button onClick={() => toggle(r, false)}>Unpublish</button>
                   {rowError?.id === r.id && (

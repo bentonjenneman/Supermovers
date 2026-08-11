@@ -75,7 +75,7 @@ export default function QuotesTable({ initialQuotes }: { initialQuotes: Quote[] 
         <tbody>
           {quotes.map((q) => (
             <tr key={q.id}>
-              <td>{new Date(q.created_at).toLocaleString()}</td>
+              <td suppressHydrationWarning>{new Date(q.created_at).toLocaleString()}</td>
               <td>{q.name}</td>
               <td>{q.email}</td>
               <td>{q.phone}</td>
