@@ -22,33 +22,35 @@ export default function TrackingDashboard({
 }) {
   return (
     <>
-      {/* Summary stat cards */}
-      <div style={{ display: 'flex', gap: '24px', marginBottom: '32px', flexWrap: 'wrap' }}>
+      {/* Stat cards */}
+      <div className="flex gap-4 mb-8 flex-wrap">
         <StatCard label="Sessions (30d)" value={summary.totalSessions} />
         <StatCard label="Pageviews (30d)" value={summary.totalPageviews} />
         <StatCard label="Conversions (30d)" value={summary.conversions} />
       </div>
 
-
       {/* Session table */}
       {sessions.length === 0 ? (
-        <p>No visitor activity yet.</p>
+        <p className="font-body text-ink-muted text-center py-12">No visitor activity yet.</p>
       ) : (
-        <div style={{ overflowX: 'auto' }}>
-          <table>
+        <div className="bg-white rounded-lg border border-border overflow-x-auto">
+          <table className="w-full">
             <thead>
-              <tr>
-                <th>Last seen</th>
-                <th>Location</th>
-                <th>Referrer</th>
-                <th>Device</th>
-                <th>Browser</th>
-                <th>Pageviews</th>
-                <th>Converted</th>
+              <tr className="bg-paper">
+                {['Last seen', 'Location', 'Referrer', 'Device', 'Browser', 'Pageviews', 'Converted'].map(
+                  (h) => (
+                    <th
+                      key={h}
+                      className="font-body font-semibold text-xs text-ink-muted uppercase tracking-wide text-left px-4 py-3 whitespace-nowrap"
+                    >
+                      {h}
+                    </th>
+                  ),
+                )}
               </tr>
             </thead>
             <tbody>
-              {sessions.map((s) => {
+              {sessions.map((s, i) => {
                 const { device, browser } = parseUserAgent(s.user_agent)
                 const pageviewCount = s.pageviews?.[0]?.count ?? 0
                 const quoteCount = s.quotes?.[0]?.count ?? 0
@@ -56,14 +58,36 @@ export default function TrackingDashboard({
                 const converted = quoteCount > 0 || reviewCount > 0
 
                 return (
-                  <tr key={s.id}>
-                    <td suppressHydrationWarning>{new Date(s.last_seen_at).toLocaleString()}</td>
-                    <td>{formatLocation(s.approx_city, s.approx_region)}</td>
-                    <td>{s.referrer ?? 'Direct'}</td>
-                    <td>{device}</td>
-                    <td>{browser}</td>
-                    <td>{pageviewCount}</td>
-                    <td>{converted ? '✓' : '—'}</td>
+                  <tr
+                    key={s.id}
+                    className={`border-t border-border hover:bg-tint-blue/30 transition-colors ${
+                      i % 2 === 1 ? 'bg-paper/40' : 'bg-white'
+                    }`}
+                  >
+                    <td
+                      className="px-4 py-3 font-body text-sm text-ink whitespace-nowrap"
+                      suppressHydrationWarning
+                    >
+                      {new Date(s.last_seen_at).toLocaleString()}
+                    </td>
+                    <td className="px-4 py-3 font-body text-sm text-ink">
+                      {formatLocation(s.approx_city, s.approx_region)}
+                    </td>
+                    <td className="px-4 py-3 font-body text-sm text-ink">
+                      {s.referrer ?? 'Direct'}
+                    </td>
+                    <td className="px-4 py-3 font-body text-sm text-ink">{device}</td>
+                    <td className="px-4 py-3 font-body text-sm text-ink">{browser}</td>
+                    <td className="px-4 py-3 font-body text-sm text-ink">{pageviewCount}</td>
+                    <td className="px-4 py-3">
+                      {converted ? (
+                        <span className="bg-tint-blue text-brand-blue rounded-full px-2 py-0.5 text-xs font-bold">
+                          Yes
+                        </span>
+                      ) : (
+                        <span className="text-ink-muted/50 text-xs">—</span>
+                      )}
+                    </td>
                   </tr>
                 )
               })}
@@ -77,14 +101,15 @@ export default function TrackingDashboard({
 
 function StatCard({ label, value }: { label: string; value: number | null }) {
   return (
-    <div style={{ minWidth: '140px' }}>
-      <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>
+    <div className="bg-white border border-border rounded-lg p-5 flex-1 min-w-[140px]">
+      <div className="font-body text-xs text-ink-muted uppercase tracking-wide mb-1">
+        {label}
+      </div>
+      <div className="font-heading font-bold text-ink text-3xl">
         {value === null ? '—' : value}
       </div>
-      {value === null ? (
-        <div style={{ fontSize: '0.8rem', color: 'red' }}>(failed to load)</div>
-      ) : (
-        <div style={{ fontSize: '0.9rem' }}>{label}</div>
+      {value === null && (
+        <div className="text-xs text-ink-muted/60 mt-1">(failed to load)</div>
       )}
     </div>
   )

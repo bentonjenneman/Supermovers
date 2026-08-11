@@ -1,0 +1,38 @@
+Restyle the admin dashboard to match the site's design system, for this Next.js App Router project. This is primarily a styling pass — existing state, fetch calls, and event handlers must not change — with one small addition: pending-count badges on the nav tabs (described in step 1).
+
+1. Rewrite app/admin/dashboard/layout.tsx:
+   - Server Component. Fetch two counts using the Supabase admin client (wrap in try/catch, default to 0 on failure — never let this crash the layout): count of quotes where status = 'new', count of reviews where published = false
+   - Header bar: bg-white border-b border-ink px-6 py-4, flex justify-between items-center — left side text "Super Movers Admin" (font-heading font-bold text-ink text-lg), right side the existing LogoutButton component (restyle it to use the shared Button component with variant="secondary" if it isn't already)
+   - Tab bar below the header: bg-paper rounded-full p-1 inline-flex gap-1, mx-6 my-4 (or centered, your call on exact placement) — three Link elements styled as segments:
+     - Each tab: px-5 py-2 rounded-full font-body font-semibold text-sm transition-colors
+     - Active tab (match current pathname): bg-white text-ink shadow-sm
+     - Inactive tab: text-ink-muted hover:text-ink
+     - Labels: "Quotes", "Reviews", "Tracking"
+     - If the new-quotes count > 0, show a small badge next to "Quotes": inline-flex ml-1.5 bg-brand-orange text-white text-xs font-bold rounded-full px-1.5 py-0.5, containing the count. Same pattern for "Reviews" using the pending-reviews count.
+   - Content area: max-w-6xl mx-auto px-6 pb-12, rendering {children}
+
+2. Update components/admin/QuotesTable.tsx (styling only — do not change state, the PATCH fetch call, or optimistic update logic):
+   - Wrap the table in: bg-white rounded-lg border border-border overflow-hidden
+   - Table header row: bg-paper, th elements font-body font-semibold text-xs text-ink-muted uppercase tracking-wide text-left px-4 py-3
+   - Body rows: border-t border-border, alternate rows bg-white / bg-paper/40, hover:bg-tint-blue/30, td padding px-4 py-3, font-body text-sm text-ink
+   - Format created_at using toLocaleDateString with a time (e.g. { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }) instead of a raw string, if it isn't already formatted
+   - Replace the plain status <select> with a colored pill wrapping it: a span/div with rounded-full px-3 py-1 text-xs font-bold, background/text color based on the CURRENT status value — new: bg-tint-blue text-brand-blue, contacted: bg-tint-orange text-brand-orange, quoted: bg-brand-blue/10 text-brand-blue, closed: bg-border text-ink-muted — with the actual <select> element styled transparent/borderless and inset inside that pill (bg-transparent border-none text-inherit font-inherit focus:outline-none), so it still functions as a real dropdown but reads as a colored status pill
+   - Empty state ("No quotes yet.") styling: font-body text-ink-muted text-center py-12
+
+3. Update components/admin/ReviewsQueue.tsx (styling only — do not change state or the PATCH fetch calls):
+   - Section headings ("Pending (n)", "Published (n)"): font-heading font-bold text-ink text-lg mb-4, with a bit more top margin before "Published" to separate the two groups clearly
+   - Each review card: bg-white border border-border rounded-lg p-4 mb-3 flex flex-col gap-2
+   - Name: font-heading font-bold text-ink text-sm
+   - Rating: render as filled/outline star characters (★ for filled, ☆ for empty, out of 5) in text-brand-orange text-sm, instead of plain "X/5" text if it's currently plain text
+   - Review text: font-body text-ink-muted text-sm
+   - Date: font-body text-xs text-ink-muted/60
+   - Publish/Unpublish button: use the shared Button component, variant="primary" for Publish, variant="secondary" for Unpublish, sized appropriately for inline card placement (className="text-xs px-4 py-2" override is fine here)
+   - Empty states: font-body text-ink-muted text-sm py-6
+
+4. Update components/admin/TrackingDashboard.tsx (styling only — do not change state or data logic):
+   - Three stat cards at top: flex gap-4 mb-8 — each card bg-white border border-border rounded-lg p-5 flex-1, label font-body text-xs text-ink-muted uppercase tracking-wide mb-1, value font-heading font-bold text-ink text-3xl. If a value is null (failed to load), keep the existing "—" + "(failed to load)" behavior but style the note as text-xs text-ink-muted/60
+   - Sessions table: same bg-white rounded-lg border border-border overflow-hidden treatment as QuotesTable, same header row styling (bg-paper, uppercase text-xs text-ink-muted), same alternating row backgrounds and hover state
+   - "Converted" column: render as a small pill instead of a checkmark/dash — bg-tint-blue text-brand-blue rounded-full px-2 py-0.5 text-xs font-bold "Yes" when converted, text-ink-muted/50 text-xs "—" when not
+   - Empty state ("No visitor activity yet."): font-body text-ink-muted text-center py-12
+
+Do not touch any API route files, the middleware, or any data-fetching/state logic anywhere — this prompt is markup and className changes only. Everything should build and run clean with zero TypeScript errors.

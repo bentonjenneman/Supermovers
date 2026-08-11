@@ -1,11 +1,20 @@
 'use client'
 
 import { useState } from 'react'
+import Button from '@/components/ui/Button'
 import type { Review } from '@/app/admin/dashboard/reviews/page'
 
 interface RowError {
   id: string
   message: string
+}
+
+function Stars({ rating }: { rating: number }) {
+  return (
+    <span className="text-brand-orange text-sm">
+      {'★'.repeat(rating)}{'☆'.repeat(5 - rating)}
+    </span>
+  )
 }
 
 export default function ReviewsQueue({
@@ -54,11 +63,9 @@ export default function ReviewsQueue({
 
   function revert(review: Review, failedPublished: boolean) {
     if (failedPublished) {
-      // Was a publish attempt — move back to pending
       setPublished((prev) => prev.filter((r) => r.id !== review.id))
       setPending((prev) => [review, ...prev])
     } else {
-      // Was an unpublish attempt — move back to published
       setPending((prev) => prev.filter((r) => r.id !== review.id))
       setPublished((prev) => [review, ...prev])
     }
@@ -66,53 +73,79 @@ export default function ReviewsQueue({
 
   return (
     <>
+      {/* Pending */}
       <section>
-        <h2>Pending ({pending.length})</h2>
+        <h2 className="font-heading font-bold text-ink text-lg mb-4">
+          Pending ({pending.length})
+        </h2>
         {pending.length === 0 ? (
-          <p>No pending reviews.</p>
+          <p className="font-body text-ink-muted text-sm py-6">No pending reviews.</p>
         ) : (
-          <ul>
+          <div>
             {pending.map((r) => (
-              <li key={r.id}>
-                <strong>{r.name}</strong> — {r.rating}/5
-                <p>{r.review_text}</p>
-                <small suppressHydrationWarning>{new Date(r.created_at).toLocaleString()}</small>
-                <div>
-                  <button onClick={() => toggle(r, true)}>Publish</button>
+              <div
+                key={r.id}
+                className="bg-white border border-border rounded-lg p-4 mb-3 flex flex-col gap-2"
+              >
+                <p className="font-heading font-bold text-ink text-sm">{r.name}</p>
+                <Stars rating={r.rating} />
+                <p className="font-body text-ink-muted text-sm">{r.review_text}</p>
+                <p className="font-body text-xs text-ink-muted/60" suppressHydrationWarning>
+                  {new Date(r.created_at).toLocaleString()}
+                </p>
+                <div className="flex items-center gap-3 mt-1">
+                  <Button
+                    variant="primary"
+                    onClick={() => toggle(r, true)}
+                    className="text-xs px-4 py-2"
+                  >
+                    Publish
+                  </Button>
                   {rowError?.id === r.id && (
-                    <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '8px' }}>
-                      {rowError.message}
-                    </span>
+                    <span className="font-body text-xs text-red-600">{rowError.message}</span>
                   )}
                 </div>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         )}
       </section>
 
-      <section>
-        <h2>Published ({published.length})</h2>
+      {/* Published */}
+      <section className="mt-10">
+        <h2 className="font-heading font-bold text-ink text-lg mb-4">
+          Published ({published.length})
+        </h2>
         {published.length === 0 ? (
-          <p>No published reviews yet.</p>
+          <p className="font-body text-ink-muted text-sm py-6">No published reviews yet.</p>
         ) : (
-          <ul>
+          <div>
             {published.map((r) => (
-              <li key={r.id}>
-                <strong>{r.name}</strong> — {r.rating}/5
-                <p>{r.review_text}</p>
-                <small suppressHydrationWarning>{new Date(r.created_at).toLocaleString()}</small>
-                <div>
-                  <button onClick={() => toggle(r, false)}>Unpublish</button>
+              <div
+                key={r.id}
+                className="bg-white border border-border rounded-lg p-4 mb-3 flex flex-col gap-2"
+              >
+                <p className="font-heading font-bold text-ink text-sm">{r.name}</p>
+                <Stars rating={r.rating} />
+                <p className="font-body text-ink-muted text-sm">{r.review_text}</p>
+                <p className="font-body text-xs text-ink-muted/60" suppressHydrationWarning>
+                  {new Date(r.created_at).toLocaleString()}
+                </p>
+                <div className="flex items-center gap-3 mt-1">
+                  <Button
+                    variant="secondary"
+                    onClick={() => toggle(r, false)}
+                    className="text-xs px-4 py-2"
+                  >
+                    Unpublish
+                  </Button>
                   {rowError?.id === r.id && (
-                    <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '8px' }}>
-                      {rowError.message}
-                    </span>
+                    <span className="font-body text-xs text-red-600">{rowError.message}</span>
                   )}
                 </div>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         )}
       </section>
     </>

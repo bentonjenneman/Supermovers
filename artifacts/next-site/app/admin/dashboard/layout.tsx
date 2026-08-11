@@ -1,17 +1,50 @@
 import type { ReactNode } from 'react'
-import Link from 'next/link'
+import { createAdminClient } from '@/lib/supabase/admin'
 import LogoutButton from '@/components/admin/LogoutButton'
+import AdminNav from '@/components/admin/AdminNav'
 
-export default function AdminDashboardLayout({ children }: { children: ReactNode }) {
+async function getCounts(): Promise<{ newQuotes: number; pendingReviews: number }> {
+  try {
+    const supabase = createAdminClient()
+    const [quotesRes, reviewsRes] = await Promise.all([
+      supabase
+        .from('quotes')
+        .select('id', { count: 'exact', head: true })
+        .eq('status', 'new'),
+      supabase
+        .from('reviews')
+        .select('id', { count: 'exact', head: true })
+        .eq('published', false),
+    ])
+    return {
+      newQuotes: quotesRes.count ?? 0,
+      pendingReviews: reviewsRes.count ?? 0,
+    }
+  } catch {
+    return { newQuotes: 0, pendingReviews: 0 }
+  }
+}
+
+export default async function AdminDashboardLayout({ children }: { children: ReactNode }) {
+  const { newQuotes, pendingReviews } = await getCounts()
+
   return (
-    <>
-      <nav>
-        <Link href="/admin/dashboard/quotes">Quotes</Link>
-        <Link href="/admin/dashboard/reviews">Reviews</Link>
-        <Link href="/admin/dashboard/tracking">Tracking</Link>
+    <div className="min-h-screen bg-paper">
+      {/* Header */}
+      <div className="bg-white border-b border-ink px-6 py-4 flex justify-between items-center">
+        <span className="font-heading font-bold text-ink text-lg">Super Movers Admin</span>
         <LogoutButton />
-      </nav>
-      {children}
-    </>
+      </div>
+
+      {/* Tab bar */}
+      <div className="px-6 py-4">
+        <AdminNav newQuotes={newQuotes} pendingReviews={pendingReviews} />
+      </div>
+
+      {/* Content */}
+      <div className="max-w-6xl mx-auto px-6 pb-12">
+        {children}
+      </div>
+    </div>
   )
 }

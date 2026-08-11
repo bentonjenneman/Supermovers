@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Button from '@/components/ui/Button'
 
 export default function LogoutButton() {
   const [loading, setLoading] = useState(false)
@@ -15,8 +16,8 @@ export default function LogoutButton() {
   }
 
   return (
-    <button onClick={handleLogout} disabled={loading}>
+    <Button variant="secondary" onClick={handleLogout} disabled={loading}>
       {loading ? 'Logging out…' : 'Log out'}
-    </button>
+    </Button>
   )
 }
