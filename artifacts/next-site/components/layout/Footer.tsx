@@ -12,7 +12,7 @@ export default function Footer() {
           <div className="flex flex-col gap-3">
             <div className="flex items-center gap-2">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/logo.png" alt="Super Movers logo" className="h-10 w-auto brightness-0 invert" />
+              <img src="/logo.png" alt="Super Movers logo" className="h-10 w-auto" />
               <span className="font-heading font-extrabold text-paper text-base leading-tight">
                 SUPER MOVERS
               </span>
