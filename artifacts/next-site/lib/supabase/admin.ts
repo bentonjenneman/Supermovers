@@ -14,7 +14,7 @@ export function createAdminClient() {
     )
   }
 
-  return createClient(url, key, {
+  return createClient(url.replace(/\/$/, ''), key, {
     auth: {
       autoRefreshToken: false,
       persistSession: false,
