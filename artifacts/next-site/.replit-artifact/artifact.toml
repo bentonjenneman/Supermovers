@@ -15,13 +15,18 @@ localPort = 24118
 run = "pnpm --filter @workspace/next-site run dev"
 
 [services.production]
-build = [ "pnpm", "--filter", "@workspace/next-site", "run", "build" ]
-serve = "static"
-publicDir = "artifacts/next-site/dist/public"
 
-[[services.production.rewrites]]
-from = "/*"
-to = "/index.html"
+[services.production.build]
+args = ["pnpm", "--filter", "@workspace/next-site", "run", "build"]
+
+[services.production.build.env]
+NODE_ENV = "production"
+
+[services.production.run]
+args = ["pnpm", "--filter", "@workspace/next-site", "run", "start"]
+
+[services.production.run.env]
+NODE_ENV = "production"
 
 [services.env]
 PORT = "24118"
