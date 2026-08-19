@@ -73,7 +73,7 @@ export default function TrackingDashboard({
                     <td className="px-4 py-3 font-body text-sm text-paper">
                       {formatLocation(s.approx_city, s.approx_region)}
                     </td>
-                    <td className="px-4 py-3 font-body text-sm text-paper">
+                    <td className="px-4 py-3 font-body text-sm text-paper max-w-[180px] truncate" title={s.referrer ?? 'Direct'}>
                       {s.referrer ?? 'Direct'}
                     </td>
                     <td className="px-4 py-3 font-body text-sm text-paper">{device}</td>

@@ -1,0 +1,14 @@
+# Next.js build output — never commit generated artefacts
+.next/
+out/
+
+# Dependencies
+node_modules/
+
+# Environment files
+.env*.local
+
+# OS / editor
+.DS_Store
+*.pem
+Thumbs.db

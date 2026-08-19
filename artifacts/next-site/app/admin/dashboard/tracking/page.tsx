@@ -43,7 +43,7 @@ async function getTrackingData(): Promise<{
     supabase
       .from('pageviews')
       .select('*', { count: 'exact', head: true })
-      .gte('created_at', thirtyDaysAgo),
+      .gte('viewed_at', thirtyDaysAgo),
     supabase
       .from('sessions')
       .select('id, quotes(count), reviews(count)')
