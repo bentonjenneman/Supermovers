@@ -1,5 +1,11 @@
+import type { Metadata } from 'next'
 import { createAdminClient } from '@/lib/supabase/admin'
 import LeaveReviewForm from '@/components/LeaveReviewForm'
+
+export const metadata: Metadata = {
+  title: 'Reviews | Super Movers',
+  description: 'See what customers are saying about Super Movers, or leave your own review.',
+}
 
 interface Review {
   id: string

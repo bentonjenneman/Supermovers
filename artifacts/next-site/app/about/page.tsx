@@ -1,4 +1,10 @@
+import type { Metadata } from 'next'
 import Button from '@/components/ui/Button'
+
+export const metadata: Metadata = {
+  title: 'About | Super Movers',
+  description: 'Super Movers was started by two UGA students. Learn our story and what we stand for.',
+}
 
 export default function About() {
   return (

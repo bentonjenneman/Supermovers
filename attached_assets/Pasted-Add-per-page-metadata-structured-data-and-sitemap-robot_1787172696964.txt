@@ -1,0 +1,17 @@
+Add per-page metadata, structured data, and sitemap/robots files to this Next.js App Router project.
+
+1. Add a Metadata export to each of these page files (title format "Page Name | Super Movers", description specific to that page's content):
+   - app/services/page.tsx — title "Services | Super Movers", description "Moving, delivery, and junk removal in Athens, GA. Straightforward pricing, no surprises."
+   - app/about/page.tsx — title "About | Super Movers", description "Super Movers was started by two UGA students. Learn our story and what we stand for."
+   - app/contact/page.tsx — title "Contact | Super Movers", description "Call or text Super Movers 7 days a week. Athens, GA movers serving up to 200 miles."
+   - app/quote/page.tsx — title "Get a Free Quote | Super Movers", description "Request a free, no-obligation moving quote from Super Movers in Athens, GA."
+   - app/reviews/page.tsx — title "Reviews | Super Movers", description "See what customers are saying about Super Movers, or leave your own review."
+   Each is a Server Component export: export const metadata: Metadata = { title: '...', description: '...' } with the existing import type { Metadata } from 'next' pattern from app/layout.tsx.
+
+2. Create app/sitemap.ts using Next.js's built-in sitemap convention, listing all public routes (/, /services, /about, /contact, /quote, /reviews, /privacy-policy, /terms) with a reasonable changeFrequency and priority (home highest, legal pages lowest). Use a placeholder base URL constant at the top of the file (const BASE_URL = 'https://supermoversllc.com') that's easy to update once the real domain is live.
+
+3. Create app/robots.ts using Next.js's built-in robots convention: allow all crawlers on all public routes, disallow /admin and /api, and reference the sitemap at BASE_URL + /sitemap.xml (same BASE_URL constant pattern as step 2).
+
+4. Add a JSON-LD structured data script to app/layout.tsx (inside <body>, before {children}) using a <script type="application/ld+json"> tag with a MovingCompany/LocalBusiness schema: name "Super Movers", telephone "+14705624020", areaServed a 200-mile radius of Athens, GA, address locality "Athens" region "GA". Use dangerouslySetInnerHTML with JSON.stringify on a plain object — do not use next/script for this, a static inline script is fine here.
+
+Do not change any other content, styling, or logic.

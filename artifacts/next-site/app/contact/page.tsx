@@ -1,5 +1,11 @@
+import type { Metadata } from 'next'
 import Button from '@/components/ui/Button'
 import ServiceAreaMap from '@/components/ServiceAreaMap'
+
+export const metadata: Metadata = {
+  title: 'Contact | Super Movers',
+  description: 'Call or text Super Movers 7 days a week. Athens, GA movers serving up to 200 miles.',
+}
 
 export default function Contact() {
   return (

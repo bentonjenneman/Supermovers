@@ -1,4 +1,10 @@
+import type { Metadata } from 'next'
 import Button from '@/components/ui/Button'
+
+export const metadata: Metadata = {
+  title: 'Services | Super Movers',
+  description: 'Moving, delivery, and junk removal in Athens, GA. Straightforward pricing, no surprises.',
+}
 
 export default function Services() {
   return (

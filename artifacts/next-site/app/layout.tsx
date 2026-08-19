@@ -30,6 +30,32 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" className={`${poppins.variable} ${inter.variable}`}>
       <body className="bg-paper text-ink font-body">
         <CookieConsentProvider>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': ['MovingCompany', 'LocalBusiness'],
+                name: 'Super Movers',
+                telephone: '+14705624020',
+                areaServed: {
+                  '@type': 'GeoCircle',
+                  name: '200-mile radius of Athens, GA',
+                  geoMidpoint: {
+                    '@type': 'GeoCoordinates',
+                    addressLocality: 'Athens',
+                    addressRegion: 'GA',
+                  },
+                  geoRadius: '200 miles',
+                },
+                address: {
+                  '@type': 'PostalAddress',
+                  addressLocality: 'Athens',
+                  addressRegion: 'GA',
+                },
+              }),
+            }}
+          />
           <Header />
           {children}
           <Footer />
