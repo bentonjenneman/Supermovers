@@ -18,7 +18,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-ink/60 -z-10" />
 
         <div className="relative flex flex-col items-center gap-5 px-4">
-          <span className="bg-brand-orange text-white text-xs font-bold px-3 py-1.5 rounded">
+          <span className="bg-brand-red text-white text-xs font-bold px-3 py-1.5 rounded">
             Free quotes, 7 days a week
           </span>
 
@@ -46,7 +46,7 @@ export default function Home() {
       </section>
 
       {/* ── TRUST BADGES ─────────────────────────────────────────────────── */}
-      <section className="bg-white py-10">
+      <section className="bg-ink py-10">
         <div className="flex flex-wrap justify-center gap-8">
           <Badge label="No hidden fees" accent="blue" />
           <Badge label="UGA founded" accent="orange" />
@@ -55,8 +55,8 @@ export default function Home() {
       </section>
 
       {/* ── SERVICES PREVIEW ─────────────────────────────────────────────── */}
-      <section className="bg-paper py-16">
-        <h2 className="font-heading font-bold text-ink text-2xl text-center mb-10">
+      <section className="bg-ink py-16">
+        <h2 className="font-heading font-bold text-paper text-2xl text-center mb-10">
           What we do
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto px-4">
@@ -76,13 +76,13 @@ export default function Home() {
           ].map(({ heading, body }) => (
             <div
               key={heading}
-              className="bg-white border border-border rounded-lg p-6 flex flex-col gap-3"
+              className="bg-surface border border-border rounded-lg p-6 flex flex-col gap-3"
             >
-              <h3 className="font-heading font-bold text-ink text-lg">{heading}</h3>
+              <h3 className="font-heading font-bold text-paper text-lg">{heading}</h3>
               <p className="font-body text-ink-muted text-sm">{body}</p>
               <Link
                 href="/services"
-                className="text-brand-orange text-sm font-semibold hover:underline mt-auto"
+                className="text-brand-red text-sm font-semibold hover:underline mt-auto"
               >
                 Learn more →
               </Link>
@@ -92,8 +92,8 @@ export default function Home() {
       </section>
 
       {/* ── MEET SUPER MOVERS ────────────────────────────────────────────── */}
-      <section className="bg-white py-16">
-        <h2 className="font-heading font-bold text-ink text-2xl text-center">
+      <section className="bg-ink py-16">
+        <h2 className="font-heading font-bold text-paper text-2xl text-center">
           Meet Super Movers
         </h2>
 
@@ -106,7 +106,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto px-4">
           <div>
-            <h3 className="font-heading font-bold text-ink text-lg mb-3">
+            <h3 className="font-heading font-bold text-paper text-lg mb-3">
               No hidden fees
             </h3>
             <p className="font-body text-ink-muted text-sm leading-relaxed">
@@ -116,7 +116,7 @@ export default function Home() {
             </p>
           </div>
           <div>
-            <h3 className="font-heading font-bold text-ink text-lg mb-3">
+            <h3 className="font-heading font-bold text-paper text-lg mb-3">
               Our trucks and crew
             </h3>
             <p className="font-body text-ink-muted text-sm leading-relaxed">
@@ -126,7 +126,7 @@ export default function Home() {
             </p>
           </div>
           <div>
-            <h3 className="font-heading font-bold text-ink text-lg mb-3">
+            <h3 className="font-heading font-bold text-paper text-lg mb-3">
               Started by two UGA students
             </h3>
             <p className="font-body text-ink-muted text-sm leading-relaxed">

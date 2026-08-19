@@ -1,0 +1,39 @@
+Good — foundation's solid. Before I move to individual pages, there's one thing from the foundation prompt worth flagging clearly, because it's a correctness issue, not a style preference: when brand.orange got renamed to brand.red in the config, any file still literally typing bg-brand-orange / text-brand-orange anywhere in the project now references a utility class that no longer exists — Tailwind won't render any color for it at all, similar to the invisible-button bug from before, just via a different mechanism this time (a genuinely dead class name, not a caching issue). brand.blue's value changed but its key name didn't, so anything still saying bg-brand-blue is fine and auto-updated. Every page-level file needs a sweep for any lingering brand-orange references as part of this pass, not just a visual dark-mode conversion.
+
+Batch A — Home and Services (the two files I have exact current content for, so this is precise rather than a guess):
+
+Ran a command
+Retrofit app/page.tsx (Home) and app/services/page.tsx to the new dark theme tokens. This is a color/className pass only — do not change any copy, structure, or logic beyond what's specified below.
+
+=== app/page.tsx ===
+
+HERO section: no changes needed — it already uses literal white/black Tailwind colors (text-white, bg-ink/60 overlay) that work correctly regardless of the theme change, since the hero sits on a photo rather than a flat background. Leave it exactly as it is.
+
+TRUST BADGES section: change bg-white to bg-ink on the section wrapper. (The Badge component itself was already updated in the previous prompt — no changes needed to how Badge is called here.)
+
+SERVICES PREVIEW section: 
+- Section wrapper: change bg-paper to bg-ink
+- Each card: change bg-white to bg-surface (keep border border-border — it already picked up the new dark value from the config change)
+- Card heading (h3): change text-ink to text-paper
+- Card body paragraph: no change (text-ink-muted already renders correctly from the config update)
+- "Learn more →" link: change text-brand-orange to text-brand-red
+
+MEET SUPER MOVERS section:
+- Section wrapper: change bg-white to bg-ink
+- Main heading (h2 "Meet Super Movers"): change text-ink to text-paper
+- Each of the three subsection headings (h3): change text-ink to text-paper
+- Paragraphs: no change (text-ink-muted already correct)
+
+CLOSING CTA section: no change to the section wrapper (bg-brand-blue already renders the new blue value correctly). Confirm the Button call site uses variant="primary" with no className override (this should already be the case from the previous prompt's cleanup — if it still says variant="inverse" or has a leftover className override, fix it now to match).
+
+=== app/services/page.tsx ===
+
+INTRO BAND: no changes (bg-brand-blue, text-white — already correct).
+
+Each of the three service sections (Moving, Delivery, Junk Removal):
+- Alternating bg-white / bg-paper wrappers: change ALL of them to bg-ink (uniform now — the alternating light/lighter rhythm is retired in favor of a flat dark background throughout, matching the approved preview)
+- Section heading (h2): change text-ink to text-paper
+- Paragraphs: no change (text-ink-muted already correct)
+- Button calls: already variant="primary" — no change needed, just confirm none have a leftover className override from the old scheme
+
+Everything should build and run clean with zero TypeScript errors.

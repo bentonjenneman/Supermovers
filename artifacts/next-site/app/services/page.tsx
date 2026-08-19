@@ -20,9 +20,9 @@ export default function Services() {
       </section>
 
       {/* ── MOVING ───────────────────────────────────────────────────────── */}
-      <section className="bg-white py-16">
+      <section className="bg-ink py-16">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="font-heading font-bold text-ink text-2xl mb-4">Moving</h2>
+          <h2 className="font-heading font-bold text-paper text-2xl mb-4">Moving</h2>
           <p className="font-body text-ink-muted text-base leading-relaxed mb-4">
             Local and long distance, one item or a full house. The price we quote you is
             the price you pay — we show up when we say we will, wrap your furniture before
@@ -40,9 +40,9 @@ export default function Services() {
       </section>
 
       {/* ── DELIVERY ─────────────────────────────────────────────────────── */}
-      <section className="bg-paper py-16">
+      <section className="bg-ink py-16">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="font-heading font-bold text-ink text-2xl mb-4">Delivery</h2>
+          <h2 className="font-heading font-bold text-paper text-2xl mb-4">Delivery</h2>
           <p className="font-body text-ink-muted text-base leading-relaxed mb-8">
             Need something delivered — furniture, an appliance, a single large item — but
             not a full moving crew? We&apos;ll pick it up and drop it off — distance evaluated
@@ -55,9 +55,9 @@ export default function Services() {
       </section>
 
       {/* ── JUNK REMOVAL ─────────────────────────────────────────────────── */}
-      <section className="bg-white py-16">
+      <section className="bg-ink py-16">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="font-heading font-bold text-ink text-2xl mb-4">Junk Removal</h2>
+          <h2 className="font-heading font-bold text-paper text-2xl mb-4">Junk Removal</h2>
           <p className="font-body text-ink-muted text-base leading-relaxed mb-8">
             Clearing out a garage, an estate, or just getting rid of what you don&apos;t
             need anymore? We&apos;ll haul it away.
