@@ -12,7 +12,7 @@ const config: Config = {
       colors: {
         brand: {
           red: '#D60002',
-          blue: '#21356A',
+          blue: '#122552',
         },
         ink: '#060606',
         surface: '#141414',
