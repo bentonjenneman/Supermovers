@@ -1,16 +1,16 @@
 export default function Terms() {
   return (
     <main>
-      <section className="bg-white py-16">
+      <section className="bg-ink py-16">
         <div className="max-w-2xl mx-auto px-4">
-          <h1 className="font-heading font-extrabold text-ink text-3xl mb-2">
+          <h1 className="font-heading font-extrabold text-paper text-3xl mb-2">
             Terms and conditions
           </h1>
           <p className="font-body text-sm text-ink-muted mb-8">
             Last updated: August 9, 2026
           </p>
 
-          <h2 className="font-heading font-bold text-ink text-lg mb-2">
+          <h2 className="font-heading font-bold text-paper text-lg mb-2">
             Scope of these terms
           </h2>
           <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">
@@ -21,7 +21,7 @@ export default function Terms() {
             law.
           </p>
 
-          <h2 className="font-heading font-bold text-ink text-lg mt-8 mb-2">
+          <h2 className="font-heading font-bold text-paper text-lg mt-8 mb-2">
             Use of this site
           </h2>
           <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">
@@ -31,7 +31,7 @@ export default function Terms() {
             or email.
           </p>
 
-          <h2 className="font-heading font-bold text-ink text-lg mt-8 mb-2">
+          <h2 className="font-heading font-bold text-paper text-lg mt-8 mb-2">
             Reviews
           </h2>
           <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">
@@ -40,7 +40,7 @@ export default function Terms() {
             reserve the right to decline to publish any submission.
           </p>
 
-          <h2 className="font-heading font-bold text-ink text-lg mt-8 mb-2">
+          <h2 className="font-heading font-bold text-paper text-lg mt-8 mb-2">
             Intellectual property
           </h2>
           <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">
@@ -48,7 +48,7 @@ export default function Terms() {
             and may not be copied or reused without permission.
           </p>
 
-          <h2 className="font-heading font-bold text-ink text-lg mt-8 mb-2">
+          <h2 className="font-heading font-bold text-paper text-lg mt-8 mb-2">
             Disclaimer
           </h2>
           <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">
@@ -57,7 +57,7 @@ export default function Terms() {
             error-free or uninterrupted.
           </p>
 
-          <h2 className="font-heading font-bold text-ink text-lg mt-8 mb-2">
+          <h2 className="font-heading font-bold text-paper text-lg mt-8 mb-2">
             Limitation of liability
           </h2>
           <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">
@@ -65,14 +65,14 @@ export default function Terms() {
             incidental damages arising from use of this website.
           </p>
 
-          <h2 className="font-heading font-bold text-ink text-lg mt-8 mb-2">
+          <h2 className="font-heading font-bold text-paper text-lg mt-8 mb-2">
             Governing law
           </h2>
           <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">
             These terms are governed by the laws of the State of Georgia.
           </p>
 
-          <h2 className="font-heading font-bold text-ink text-lg mt-8 mb-2">
+          <h2 className="font-heading font-bold text-paper text-lg mt-8 mb-2">
             Changes to these terms
           </h2>
           <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">
@@ -80,7 +80,7 @@ export default function Terms() {
             changes means you accept the updated terms.
           </p>
 
-          <h2 className="font-heading font-bold text-ink text-lg mt-8 mb-2">
+          <h2 className="font-heading font-bold text-paper text-lg mt-8 mb-2">
             Contact us
           </h2>
           <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">

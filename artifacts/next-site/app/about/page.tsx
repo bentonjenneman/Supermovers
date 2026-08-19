@@ -20,9 +20,9 @@ export default function About() {
       </section>
 
       {/* ── ORIGIN STORY ─────────────────────────────────────────────────── */}
-      <section className="bg-white py-16">
+      <section className="bg-ink py-16">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="font-heading font-bold text-ink text-2xl mb-4">
+          <h2 className="font-heading font-bold text-paper text-2xl mb-4">
             How we got started
           </h2>
           <p className="font-body text-ink-muted text-base leading-relaxed">
@@ -61,10 +61,10 @@ export default function About() {
       </section>
 
       {/* ── WHAT WE STAND FOR ────────────────────────────────────────────── */}
-      <section className="bg-paper py-16">
+      <section className="bg-ink py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto px-4">
           <div>
-            <h2 className="font-heading font-bold text-ink text-lg mb-3">
+            <h2 className="font-heading font-bold text-paper text-lg mb-3">
               No hidden fees
             </h2>
             <p className="font-body text-ink-muted text-sm leading-relaxed">
@@ -74,7 +74,7 @@ export default function About() {
             </p>
           </div>
           <div>
-            <h2 className="font-heading font-bold text-ink text-lg mb-3">
+            <h2 className="font-heading font-bold text-paper text-lg mb-3">
               Moving done right
             </h2>
             <p className="font-body text-ink-muted text-sm leading-relaxed">

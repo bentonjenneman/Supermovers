@@ -17,9 +17,9 @@ const empty: FormData = {
   company_website: '',
 }
 
-const labelCls = 'font-body font-semibold text-sm text-ink mb-1 block'
+const labelCls = 'font-body font-semibold text-sm text-paper mb-1 block'
 const inputCls =
-  'font-body text-sm border border-border rounded-md px-3 py-2 w-full focus:outline-none focus:border-brand-orange'
+  'font-body text-sm bg-ink text-paper border border-border rounded-md px-3 py-2 w-full focus:outline-none focus:border-brand-red'
 
 export default function LeaveReviewForm() {
   const [fields, setFields] = useState<FormData>(empty)
@@ -86,7 +86,7 @@ export default function LeaveReviewForm() {
 
   if (submitted) {
     return (
-      <p className="font-body text-ink text-center text-lg py-8">
+      <p className="font-body text-paper text-center text-lg py-8">
         Thanks for your feedback — we review submissions before they&apos;re published.
       </p>
     )
@@ -96,9 +96,9 @@ export default function LeaveReviewForm() {
     <form
       onSubmit={handleSubmit}
       noValidate
-      className="bg-white rounded-lg border border-border p-6 md:p-8 mt-8"
+      className="bg-surface rounded-lg border border-border p-6 md:p-8 mt-8"
     >
-      <h2 className="font-heading font-bold text-ink text-xl mb-6">Leave a review</h2>
+      <h2 className="font-heading font-bold text-paper text-xl mb-6">Leave a review</h2>
 
       {/* Honeypot — visually hidden, excluded from tab order */}
       <div
@@ -169,10 +169,10 @@ export default function LeaveReviewForm() {
       </div>
 
       {validationError && (
-        <p className="font-body text-sm text-red-600 mb-4">{validationError}</p>
+        <p className="font-body text-sm text-brand-red mb-4">{validationError}</p>
       )}
       {error && (
-        <p className="font-body text-sm text-red-600 mb-4">{error}</p>
+        <p className="font-body text-sm text-brand-red mb-4">{error}</p>
       )}
 
       <Button

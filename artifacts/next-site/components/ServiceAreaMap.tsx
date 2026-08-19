@@ -85,7 +85,7 @@ export default function ServiceAreaMap() {
   const ay = athensPt?.[1] ?? 0
 
   return (
-    <div className="bg-paper rounded-lg p-4">
+    <div className="bg-surface rounded-lg p-4">
       {!loaded ? (
         <div className="flex items-center justify-center h-72">
           <p className="font-body text-ink-muted text-sm">Loading map…</p>
@@ -97,8 +97,8 @@ export default function ServiceAreaMap() {
             <path
               key={s.id}
               d={s.d}
-              fill={s.isGeorgia ? '#E2EAF3' : '#FFFFFF'}
-              stroke="#1B2733"
+              fill={s.isGeorgia ? '#1B2A4D' : '#141414'}
+              stroke="#454141"
               strokeWidth={1}
             />
           ))}
@@ -107,9 +107,9 @@ export default function ServiceAreaMap() {
           {circleD && (
             <path
               d={circleD}
-              fill="#D8412B"
+              fill="#D60002"
               fillOpacity={0.16}
-              stroke="#D8412B"
+              stroke="#D60002"
               strokeWidth={2}
             />
           )}
@@ -117,14 +117,14 @@ export default function ServiceAreaMap() {
           {/* City dots + text labels */}
           {projectedCities.map((c) => (
             <g key={c.name}>
-              <circle cx={c.x} cy={c.y} r={4} fill="#1B2733" />
+              <circle cx={c.x} cy={c.y} r={4} fill="#F5F1ED" />
               <text
                 x={c.x + 7}
                 y={c.y + 4}
                 fontFamily="Inter, sans-serif"
                 fontWeight={500}
                 fontSize={11}
-                fill="#1B2733"
+                fill="#F5F1ED"
               >
                 {c.name}
               </text>
@@ -137,7 +137,7 @@ export default function ServiceAreaMap() {
               cx={ax}
               cy={ay}
               r={6}
-              fill="#D8412B"
+              fill="#D60002"
               stroke="#FFFFFF"
               strokeWidth={2}
             />
@@ -147,7 +147,7 @@ export default function ServiceAreaMap() {
               width={82}
               height={20}
               rx={4}
-              fill="#1B2733"
+              fill="#D60002"
             />
             <text
               x={ax + 51}
@@ -166,8 +166,8 @@ export default function ServiceAreaMap() {
 
       {/* Legend */}
       <div className="flex items-center gap-2 mt-3 px-1">
-        <div className="w-4 h-4 rounded-sm border-2 border-brand-orange bg-brand-orange/35 shrink-0" />
-        <span className="font-body text-sm text-ink">
+        <div className="w-4 h-4 rounded-sm border-2 border-brand-red bg-brand-red/35 shrink-0" />
+        <span className="font-body text-sm text-paper">
           200-mile service radius from Athens, GA
         </span>
       </div>

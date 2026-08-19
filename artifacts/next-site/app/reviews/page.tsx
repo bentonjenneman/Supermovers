@@ -52,7 +52,7 @@ export default async function Reviews() {
       </section>
 
       {/* ── PUBLISHED REVIEWS ────────────────────────────────────────────── */}
-      <section className="bg-paper py-16">
+      <section className="bg-ink py-16">
         <div className="max-w-2xl mx-auto px-4">
           {reviews.length === 0 ? (
             <p className="font-body text-ink-muted text-center py-8">
@@ -63,10 +63,10 @@ export default async function Reviews() {
               {reviews.map((r) => (
                 <div
                   key={r.id}
-                  className="bg-white border border-border rounded-lg p-5 mb-4"
+                  className="bg-surface border border-border rounded-lg p-5 mb-4"
                 >
-                  <p className="font-heading font-bold text-ink text-sm">{r.name}</p>
-                  <p className="text-brand-orange text-sm mt-1">
+                  <p className="font-heading font-bold text-paper text-sm">{r.name}</p>
+                  <p className="text-brand-red text-sm mt-1">
                     {'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}
                     {' '}
                     <span>{r.rating}/5</span>

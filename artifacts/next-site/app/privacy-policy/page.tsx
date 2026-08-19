@@ -1,16 +1,16 @@
 export default function PrivacyPolicy() {
   return (
     <main>
-      <section className="bg-white py-16">
+      <section className="bg-ink py-16">
         <div className="max-w-2xl mx-auto px-4">
-          <h1 className="font-heading font-extrabold text-ink text-3xl mb-2">
+          <h1 className="font-heading font-extrabold text-paper text-3xl mb-2">
             Privacy policy
           </h1>
           <p className="font-body text-sm text-ink-muted mb-8">
             Last updated: August 9, 2026
           </p>
 
-          <h2 className="font-heading font-bold text-ink text-lg mb-2">
+          <h2 className="font-heading font-bold text-paper text-lg mb-2">
             Information we collect
           </h2>
           <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">
@@ -27,7 +27,7 @@ export default function PrivacyPolicy() {
             review text.
           </p>
 
-          <h2 className="font-heading font-bold text-ink text-lg mt-8 mb-2">
+          <h2 className="font-heading font-bold text-paper text-lg mt-8 mb-2">
             How we use this information
           </h2>
           <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">
@@ -36,7 +36,7 @@ export default function PrivacyPolicy() {
             reviews to publish. We do not sell your information to third parties.
           </p>
 
-          <h2 className="font-heading font-bold text-ink text-lg mt-8 mb-2">
+          <h2 className="font-heading font-bold text-paper text-lg mt-8 mb-2">
             Cookies
           </h2>
           <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">
@@ -45,7 +45,7 @@ export default function PrivacyPolicy() {
             above; the site will still function normally.
           </p>
 
-          <h2 className="font-heading font-bold text-ink text-lg mt-8 mb-2">
+          <h2 className="font-heading font-bold text-paper text-lg mt-8 mb-2">
             Data storage
           </h2>
           <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">
@@ -54,7 +54,7 @@ export default function PrivacyPolicy() {
             staff.
           </p>
 
-          <h2 className="font-heading font-bold text-ink text-lg mt-8 mb-2">
+          <h2 className="font-heading font-bold text-paper text-lg mt-8 mb-2">
             Your choices
           </h2>
           <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">
@@ -62,7 +62,7 @@ export default function PrivacyPolicy() {
             us at (470) 562-4020.
           </p>
 
-          <h2 className="font-heading font-bold text-ink text-lg mt-8 mb-2">
+          <h2 className="font-heading font-bold text-paper text-lg mt-8 mb-2">
             Changes to this policy
           </h2>
           <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">
@@ -70,7 +70,7 @@ export default function PrivacyPolicy() {
             changes means you accept the updated policy.
           </p>
 
-          <h2 className="font-heading font-bold text-ink text-lg mt-8 mb-2">
+          <h2 className="font-heading font-bold text-paper text-lg mt-8 mb-2">
             Contact us
           </h2>
           <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">

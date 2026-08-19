@@ -29,10 +29,10 @@ export default async function AdminDashboardLayout({ children }: { children: Rea
   const { newQuotes, pendingReviews } = await getCounts()
 
   return (
-    <div className="min-h-screen bg-paper">
+    <div className="min-h-screen bg-ink">
       {/* Header */}
-      <div className="bg-white border-b border-ink px-6 py-4 flex justify-between items-center">
-        <span className="font-heading font-bold text-ink text-lg">Super Movers Admin</span>
+      <div className="bg-ink border-b border-border px-6 py-4 flex justify-between items-center">
+        <span className="font-heading font-bold text-paper text-lg">Super Movers Admin</span>
         <LogoutButton />
       </div>
 

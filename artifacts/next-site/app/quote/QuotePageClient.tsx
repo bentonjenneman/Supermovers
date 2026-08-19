@@ -34,9 +34,9 @@ function isValidEmail(email: string) {
   return dot > at + 1
 }
 
-const labelCls = 'font-body font-semibold text-sm text-ink mb-1 block'
+const labelCls = 'font-body font-semibold text-sm text-paper mb-1 block'
 const inputCls =
-  'font-body text-sm border border-border rounded-md px-3 py-2 w-full focus:outline-none focus:border-brand-orange'
+  'font-body text-sm bg-ink text-paper border border-border rounded-md px-3 py-2 w-full focus:outline-none focus:border-brand-red'
 
 export default function GetAQuote() {
   const [fields, setFields] = useState<FormData>(empty)
@@ -115,9 +115,9 @@ export default function GetAQuote() {
             Free, no obligation. Tell us about your move and we&apos;ll get back to you.
           </p>
         </section>
-        <section className="bg-paper py-16">
+        <section className="bg-ink py-16">
           <div className="max-w-xl mx-auto px-4">
-            <p className="font-body text-ink text-center text-lg py-8">
+            <p className="font-body text-paper text-center text-lg py-8">
               Thanks — we&apos;ll be in touch soon.
             </p>
           </div>
@@ -139,12 +139,12 @@ export default function GetAQuote() {
       </section>
 
       {/* ── FORM SECTION ─────────────────────────────────────────────────── */}
-      <section className="bg-paper py-16">
+      <section className="bg-ink py-16">
         <div className="max-w-xl mx-auto px-4">
           <form
             onSubmit={handleSubmit}
             noValidate
-            className="bg-white rounded-lg border border-border p-6 md:p-8"
+            className="bg-surface rounded-lg border border-border p-6 md:p-8"
           >
             {/* Honeypot — visually hidden, excluded from tab order */}
             <div
@@ -271,10 +271,10 @@ export default function GetAQuote() {
             </div>
 
             {validationError && (
-              <p className="font-body text-sm text-red-600 mb-4">{validationError}</p>
+              <p className="font-body text-sm text-brand-red mb-4">{validationError}</p>
             )}
             {error && (
-              <p className="font-body text-sm text-red-600 mb-4">{error}</p>
+              <p className="font-body text-sm text-brand-red mb-4">{error}</p>
             )}
 
             <Button

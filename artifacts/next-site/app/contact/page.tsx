@@ -21,16 +21,16 @@ export default function Contact() {
       </section>
 
       {/* ── CONTACT INFO + MAP ───────────────────────────────────────────── */}
-      <section className="bg-white py-16">
+      <section className="bg-ink py-16">
         <div className="max-w-5xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
           {/* Left — contact info */}
           <div>
-            <h2 className="font-heading font-bold text-ink text-xl mb-4">
+            <h2 className="font-heading font-bold text-paper text-xl mb-4">
               Reach us directly
             </h2>
             <a
               href="tel:+14705624020"
-              className="font-body font-semibold text-lg text-brand-orange mb-2 block hover:underline"
+              className="font-body font-semibold text-lg text-brand-red mb-2 block hover:underline"
             >
               (470) 562-4020
             </a>

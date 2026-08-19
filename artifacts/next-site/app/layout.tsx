@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${poppins.variable} ${inter.variable}`}>
-      <body className="bg-paper text-ink font-body">
+      <body className="bg-ink text-paper font-body">
         <CookieConsentProvider>
           <script
             type="application/ld+json"

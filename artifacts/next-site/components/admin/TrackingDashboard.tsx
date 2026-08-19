@@ -33,10 +33,10 @@ export default function TrackingDashboard({
       {sessions.length === 0 ? (
         <p className="font-body text-ink-muted text-center py-12">No visitor activity yet.</p>
       ) : (
-        <div className="bg-white rounded-lg border border-border overflow-x-auto">
+        <div className="bg-surface rounded-lg border border-border overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="bg-paper">
+              <tr className="bg-ink">
                 {['Last seen', 'Location', 'Referrer', 'Device', 'Browser', 'Pageviews', 'Converted'].map(
                   (h) => (
                     <th
@@ -60,28 +60,28 @@ export default function TrackingDashboard({
                 return (
                   <tr
                     key={s.id}
-                    className={`border-t border-border hover:bg-tint-blue/30 transition-colors ${
-                      i % 2 === 1 ? 'bg-paper/40' : 'bg-white'
+                    className={`border-t border-border hover:bg-white/5 transition-colors ${
+                      i % 2 === 1 ? 'bg-ink/40' : 'bg-surface'
                     }`}
                   >
                     <td
-                      className="px-4 py-3 font-body text-sm text-ink whitespace-nowrap"
+                      className="px-4 py-3 font-body text-sm text-paper whitespace-nowrap"
                       suppressHydrationWarning
                     >
                       {new Date(s.last_seen_at).toLocaleString()}
                     </td>
-                    <td className="px-4 py-3 font-body text-sm text-ink">
+                    <td className="px-4 py-3 font-body text-sm text-paper">
                       {formatLocation(s.approx_city, s.approx_region)}
                     </td>
-                    <td className="px-4 py-3 font-body text-sm text-ink">
+                    <td className="px-4 py-3 font-body text-sm text-paper">
                       {s.referrer ?? 'Direct'}
                     </td>
-                    <td className="px-4 py-3 font-body text-sm text-ink">{device}</td>
-                    <td className="px-4 py-3 font-body text-sm text-ink">{browser}</td>
-                    <td className="px-4 py-3 font-body text-sm text-ink">{pageviewCount}</td>
+                    <td className="px-4 py-3 font-body text-sm text-paper">{device}</td>
+                    <td className="px-4 py-3 font-body text-sm text-paper">{browser}</td>
+                    <td className="px-4 py-3 font-body text-sm text-paper">{pageviewCount}</td>
                     <td className="px-4 py-3">
                       {converted ? (
-                        <span className="bg-tint-blue text-brand-blue rounded-full px-2 py-0.5 text-xs font-bold">
+                        <span className="bg-brand-blue text-white rounded-full px-2 py-0.5 text-xs font-bold">
                           Yes
                         </span>
                       ) : (
@@ -101,11 +101,11 @@ export default function TrackingDashboard({
 
 function StatCard({ label, value }: { label: string; value: number | null }) {
   return (
-    <div className="bg-white border border-border rounded-lg p-5 flex-1 min-w-[140px]">
+    <div className="bg-surface border border-border rounded-lg p-5 flex-1 min-w-[140px]">
       <div className="font-body text-xs text-ink-muted uppercase tracking-wide mb-1">
         {label}
       </div>
-      <div className="font-heading font-bold text-ink text-3xl">
+      <div className="font-heading font-bold text-paper text-3xl">
         {value === null ? '—' : value}
       </div>
       {value === null && (

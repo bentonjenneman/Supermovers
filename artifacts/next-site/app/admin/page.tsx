@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
+import Button from '@/components/ui/Button'
 
 export default function Admin() {
   const router = useRouter()
@@ -39,37 +40,36 @@ export default function Admin() {
   }
 
   return (
-    <main
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
+    <main className="min-h-screen bg-ink flex items-center justify-center">
       <form
         onSubmit={handleSubmit}
-        style={{ display: 'flex', flexDirection: 'column', gap: '12px', minWidth: '280px' }}
+        className="bg-surface border border-border rounded-lg max-w-sm w-full p-8 flex flex-col gap-4"
       >
-        <h1 style={{ margin: 0 }}>Admin Login</h1>
+        <h1 className="font-heading font-extrabold text-paper text-2xl">Admin Login</h1>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          disabled={loading}
-          style={{ padding: '8px', fontSize: '1rem' }}
-        />
+        <div className="flex flex-col gap-1">
+          <label className="font-body text-sm font-semibold text-paper" htmlFor="password">
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            disabled={loading}
+            className="w-full bg-ink border border-border rounded-md px-3 py-2 font-body text-sm text-paper placeholder-ink-muted focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red disabled:opacity-50"
+          />
+        </div>
 
         {error && (
-          <p style={{ color: 'red', margin: 0, fontSize: '0.9rem' }}>{error}</p>
+          <p className="font-body text-sm text-brand-red">{error}</p>
         )}
 
-        <button type="submit" disabled={loading} style={{ padding: '8px', fontSize: '1rem' }}>
+        <Button variant="primary" type="submit" disabled={loading}>
           {loading ? 'Logging in…' : 'Log in'}
-        </button>
+        </Button>
       </form>
     </main>
   )

@@ -7,9 +7,9 @@ const STATUS_OPTIONS = ['new', 'contacted', 'quoted', 'closed'] as const
 type Status = (typeof STATUS_OPTIONS)[number]
 
 const STATUS_COLORS: Record<Status, string> = {
-  new: 'bg-tint-blue text-brand-blue',
-  contacted: 'bg-tint-orange text-brand-orange',
-  quoted: 'bg-brand-blue/10 text-brand-blue',
+  new: 'bg-brand-blue text-white',
+  contacted: 'bg-tint-red text-paper',
+  quoted: 'bg-tint-blue text-white',
   closed: 'bg-border text-ink-muted',
 }
 
@@ -65,10 +65,10 @@ export default function QuotesTable({ initialQuotes }: { initialQuotes: Quote[] 
   }
 
   return (
-    <div className="bg-white rounded-lg border border-border overflow-x-auto">
+    <div className="bg-surface rounded-lg border border-border overflow-x-auto">
       <table className="w-full">
         <thead>
-          <tr className="bg-paper">
+          <tr className="bg-ink">
             {[
               'Submitted', 'Name', 'Email', 'Phone',
               'Move date', 'From', 'To', 'Size', 'Notes', 'Status',
@@ -86,12 +86,12 @@ export default function QuotesTable({ initialQuotes }: { initialQuotes: Quote[] 
           {quotes.map((q, i) => (
             <tr
               key={q.id}
-              className={`border-t border-border hover:bg-tint-blue/30 transition-colors ${
-                i % 2 === 1 ? 'bg-paper/40' : 'bg-white'
+              className={`border-t border-border hover:bg-white/5 transition-colors ${
+                i % 2 === 1 ? 'bg-ink/40' : 'bg-surface'
               }`}
             >
               <td
-                className="px-4 py-3 font-body text-sm text-ink whitespace-nowrap"
+                className="px-4 py-3 font-body text-sm text-paper whitespace-nowrap"
                 suppressHydrationWarning
               >
                 {new Date(q.created_at).toLocaleDateString(undefined, {
@@ -102,14 +102,14 @@ export default function QuotesTable({ initialQuotes }: { initialQuotes: Quote[] 
                   minute: '2-digit',
                 })}
               </td>
-              <td className="px-4 py-3 font-body text-sm text-ink">{q.name}</td>
-              <td className="px-4 py-3 font-body text-sm text-ink">{q.email}</td>
-              <td className="px-4 py-3 font-body text-sm text-ink whitespace-nowrap">{q.phone}</td>
-              <td className="px-4 py-3 font-body text-sm text-ink whitespace-nowrap">{q.move_date ?? '—'}</td>
-              <td className="px-4 py-3 font-body text-sm text-ink">{q.origin_address ?? '—'}</td>
-              <td className="px-4 py-3 font-body text-sm text-ink">{q.destination_address ?? '—'}</td>
-              <td className="px-4 py-3 font-body text-sm text-ink">{q.move_size ?? '—'}</td>
-              <td className="px-4 py-3 font-body text-sm text-ink max-w-[180px] truncate">
+              <td className="px-4 py-3 font-body text-sm text-paper">{q.name}</td>
+              <td className="px-4 py-3 font-body text-sm text-paper">{q.email}</td>
+              <td className="px-4 py-3 font-body text-sm text-paper whitespace-nowrap">{q.phone}</td>
+              <td className="px-4 py-3 font-body text-sm text-paper whitespace-nowrap">{q.move_date ?? '—'}</td>
+              <td className="px-4 py-3 font-body text-sm text-paper">{q.origin_address ?? '—'}</td>
+              <td className="px-4 py-3 font-body text-sm text-paper">{q.destination_address ?? '—'}</td>
+              <td className="px-4 py-3 font-body text-sm text-paper">{q.move_size ?? '—'}</td>
+              <td className="px-4 py-3 font-body text-sm text-paper max-w-[180px] truncate">
                 {q.notes ?? '—'}
               </td>
               <td className="px-4 py-3">
@@ -131,7 +131,7 @@ export default function QuotesTable({ initialQuotes }: { initialQuotes: Quote[] 
                   </select>
                 </div>
                 {rowError?.id === q.id && (
-                  <div className="font-body text-xs text-red-600 mt-1">
+                  <div className="font-body text-xs text-brand-red mt-1">
                     {rowError.message}
                   </div>
                 )}

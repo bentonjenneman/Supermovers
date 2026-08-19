@@ -11,7 +11,7 @@ interface RowError {
 
 function Stars({ rating }: { rating: number }) {
   return (
-    <span className="text-brand-orange text-sm">
+    <span className="text-brand-red text-sm">
       {'★'.repeat(rating)}{'☆'.repeat(5 - rating)}
     </span>
   )
@@ -75,7 +75,7 @@ export default function ReviewsQueue({
     <>
       {/* Pending */}
       <section>
-        <h2 className="font-heading font-bold text-ink text-lg mb-4">
+        <h2 className="font-heading font-bold text-paper text-lg mb-4">
           Pending ({pending.length})
         </h2>
         {pending.length === 0 ? (
@@ -85,9 +85,9 @@ export default function ReviewsQueue({
             {pending.map((r) => (
               <div
                 key={r.id}
-                className="bg-white border border-border rounded-lg p-4 mb-3 flex flex-col gap-2"
+                className="bg-surface border border-border rounded-lg p-4 mb-3 flex flex-col gap-2"
               >
-                <p className="font-heading font-bold text-ink text-sm">{r.name}</p>
+                <p className="font-heading font-bold text-paper text-sm">{r.name}</p>
                 <Stars rating={r.rating} />
                 <p className="font-body text-ink-muted text-sm">{r.review_text}</p>
                 <p className="font-body text-xs text-ink-muted/60" suppressHydrationWarning>
@@ -102,7 +102,7 @@ export default function ReviewsQueue({
                     Publish
                   </Button>
                   {rowError?.id === r.id && (
-                    <span className="font-body text-xs text-red-600">{rowError.message}</span>
+                    <span className="font-body text-xs text-brand-red">{rowError.message}</span>
                   )}
                 </div>
               </div>
@@ -113,7 +113,7 @@ export default function ReviewsQueue({
 
       {/* Published */}
       <section className="mt-10">
-        <h2 className="font-heading font-bold text-ink text-lg mb-4">
+        <h2 className="font-heading font-bold text-paper text-lg mb-4">
           Published ({published.length})
         </h2>
         {published.length === 0 ? (
@@ -123,9 +123,9 @@ export default function ReviewsQueue({
             {published.map((r) => (
               <div
                 key={r.id}
-                className="bg-white border border-border rounded-lg p-4 mb-3 flex flex-col gap-2"
+                className="bg-surface border border-border rounded-lg p-4 mb-3 flex flex-col gap-2"
               >
-                <p className="font-heading font-bold text-ink text-sm">{r.name}</p>
+                <p className="font-heading font-bold text-paper text-sm">{r.name}</p>
                 <Stars rating={r.rating} />
                 <p className="font-body text-ink-muted text-sm">{r.review_text}</p>
                 <p className="font-body text-xs text-ink-muted/60" suppressHydrationWarning>
@@ -140,7 +140,7 @@ export default function ReviewsQueue({
                     Unpublish
                   </Button>
                   {rowError?.id === r.id && (
-                    <span className="font-body text-xs text-red-600">{rowError.message}</span>
+                    <span className="font-body text-xs text-brand-red">{rowError.message}</span>
                   )}
                 </div>
               </div>

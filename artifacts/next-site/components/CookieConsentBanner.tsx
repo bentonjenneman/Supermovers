@@ -16,7 +16,7 @@ export default function CookieConsentBanner() {
           We use cookies to understand site traffic and improve your experience.{' '}
           <Link
             href="/privacy-policy"
-            className="text-brand-orange underline hover:text-white"
+            className="text-brand-red underline hover:text-white"
           >
             Privacy Policy
           </Link>
