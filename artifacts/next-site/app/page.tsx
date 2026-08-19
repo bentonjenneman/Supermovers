@@ -23,7 +23,7 @@ export default function Home() {
           </span>
 
           <h1 className="font-heading font-extrabold text-white text-3xl md:text-5xl max-w-3xl">
-            Moving, Delivery, and Junk Removal done right
+            Moving, Delivery, and Junk Removal
           </h1>
 
           <p className="font-body text-white/80 text-base md:text-lg max-w-xl">
