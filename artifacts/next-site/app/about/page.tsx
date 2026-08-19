@@ -75,12 +75,14 @@ export default function About() {
           </div>
           <div>
             <h2 className="font-heading font-bold text-ink text-lg mb-3">
-              Our trucks and crew
+              Moving done right
             </h2>
             <p className="font-body text-ink-muted text-sm leading-relaxed">
-              Box trucks stocked with moving blankets, dollies, straps and shrink wrap —
-              the gear it takes to get your things there without a scratch. One heavy item
-              or a whole house, local or long distance.
+              When we moved into our college apartment Junior year, the movers who helped us
+              broke our couch. That was the inspiration to create a moving company that
+              takes care of its customers items and treats them with the respect they deserve.
+              Hundreds of clients later, we are doing just that and we are honored if we have
+              done it for you.
             </p>
           </div>
         </div>
