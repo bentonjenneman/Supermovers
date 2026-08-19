@@ -78,8 +78,9 @@ export default function About() {
               Moving done right
             </h2>
             <p className="font-body text-ink-muted text-sm leading-relaxed">
-              That was the inspiration to create a moving company that treats customers items
-              with the respect they deserve.
+              When we moved into our college apartment Junior year, the movers who helped us
+              broke our couch. That was the inspiration to create a moving company that treats
+              customers items with the respect they deserve.
             </p>
           </div>
         </div>
