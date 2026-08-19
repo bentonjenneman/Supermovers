@@ -23,7 +23,7 @@ export default function Home() {
           </span>
 
           <h1 className="font-heading font-extrabold text-white text-3xl md:text-5xl max-w-3xl">
-            Moving, Delivery, and Junk Removal
+            Moving, Delivery, and Junk Removal done right
           </h1>
 
           <p className="font-body text-white/80 text-base md:text-lg max-w-xl">
@@ -50,7 +50,7 @@ export default function Home() {
         <div className="flex flex-wrap justify-center gap-8">
           <Badge label="No hidden fees" accent="blue" />
           <Badge label="UGA founded" accent="orange" />
-          <Badge label="200-mile radius" accent="blue" />
+          <Badge label="200 mile moves" accent="blue" />
         </div>
       </section>
 

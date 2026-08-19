@@ -46,7 +46,8 @@ export default function Services() {
           <p className="font-body text-ink-muted text-base leading-relaxed mb-8">
             We&apos;ll pick it up and drop it off. The safety and protection of your items is
             always our first priority. Even so, that does not stop us from moving items more
-            efficiently than anyone else
+            efficiently than anyone else. We arrive when we say we will and guarantee that
+            your items always arrive in prime condition.
           </p>
           <Button variant="primary" href="/quote">
             Get a free quote
@@ -60,7 +61,8 @@ export default function Services() {
           <h2 className="font-heading font-bold text-paper text-2xl mb-4">Junk Removal</h2>
           <p className="font-body text-ink-muted text-base leading-relaxed mb-8">
             Clearing out a garage, an estate, or just getting rid of what you don&apos;t
-            need anymore? We&apos;ll haul it away.
+            need anymore? We&apos;ll haul it away. Just tell us what you need picked up and
+            we&apos;ll get it out of your hair. No stress, no hassle.
           </p>
           <Button variant="primary" href="/quote">
             Get a free quote
