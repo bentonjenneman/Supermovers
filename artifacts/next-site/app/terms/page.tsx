@@ -15,7 +15,7 @@ export default function Terms() {
           </h2>
           <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">
             These terms govern your use of this website only. They do not constitute a
-            moving services contract. Actual moving, delivery, or junk removal services
+            moving services contract. Actual moving, delivery, or Junk Removal services
             are governed by a separate agreement provided at the time of booking, which
             will include applicable liability, valuation, and claims terms as required by
             law.

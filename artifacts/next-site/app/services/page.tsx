@@ -6,7 +6,7 @@ export default function Services() {
       {/* ── INTRO BAND ───────────────────────────────────────────────────── */}
       <section className="bg-brand-blue py-14 text-center px-4">
         <h1 className="font-heading font-extrabold text-white text-3xl md:text-4xl">
-          Our services
+          Our Services
         </h1>
         <p className="font-body text-white/80 text-base mt-3">
           Straightforward pricing. No surprises on moving day.
@@ -39,8 +39,8 @@ export default function Services() {
           <h2 className="font-heading font-bold text-ink text-2xl mb-4">Delivery</h2>
           <p className="font-body text-ink-muted text-base leading-relaxed mb-8">
             Need something delivered — furniture, an appliance, a single large item — but
-            not a full moving crew? We&apos;ll pick it up and drop it off, up to 200 miles
-            from Athens.
+            not a full moving crew? We&apos;ll pick it up and drop it off — distance evaluated
+            case-by-case depending on the item and route.
           </p>
           <Button variant="primary" href="/quote">
             Get a free quote
@@ -51,7 +51,7 @@ export default function Services() {
       {/* ── JUNK REMOVAL ─────────────────────────────────────────────────── */}
       <section className="bg-white py-16">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="font-heading font-bold text-ink text-2xl mb-4">Junk removal</h2>
+          <h2 className="font-heading font-bold text-ink text-2xl mb-4">Junk Removal</h2>
           <p className="font-body text-ink-muted text-base leading-relaxed mb-8">
             Clearing out a garage, an estate, or just getting rid of what you don&apos;t
             need anymore? We&apos;ll haul it away.

@@ -23,7 +23,7 @@ export default function Home() {
           </span>
 
           <h1 className="font-heading font-extrabold text-white text-3xl md:text-5xl max-w-3xl">
-            Moving, delivery and junk removal
+            Moving, Delivery, and Junk Removal
           </h1>
 
           <p className="font-body text-white/80 text-base md:text-lg max-w-xl">
@@ -67,10 +67,10 @@ export default function Home() {
             },
             {
               heading: 'Delivery',
-              body: 'Furniture and large-item delivery, up to 200 miles.',
+              body: 'Furniture and large-item delivery, evaluated case-by-case.',
             },
             {
-              heading: 'Junk removal',
+              heading: 'Junk Removal',
               body: "Clear out what you don't need, fast.",
             },
           ].map(({ heading, body }) => (

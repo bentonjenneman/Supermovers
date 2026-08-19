@@ -261,6 +261,7 @@ export default function GetAQuote() {
               <label htmlFor="notes" className={labelCls}>Notes</label>
               <textarea
                 id="notes"
+                placeholder="Anything abnormally large, heavy, or fragile that we should know about"
                 value={fields.notes}
                 onChange={set('notes')}
                 rows={4}
