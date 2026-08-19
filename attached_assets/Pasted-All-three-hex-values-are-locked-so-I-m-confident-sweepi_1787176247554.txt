@@ -1,0 +1,99 @@
+All three hex values are locked, so I'm confident sweeping the rest now rather than doing more incremental checkpoints. Same rules apply everywhere: bg-white/bg-paper → bg-ink (page-level sections) or bg-surface (cards/forms — the "raised" tier), text-ink → text-paper, text-brand-orange/bg-brand-orange → -red (dead class from the rename, not just a style choice), tint-orange → tint-red (same dead-class issue — that key got renamed in the very first foundation prompt too). text-ink-muted and border-border need no changes anywhere — both already render correctly since their values updated in the config alone.
+
+Batch B — About, Contact, and the Service Area Map:
+
+Retrofit app/about/page.tsx, app/contact/page.tsx, and components/ServiceAreaMap.tsx to the dark theme tokens. Color/className changes only.
+
+=== app/about/page.tsx ===
+- Origin story section: bg-white → bg-ink. Heading text-ink → text-paper.
+- Headshot circle captions ("Co-founder"): no change (text-ink-muted already correct).
+- "What we stand for" section: bg-paper → bg-ink. Both block headings text-ink → text-paper.
+- Closing CTA section: no change (already bg-ink, auto-updated). Confirm its Button uses variant="primary" with no className override — if it still says variant="inverse" or has a leftover white-background override, fix it now.
+
+=== app/contact/page.tsx ===
+- Contact info + map section: bg-white → bg-ink.
+- "Reach us directly" heading: text-ink → text-paper.
+- Phone link: text-brand-orange → text-brand-red.
+
+=== components/ServiceAreaMap.tsx ===
+This file has hardcoded hex values in the D3/SVG code, not Tailwind classes — update these literal values:
+- Non-Georgia state fill: '#FFFFFF' → '#141414'
+- Georgia state fill: '#E2EAF3' → '#1B2A4D'
+- State stroke: '#1B2733' → '#454141'
+- 200-mile radius circle fill AND stroke: '#D8412B' → '#D60002'
+- City dot fill: '#1B2733' → '#F5F1ED'
+- City label text fill: '#1B2733' → '#F5F1ED'
+- Athens marker dot fill: '#D8412B' → '#D60002' (keep its white stroke as-is)
+- Athens label chip background: '#1B2733' → '#D60002' (keep its white text as-is — this makes the label chip match the marker dot's red)
+- The outer wrapper div: bg-paper → bg-surface
+- Legend swatch classes: bg-brand-orange/35 border-brand-orange → bg-brand-red/35 border-brand-red
+- Legend text: text-ink → text-paper
+
+Everything should build and run clean with zero TypeScript errors.
+
+Batch C — Quote, Reviews, LeaveReviewForm, and the cookie banner:
+
+Retrofit app/quote/page.tsx, app/reviews/page.tsx, components/LeaveReviewForm.tsx, and components/CookieConsentBanner.tsx to the dark theme tokens. Color/className changes only — do not touch any state, fetch calls, or validation logic.
+
+=== app/quote/page.tsx ===
+- Form section wrapper: bg-paper → bg-ink
+- Form card: bg-white → bg-surface
+- labelCls constant: text-ink → text-paper
+- inputCls constant: add bg-ink and text-paper to it (inputs currently have no explicit background, so they're rendering with the browser's default white — needs to be bg-ink text-paper border border-border rounded-md px-3 py-2 w-full focus:outline-none focus:border-brand-red), and change focus:border-brand-orange → focus:border-brand-red
+- Error message text: text-red-600 → text-brand-red
+- Confirmation message text (in the submitted-state block): text-ink → text-paper
+
+=== app/reviews/page.tsx ===
+- Reviews list section: bg-paper → bg-ink
+- Each review card: bg-white → bg-surface
+- Name: text-ink → text-paper
+- Star rating: text-brand-orange → text-brand-red
+
+=== components/LeaveReviewForm.tsx ===
+Same exact pattern as app/quote/page.tsx above: labelCls text-ink → text-paper; inputCls gets bg-ink text-paper added and focus:border-brand-orange → focus:border-brand-red; form card bg-white → bg-surface; error text-red-600 → text-brand-red; confirmation text-ink → text-paper
+
+=== components/CookieConsentBanner.tsx ===
+- Only one change: the Privacy Policy link's text-brand-orange → text-brand-red. (The banner background/text were already bg-ink/text-paper from the original build, so they're already correct — no other changes needed.)
+
+Everything should build and run clean with zero TypeScript errors.
+
+Batch D — Privacy, Terms, and the full admin dashboard (including the login screen, which was never styled to match the rest of the site):
+
+Retrofit app/privacy-policy/page.tsx, app/terms/page.tsx, app/admin/page.tsx, app/admin/dashboard/layout.tsx, components/admin/QuotesTable.tsx, components/admin/ReviewsQueue.tsx, and components/admin/TrackingDashboard.tsx to the dark theme tokens. Color/className changes only — do not touch any state, fetch calls, or auth logic.
+
+=== app/privacy-policy/page.tsx and app/terms/page.tsx ===
+Same pattern on both: section bg-white → bg-ink; h1 and every subheading text-ink → text-paper. Date line and paragraphs need no change (text-ink-muted already correct).
+
+=== app/admin/page.tsx (the password login screen) ===
+This was never styled to match the rest of the site — bring it in line now: page wrapper bg-ink, centered card bg-surface border border-border rounded-lg p-8 max-w-sm mx-auto (adjust to fit whatever structure is already there), label/heading text text-paper, the password input needs bg-ink text-paper border border-border rounded-md px-3 py-2 w-full focus:outline-none focus:border-brand-red, the submit button should use the shared Button component with variant="primary" if it isn't already, and any error message text should be text-brand-red.
+
+=== app/admin/dashboard/layout.tsx ===
+- Header bar: bg-white → bg-ink, border-b border-ink → border-b border-border
+- "Super Movers Admin" text: text-ink → text-paper
+- Tab bar track: bg-paper → bg-surface
+- Active tab: bg-white text-ink shadow-sm → bg-ink text-paper shadow-sm
+- Inactive tab hover: hover:text-ink → hover:text-paper (text-ink-muted default state needs no change)
+- Count badges (next to Quotes/Reviews labels): bg-brand-orange → bg-brand-red (text-white stays as-is)
+
+=== components/admin/QuotesTable.tsx ===
+- Table wrapper: bg-white → bg-surface
+- Header row: bg-paper → bg-ink
+- Body row alternating backgrounds: bg-white / bg-paper/40 → bg-surface / bg-ink/40
+- Row hover: hover:bg-tint-blue/30 → hover:bg-white/5
+- Cell text: text-ink → text-paper
+- Status pills — contacted specifically: bg-tint-orange text-brand-orange → bg-tint-red text-brand-red (this is a dead-class fix, tint-orange was renamed to tint-red in the earlier config change). The other three status pills (new, quoted, closed) already reference tokens that auto-updated correctly — no change needed for those three.
+
+=== components/admin/ReviewsQueue.tsx ===
+- Section headings ("Pending", "Published"): text-ink → text-paper
+- Each review card: bg-white → bg-surface
+- Reviewer name: text-ink → text-paper
+- Star rating: text-brand-orange → text-brand-red
+
+=== components/admin/TrackingDashboard.tsx ===
+- Stat cards: bg-white → bg-surface
+- Stat value text: text-ink → text-paper
+- Sessions table: same wrapper/header/row treatment as QuotesTable above (bg-surface wrapper, bg-ink header row, bg-surface/bg-ink alternating rows, hover:bg-white/5, cell text text-paper)
+
+Everything should build and run clean with zero TypeScript errors.
+
+Once all three batches are in, the entire site (public pages, forms, legal pages, and the admin dashboard including its login screen) will be on the new red/blue/black system. Let me know how it looks once you've run them.
