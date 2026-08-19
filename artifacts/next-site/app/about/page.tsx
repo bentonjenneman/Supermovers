@@ -91,7 +91,7 @@ export default function About() {
         <h2 className="font-heading font-bold text-white text-2xl mb-6">
           Ready to get moving?
         </h2>
-        <Button variant="inverse" href="/quote">
+        <Button variant="primary" href="/quote">
           Get a free quote
         </Button>
       </section>

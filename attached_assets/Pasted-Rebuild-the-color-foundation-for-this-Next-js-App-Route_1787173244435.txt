@@ -1,0 +1,48 @@
+Rebuild the color foundation for this Next.js App Router project: Tailwind tokens, and the Button, Badge, Header, and Footer components, for the new dark red/blue/black theme. This is the load-bearing layer everything else builds on — get this exactly right before any page-level work follows.
+
+1. Replace the theme.extend.colors block in tailwind.config.ts entirely with:
+   colors: {
+     brand: {
+       red: '#CA1111',
+       blue: '#21356A',
+     },
+     ink: '#1F1D1D',
+     surface: '#2A2626',
+     paper: '#F5F1ED',
+     'ink-muted': '#A8A29E',
+     border: '#3D3838',
+     tint: {
+       red: '#3A1414',
+       blue: '#16233F',
+     },
+   },
+   Keep fontFamily exactly as it is — no changes there. Every other file in the project references these token names (bg-ink, text-paper, bg-brand-red, etc.) — do not rename any key, only these values changed. Note: "ink" now means the dark page background (not dark text — that job now belongs to "paper", which is light text on dark backgrounds). "surface" is a new token for card-level backgrounds, one step lighter than the page background for visual depth.
+
+2. Rewrite components/ui/Button.tsx:
+   - Remove the "inverse" variant if one exists — it's no longer needed now that red works as the CTA color against every background
+   - Two variants only:
+     primary: 'bg-brand-red text-paper hover:bg-[#A30D0D]'
+     secondary: 'bg-transparent border-2 border-paper text-paper hover:bg-paper hover:text-ink'
+   - Keep the exact same base classes, TypeScript prop types (ButtonAsLink/ButtonAsButton discriminated union), and rendering logic (Link vs button) as the current file — only the variants object and the variant type union change
+   - Search the project for any button call site currently using variant="inverse" (the Home and About page closing CTAs) and change them to variant="primary" with no className override
+
+3. Rewrite components/ui/Badge.tsx:
+   - Same props and structure as the current file (label, accent prop)
+   - accent type stays 'orange' | 'blue' in the type signature for backward compatibility, but update the actual color mapping: 'orange' now maps to border-brand-red (this is the renamed/former-orange accent value), 'blue' maps to border-brand-blue
+   - Badge circle background: bg-surface (new — previously implicit/white), label text: text-paper
+   - Update call sites: on the Home page, "No hidden fees" and "200-mile radius" badges keep accent="blue" → wait, no: keep whatever accent value each badge currently passes unchanged in the calling code (Home page and any other page using Badge) — only the color mapping inside Badge.tsx itself changes, not the props passed to it
+
+4. Rewrite components/layout/Header.tsx:
+   - Header background: bg-ink (was bg-white), border-b border-border (was border-ink)
+   - Wordmark text: text-paper (was text-ink)
+   - Nav links (desktop and mobile drawer): text-paper hover:text-brand-red (was text-ink hover:text-brand-orange)
+   - Phone links (both the sm+ text version and the icon-only mobile version): text-paper hover:text-brand-red (was text-ink hover:text-brand-orange)
+   - Hamburger icon button: text-paper (was text-ink)
+   - Mobile drawer background: bg-ink (was bg-white)
+   - Keep every other structural/behavioral detail (sticky positioning, breakpoint logic, logo image, Button usage) exactly as it currently is — this is a color-only pass on this file
+
+5. Rewrite components/layout/Footer.tsx:
+   - This file already uses bg-ink/text-paper (it was already dark), so it inherits the new correct black from the config change automatically — the only line that needs a manual edit is the phone link's hover color: change hover:text-tint-orange to hover:text-brand-red
+   - No other changes to this file
+
+Everything should build and run clean with zero TypeScript errors. Once this is confirmed clean, the next prompt will retrofit the individual pages (Home, Services, About, Contact, Quote, Reviews) to the new tokens.

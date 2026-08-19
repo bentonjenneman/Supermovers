@@ -19,7 +19,7 @@ export default function Footer() {
             </div>
             <a
               href="tel:+14705624020"
-              className="font-body font-semibold text-sm text-paper hover:text-tint-orange transition-colors"
+              className="font-body font-semibold text-sm text-paper hover:text-brand-red transition-colors"
             >
               (470) 562-4020
             </a>

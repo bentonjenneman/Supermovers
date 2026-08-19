@@ -4,14 +4,13 @@ const base =
   'font-heading font-bold text-sm rounded-md px-5 py-3 transition-colors inline-block text-center'
 
 const variants = {
-  primary: 'bg-brand-orange text-white hover:bg-[#B83725]',
+  primary: 'bg-brand-red text-paper hover:bg-[#A30D0D]',
   secondary:
-    'bg-transparent border-2 border-ink text-ink hover:bg-ink hover:text-white',
-  inverse: 'bg-white text-brand-blue hover:bg-white/90',
+    'bg-transparent border-2 border-paper text-paper hover:bg-paper hover:text-ink',
 }
 
 interface ButtonBaseProps {
-  variant: 'primary' | 'secondary' | 'inverse'
+  variant: 'primary' | 'secondary'
   children: React.ReactNode
   className?: string
 }

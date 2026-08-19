@@ -11,16 +11,17 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          orange: '#D8412B',
-          blue: '#1D4E89',
+          red: '#CA1111',
+          blue: '#21356A',
         },
-        ink: '#1B2733',
-        paper: '#F7F5F1',
-        'ink-muted': '#5A6472',
-        border: '#E3DFD6',
+        ink: '#1F1D1D',
+        surface: '#2A2626',
+        paper: '#F5F1ED',
+        'ink-muted': '#A8A29E',
+        border: '#3D3838',
         tint: {
-          orange: '#FBE7E1',
-          blue: '#E2EAF3',
+          red: '#3A1414',
+          blue: '#16233F',
         },
       },
       fontFamily: {
