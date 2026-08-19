@@ -122,9 +122,10 @@ export default function QuotesTable({ initialQuotes }: { initialQuotes: Quote[] 
                     value={q.status}
                     onChange={(e) => handleStatusChange(q.id, e.target.value as Status)}
                     className="bg-transparent border-none text-inherit font-inherit text-xs focus:outline-none cursor-pointer appearance-none"
+                    style={{ colorScheme: 'dark' }}
                   >
                     {STATUS_OPTIONS.map((s) => (
-                      <option key={s} value={s}>
+                      <option key={s} value={s} style={{ background: '#141414', color: '#F5F1ED' }}>
                         {s}
                       </option>
                     ))}
