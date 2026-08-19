@@ -67,7 +67,7 @@ export default function Home() {
             },
             {
               heading: 'Delivery',
-              body: 'Furniture and large-item delivery, evaluated case-by-case.',
+              body: 'Furniture and large-item delivery, done safely and quickly',
             },
             {
               heading: 'Junk Removal',

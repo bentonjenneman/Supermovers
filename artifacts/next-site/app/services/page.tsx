@@ -44,9 +44,9 @@ export default function Services() {
         <div className="max-w-3xl mx-auto px-4">
           <h2 className="font-heading font-bold text-paper text-2xl mb-4">Delivery</h2>
           <p className="font-body text-ink-muted text-base leading-relaxed mb-8">
-            Need something delivered — furniture, an appliance, a single large item — but
-            not a full moving crew? We&apos;ll pick it up and drop it off — distance evaluated
-            case-by-case depending on the item and route.
+            We&apos;ll pick it up and drop it off. The safety and protection of your items is
+            always our first priority. Even so, that does not stop us from moving items more
+            efficiently than anyone else
           </p>
           <Button variant="primary" href="/quote">
             Get a free quote
