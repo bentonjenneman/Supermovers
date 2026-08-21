@@ -32,7 +32,7 @@ export default function About() {
           </p>
 
           {/* TODO: replace placeholder circles with real founder headshots once supplied */}
-          <div className="flex gap-6 mt-8">
+          <div className="flex gap-6 mt-8 justify-center">
             {[0, 1].map((i) => (
               <div key={i} className="flex flex-col items-center">
                 <div className="w-24 h-24 rounded-full bg-tint-blue flex items-center justify-center">
