@@ -15,7 +15,7 @@ export default function About() {
           About Super Movers
         </h1>
         <p className="font-body text-white/80 text-base mt-3">
-          Started by two UGA students who wanted to build something of their own.
+          Super Movers was founded to treat customer&apos;s items with the respect they deserve.
         </p>
       </section>
 
