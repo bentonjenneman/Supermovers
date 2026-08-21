@@ -12,7 +12,7 @@ interface FormData {
   destination_address: string
   move_size: string
   notes: string
-  company_website: string // honeypot
+  _hp: string // honeypot — obscure name so browsers don't autofill it
 }
 
 const empty: FormData = {
@@ -24,7 +24,7 @@ const empty: FormData = {
   destination_address: '',
   move_size: '',
   notes: '',
-  company_website: '',
+  _hp: '',
 }
 
 function isValidEmail(email: string) {
@@ -84,7 +84,7 @@ export default function GetAQuote() {
           destination_address: fields.destination_address.trim() || null,
           move_size: fields.move_size.trim() || null,
           notes: fields.notes.trim() || null,
-          company_website: fields.company_website,
+          _hp: fields._hp,
         }),
       })
 
@@ -157,15 +157,15 @@ export default function GetAQuote() {
               }}
               aria-hidden="true"
             >
-              <label htmlFor="company_website">Website</label>
+              <label htmlFor="_hp">Leave blank</label>
               <input
-                id="company_website"
+                id="_hp"
                 type="text"
-                name="company_website"
-                value={fields.company_website}
-                onChange={set('company_website')}
+                name="_hp"
+                value={fields._hp}
+                onChange={set('_hp')}
                 tabIndex={-1}
-                autoComplete="off"
+                autoComplete="nope"
               />
             </div>
 

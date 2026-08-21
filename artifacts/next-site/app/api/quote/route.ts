@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Honeypot — silently succeed without inserting anything
-  if (b.company_website && typeof b.company_website === 'string' && b.company_website.trim() !== '') {
+  if (b._hp && typeof b._hp === 'string' && (b._hp as string).trim() !== '') {
     return NextResponse.json({}, { status: 200 })
   }
 
