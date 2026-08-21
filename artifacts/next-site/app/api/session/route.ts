@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getRequestContext } from '@cloudflare/next-on-pages'
 import { createAdminClient } from '@/lib/supabase/admin'
 
-export const runtime = 'edge'
-
 export async function POST(request: NextRequest) {
   // Parse body
   let body: unknown
