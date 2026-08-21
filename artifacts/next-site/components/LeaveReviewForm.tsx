@@ -7,14 +7,14 @@ interface FormData {
   name: string
   rating: string
   review_text: string
-  company_website: string // honeypot
+  _hp: string // honeypot — obscure name so browsers don't autofill it
 }
 
 const empty: FormData = {
   name: '',
   rating: '',
   review_text: '',
-  company_website: '',
+  _hp: '',
 }
 
 const labelCls = 'font-body font-semibold text-sm text-paper mb-1 block'
@@ -64,7 +64,7 @@ export default function LeaveReviewForm() {
           name: fields.name.trim(),
           rating,
           review_text: fields.review_text.trim(),
-          company_website: fields.company_website,
+          _hp: fields._hp,
         }),
       })
 
@@ -111,15 +111,15 @@ export default function LeaveReviewForm() {
         }}
         aria-hidden="true"
       >
-        <label htmlFor="review_company_website">Website</label>
+        <label htmlFor="review__hp">Leave blank</label>
         <input
-          id="review_company_website"
+          id="review__hp"
           type="text"
-          name="company_website"
-          value={fields.company_website}
-          onChange={set('company_website')}
+          name="_hp"
+          value={fields._hp}
+          onChange={set('_hp')}
           tabIndex={-1}
-          autoComplete="off"
+          autoComplete="nope"
         />
       </div>
 
