@@ -1,3 +1,4 @@
+import { unstable_noStore } from 'next/cache'
 import { createAdminClient } from '@/lib/supabase/admin'
 import ReviewsQueue from '@/components/admin/ReviewsQueue'
 
@@ -14,6 +15,7 @@ export interface Review {
 }
 
 async function getReviews(): Promise<Review[]> {
+  unstable_noStore()
   const supabase = createAdminClient()
   const { data, error } = await supabase
     .from('reviews')

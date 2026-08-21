@@ -1,3 +1,4 @@
+import { unstable_noStore } from 'next/cache'
 import { createAdminClient } from '@/lib/supabase/admin'
 import TrackingDashboard from '@/components/admin/TrackingDashboard'
 
@@ -27,6 +28,7 @@ async function getTrackingData(): Promise<{
   summary: TrackingSummary
   sessions: SessionWithCounts[]
 }> {
+  unstable_noStore()
   const supabase = createAdminClient()
   const thirtyDaysAgo = new Date(
     Date.now() - 30 * 24 * 60 * 60 * 1000,

@@ -1,3 +1,4 @@
+import { unstable_noStore } from 'next/cache'
 import type { ReactNode } from 'react'
 import { createAdminClient } from '@/lib/supabase/admin'
 
@@ -6,6 +7,7 @@ import LogoutButton from '@/components/admin/LogoutButton'
 import AdminNav from '@/components/admin/AdminNav'
 
 async function getCounts(): Promise<{ newQuotes: number; pendingReviews: number }> {
+  unstable_noStore()
   try {
     const supabase = createAdminClient()
     const [quotesRes, reviewsRes] = await Promise.all([

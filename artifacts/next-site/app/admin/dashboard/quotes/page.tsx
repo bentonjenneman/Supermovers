@@ -1,3 +1,4 @@
+import { unstable_noStore } from 'next/cache'
 import { createAdminClient } from '@/lib/supabase/admin'
 import QuotesTable from '@/components/admin/QuotesTable'
 
@@ -19,6 +20,7 @@ export interface Quote {
 }
 
 async function getQuotes(): Promise<Quote[]> {
+  unstable_noStore()
   const supabase = createAdminClient()
   const { data, error } = await supabase
     .from('quotes')
