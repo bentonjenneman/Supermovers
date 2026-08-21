@@ -1,6 +1,8 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import TrackingDashboard from '@/components/admin/TrackingDashboard'
 
+export const dynamic = 'force-dynamic'
+
 export interface SessionWithCounts {
   id: string
   landing_page: string

@@ -1,6 +1,8 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import QuotesTable from '@/components/admin/QuotesTable'
 
+export const dynamic = 'force-dynamic'
+
 export interface Quote {
   id: string
   session_id: string | null

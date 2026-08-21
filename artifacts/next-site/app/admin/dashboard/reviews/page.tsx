@@ -1,6 +1,8 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import ReviewsQueue from '@/components/admin/ReviewsQueue'
 
+export const dynamic = 'force-dynamic'
+
 export interface Review {
   id: string
   session_id: string | null

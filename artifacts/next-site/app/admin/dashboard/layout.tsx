@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react'
 import { createAdminClient } from '@/lib/supabase/admin'
+
+export const dynamic = 'force-dynamic'
 import LogoutButton from '@/components/admin/LogoutButton'
 import AdminNav from '@/components/admin/AdminNav'
 
