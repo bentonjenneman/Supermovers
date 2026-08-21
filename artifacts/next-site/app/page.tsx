@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import Button from '@/components/ui/Button'
-import Badge from '@/components/ui/Badge'
 
 export default function Home() {
   return (
@@ -45,14 +44,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── TRUST BADGES ─────────────────────────────────────────────────── */}
-      <section className="bg-ink py-10">
-        <div className="flex flex-wrap justify-center gap-8">
-          <Badge label="No hidden fees" accent="blue" />
-          <Badge label="UGA founded" accent="orange" />
-          <Badge label="200 mile moves" accent="blue" />
-        </div>
-      </section>
 
       {/* ── SERVICES PREVIEW ─────────────────────────────────────────────── */}
       <section className="bg-ink py-16">
