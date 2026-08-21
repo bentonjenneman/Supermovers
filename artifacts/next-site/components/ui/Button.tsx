@@ -4,7 +4,7 @@ const base =
   'font-heading font-bold text-sm rounded-md px-5 py-3 transition-colors inline-block text-center'
 
 const variants = {
-  primary: 'bg-brand-red text-paper hover:bg-[#A80002]',
+  primary: 'bg-brand-red text-paper hover:bg-[#770000]',
   secondary:
     'bg-transparent border-2 border-paper text-paper hover:bg-paper hover:text-ink',
 }

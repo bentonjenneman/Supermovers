@@ -107,9 +107,9 @@ export default function ServiceAreaMap() {
           {circleD && (
             <path
               d={circleD}
-              fill="#D60002"
+              fill="#990000"
               fillOpacity={0.16}
-              stroke="#D60002"
+              stroke="#990000"
               strokeWidth={2}
             />
           )}
@@ -137,7 +137,7 @@ export default function ServiceAreaMap() {
               cx={ax}
               cy={ay}
               r={6}
-              fill="#D60002"
+              fill="#990000"
               stroke="#FFFFFF"
               strokeWidth={2}
             />
@@ -147,7 +147,7 @@ export default function ServiceAreaMap() {
               width={82}
               height={20}
               rx={4}
-              fill="#D60002"
+              fill="#990000"
             />
             <text
               x={ax + 51}
