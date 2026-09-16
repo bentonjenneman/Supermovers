@@ -1,0 +1,811 @@
+Replit Prompt:
+
+Build the complete @mention tagging 
+system. Read everything carefully 
+before making any changes.
+
+Use // for all TypeScript comments.
+Check the project's existing import 
+style — use whichever of 
+'lib/...' or '@/lib/...' matches 
+what other files already use.
+
+--- PART 1: lib/tag-service.ts ---
+
+Create lib/tag-service.ts:
+
+import { supabase } from './supabase';
+
+export interface TagUser {
+  id: string;
+  displayName: string;
+  username: string;
+}
+
+class TagService {
+  async searchFriends(
+    query: string
+  ): Promise<TagUser[]> {
+    if (!query || query.length < 1) 
+      return [];
+
+    const { data, error } = await supabase
+      .rpc('search_friends_for_tag', {
+        p_query: query,
+        p_limit: 8,
+      });
+
+    if (error || !data) return [];
+
+    return (data as any[]).map(row => ({
+      id: row.id,
+      displayName: row.display_name,
+      username: row.username,
+    }));
+  }
+
+  // Save post tags.
+  // Returns the user IDs that were 
+  // actually saved (only friends who 
+  // passed server-side validation).
+  async savePostTags(
+    postId: string,
+    taggedUserIds: string[]
+  ): Promise<string[]> {
+    if (taggedUserIds.length === 0) 
+      return [];
+
+    const { data, error } = await supabase
+      .rpc('save_post_tags', {
+        p_post_id: postId,
+        p_tagged_user_ids: taggedUserIds,
+      });
+
+    if (error) {
+      console.error(
+        '[tag-service] savePostTags:', 
+        error
+      );
+      return [];
+    }
+
+    return (data as string[]) ?? [];
+  }
+
+  // Save comment tags.
+  // Returns validated saved IDs.
+  async saveCommentTags(
+    commentId: string,
+    taggedUserIds: string[]
+  ): Promise<string[]> {
+    if (taggedUserIds.length === 0) 
+      return [];
+
+    const { data, error } = await supabase
+      .rpc('save_comment_tags', {
+        p_comment_id: commentId,
+        p_tagged_user_ids: taggedUserIds,
+      });
+
+    if (error) {
+      console.error(
+        '[tag-service] saveCommentTags:', 
+        error
+      );
+      return [];
+    }
+
+    return (data as string[]) ?? [];
+  }
+
+  // Build username->userId map for 
+  // a post's tags (for mention rendering)
+  async getPostTagUserMap(
+    postId: string
+  ): Promise<Record<string, string>> {
+    const { data } = await supabase
+      .rpc('get_post_tag_users', {
+        p_post_id: postId,
+      });
+    const map: Record<string, string> = {};
+    ((data ?? []) as any[]).forEach(row => {
+      map[row.username.toLowerCase()] = 
+        row.tagged_user_id;
+    });
+    return map;
+  }
+
+  // Build username->userId map for 
+  // a comment's tags
+  async getCommentTagUserMap(
+    commentId: string
+  ): Promise<Record<string, string>> {
+    const { data } = await supabase
+      .rpc('get_comment_tag_users', {
+        p_comment_id: commentId,
+      });
+    const map: Record<string, string> = {};
+    ((data ?? []) as any[]).forEach(row => {
+      map[row.username.toLowerCase()] = 
+        row.tagged_user_id;
+    });
+    return map;
+  }
+
+  // Extract @mention parts from text
+  extractMentions(text: string): Array<{
+    type: 'text' | 'mention';
+    content: string;
+  }> {
+    if (!text) {
+      return [{ type: 'text', content: '' }];
+    }
+
+    const parts: Array<{
+      type: 'text' | 'mention';
+      content: string;
+    }> = [];
+
+    // Match @ preceded by start or 
+    // whitespace to avoid email addresses
+    const mentionRegex = 
+      /(?:^|(?<=\s))@(\w+)/g;
+    let lastIndex = 0;
+    let match;
+
+    while (
+      (match = mentionRegex.exec(text)) 
+      !== null
+    ) {
+      if (match.index > lastIndex) {
+        parts.push({
+          type: 'text',
+          content: text.slice(
+            lastIndex, match.index
+          ),
+        });
+      }
+      parts.push({
+        type: 'mention',
+        content: match[0].trimStart(),
+      });
+      lastIndex = 
+        match.index + match[0].length;
+    }
+
+    if (lastIndex < text.length) {
+      parts.push({
+        type: 'text',
+        content: text.slice(lastIndex),
+      });
+    }
+
+    return parts;
+  }
+
+  // Reconcile which tagged users are 
+  // still mentioned in text.
+  // Uses the mention parser to find 
+  // exact word-boundary matches,
+  // avoiding false positives like 
+  // @bob inside @bobby.
+  reconcileTags(
+    text: string,
+    trackedUsers: TagUser[]
+  ): TagUser[] {
+    const parts = this.extractMentions(text);
+    const mentionedUsernames = new Set(
+      parts
+        .filter(p => p.type === 'mention')
+        .map(p => 
+          p.content.slice(1).toLowerCase()
+        )
+    );
+
+    return trackedUsers.filter(user =>
+      mentionedUsernames.has(
+        user.username.toLowerCase()
+      )
+    );
+  }
+}
+
+export const tagService = new TagService();
+
+--- PART 2: components/MentionInput.tsx ---
+
+Create components/MentionInput.tsx.
+
+Use // for all comments.
+Check the project for the correct 
+import alias (lib/ vs @/lib/).
+
+import React, {
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
+import { tagService, TagUser } 
+  from 'lib/tag-service';
+
+interface MentionInputProps {
+  value: string;
+  onChangeText: (text: string) => void;
+  onTagsChange: (users: TagUser[]) => void;
+  placeholder?: string;
+  multiline?: boolean;
+  style?: any;
+  maxLength?: number;
+  placeholderTextColor?: string;
+}
+
+export default function MentionInput({
+  value,
+  onChangeText,
+  onTagsChange,
+  placeholder,
+  multiline = true,
+  style,
+  maxLength,
+  placeholderTextColor,
+}: MentionInputProps) {
+  const [suggestions, setSuggestions] =
+    useState<TagUser[]>([]);
+  const [showSuggestions, 
+    setShowSuggestions] = useState(false);
+  const [loading, setLoading] =
+    useState(false);
+  const [taggedUsers, setTaggedUsers] =
+    useState<TagUser[]>([]);
+
+  const cursorPosRef = useRef<number>(
+    value.length
+  );
+  const searchTimeoutRef = useRef
+    ReturnType<typeof setTimeout> | null
+  >(null);
+  const latestQueryRef = useRef<string>('');
+  const isMountedRef = useRef(true);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleSelectionChange = useCallback(
+    (e: any) => {
+      cursorPosRef.current =
+        e.nativeEvent.selection.end;
+    },
+    []
+  );
+
+  const findAtPosition = useCallback(
+    (text: string, cursor: number): 
+      number => {
+      // Walk backwards from cursor 
+      // to find @
+      for (let i = cursor - 1; 
+           i >= 0; i--) {
+        const ch = text[i];
+        if (ch === '@') {
+          // Valid only if @ is at start
+          // or after whitespace
+          if (
+            i === 0 || 
+            /[\s]/.test(text[i - 1])
+          ) {
+            return i;
+          }
+          return -1;
+        }
+        // Stop at whitespace
+        if (/[\s]/.test(ch)) return -1;
+      }
+      return -1;
+    },
+    []
+  );
+
+  const handleChangeText = useCallback(
+    async (text: string) => {
+      onChangeText(text);
+
+      // Reconcile tracked users
+      setTaggedUsers(prev => {
+        const reconciled =
+          tagService.reconcileTags(
+            text, prev
+          );
+        onTagsChange(reconciled);
+        return reconciled;
+      });
+
+      const cursor = cursorPosRef.current;
+      const atPos = findAtPosition(
+        text, cursor
+      );
+
+      if (atPos === -1) {
+        setShowSuggestions(false);
+        setSuggestions([]);
+        latestQueryRef.current = '';
+        return;
+      }
+
+      const query = text.slice(
+        atPos + 1, cursor
+      );
+
+      if (!query) {
+        setShowSuggestions(false);
+        setSuggestions([]);
+        return;
+      }
+
+      // Cancel previous search
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+
+      const thisQuery = query;
+      latestQueryRef.current = thisQuery;
+
+      searchTimeoutRef.current = setTimeout(
+        async () => {
+          if (!isMountedRef.current) return;
+          setLoading(true);
+
+          const results = await
+            tagService.searchFriends(query);
+
+          // Discard stale results
+          if (
+            !isMountedRef.current ||
+            latestQueryRef.current !== 
+              thisQuery
+          ) {
+            return;
+          }
+
+          setSuggestions(results);
+          setShowSuggestions(
+            results.length > 0
+          );
+          setLoading(false);
+        },
+        300
+      );
+    },
+    [onChangeText, onTagsChange, 
+     findAtPosition]
+  );
+
+  const handleSelectUser = useCallback(
+    (user: TagUser) => {
+      const cursor = cursorPosRef.current;
+      const atPos = findAtPosition(
+        value, cursor
+      );
+
+      if (atPos === -1) return;
+
+      const before = value.slice(0, atPos);
+      const after = value.slice(cursor);
+      const newText =
+        `${before}@${user.username} ${after}`;
+
+      onChangeText(newText);
+
+      const newTagged = [
+        ...taggedUsers.filter(
+          u => u.id !== user.id
+        ),
+        user,
+      ];
+      setTaggedUsers(newTagged);
+      onTagsChange(newTagged);
+
+      setShowSuggestions(false);
+      setSuggestions([]);
+      latestQueryRef.current = '';
+      setLoading(false);
+    },
+    [value, taggedUsers, onChangeText,
+     onTagsChange, findAtPosition]
+  );
+
+  return (
+    <View style={{ position: 'relative' }}>
+      <TextInput
+        value={value}
+        onChangeText={handleChangeText}
+        onSelectionChange={
+          handleSelectionChange
+        }
+        placeholder={placeholder}
+        placeholderTextColor={
+          placeholderTextColor
+        }
+        multiline={multiline}
+        style={style}
+        maxLength={maxLength}
+      />
+
+      {(showSuggestions || loading) && (
+        <View style={{
+          position: 'absolute',
+          bottom: '100%',
+          left: 0,
+          right: 0,
+          backgroundColor: '#1a1a1a',
+          borderRadius: 12,
+          marginBottom: 4,
+          overflow: 'hidden',
+          zIndex: 1000,
+          shadowColor: '#000',
+          shadowOffset: { 
+            width: 0, height: -4 
+          },
+          shadowOpacity: 0.3,
+          shadowRadius: 12,
+          elevation: 10,
+          maxHeight: 240,
+        }}>
+          {loading ? (
+            <ActivityIndicator
+              size="small"
+              color="#A51C30"
+              style={{ padding: 16 }}
+            />
+          ) : (
+            <FlatList
+              data={suggestions}
+              keyExtractor={item => item.id}
+              keyboardShouldPersistTaps=
+                "always"
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  onPress={() =>
+                    handleSelectUser(item)
+                  }
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    padding: 12,
+                    borderBottomWidth: 1,
+                    borderBottomColor: 
+                      '#2a2a2a',
+                  }}
+                >
+                  <View style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: 18,
+                    backgroundColor: 
+                      '#A51C30',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginRight: 10,
+                  }}>
+                    <Text style={{
+                      color: '#fff',
+                      fontSize: 14,
+                      fontWeight: '700',
+                    }}>
+                      {item.displayName
+                        .charAt(0)
+                        .toUpperCase()}
+                    </Text>
+                  </View>
+                  <View>
+                    <Text style={{
+                      color: '#fff',
+                      fontSize: 14,
+                      fontWeight: '600',
+                    }}>
+                      {item.displayName}
+                    </Text>
+                    <Text style={{
+                      color: '#999',
+                      fontSize: 12,
+                    }}>
+                      @{item.username}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              )}
+            />
+          )}
+        </View>
+      )}
+    </View>
+  );
+}
+
+--- PART 3: components/MentionText.tsx ---
+
+Create components/MentionText.tsx:
+
+import React from 'react';
+import { Text } from 'react-native';
+import { router } from 'expo-router';
+import { tagService } 
+  from 'lib/tag-service';
+
+interface MentionTextProps {
+  text: string;
+  style?: any;
+  userMap?: Record<string, string>;
+}
+
+export default function MentionText({
+  text,
+  style,
+  userMap = {},
+}: MentionTextProps) {
+  const parts = 
+    tagService.extractMentions(text);
+
+  return (
+    <Text style={style}>
+      {parts.map((part, index) => {
+        if (part.type === 'mention') {
+          const username = part.content
+            .slice(1)
+            .toLowerCase();
+          const userId = userMap[username];
+
+          return (
+            <Text
+              key={index}
+              style={[
+                style,
+                {
+                  color: '#A51C30',
+                  fontWeight: '600',
+                },
+              ]}
+              onPress={
+                userId
+                  ? () => {
+                      router.push({
+                        pathname:
+                          '/public-profile',
+                        params: { userId },
+                      } as any);
+                    }
+                  : undefined
+              }
+            >
+              {part.content}
+            </Text>
+          );
+        }
+        return (
+          <Text key={index} style={style}>
+            {part.content}
+          </Text>
+        );
+      })}
+    </Text>
+  );
+}
+
+--- PART 4: update create-post.tsx ---
+
+Open app/create-post.tsx.
+
+Add imports (use project's import style):
+import MentionInput from 
+  'components/MentionInput';
+import { TagUser, tagService } 
+  from 'lib/tag-service';
+import { sendPushNotification } 
+  from 'lib/push-service';
+
+Add state:
+const [taggedUsers, setTaggedUsers] =
+  useState<TagUser[]>([]);
+
+Find the description TextInput.
+Replace it with MentionInput, 
+keeping all existing style props 
+exactly as they are — only 
+replace the component:
+
+<MentionInput
+  value={description}
+  onChangeText={setDescription}
+  onTagsChange={setTaggedUsers}
+  placeholder="Add a caption... 
+    Tag friends with @"
+  multiline={true}
+  maxLength={500}
+  style={/* existing style */}
+  placeholderTextColor={
+    /* existing value */
+  }
+/>
+
+Find where postService.createPost() 
+is called. It returns a Post object.
+After a successful create:
+
+const createdPost = await 
+  postService.createPost(params);
+
+if (createdPost?.id && 
+    taggedUsers.length > 0) {
+  // Save tags — returns only the 
+  // IDs the server validated
+  const savedIds = 
+    await tagService.savePostTags(
+      createdPost.id,
+      taggedUsers.map(u => u.id)
+    );
+
+  // Only notify users whose tags 
+  // were actually saved
+  if (savedIds.length > 0) {
+    await sendPushNotification(
+      savedIds,
+      `${displayName} tagged you`,
+      'in a Pull',
+      {
+        type: 'post_tag',
+        post_id: createdPost.id,
+      },
+      `tag_post_${createdPost.id}`,
+    ).catch(console.error);
+  }
+}
+
+--- PART 5: update pulls.tsx ---
+
+Open app/pulls.tsx.
+
+CHANGE A: MentionInput in 
+CommentsSheet.
+
+Add imports:
+import MentionInput from 
+  'components/MentionInput';
+import { TagUser, tagService } 
+  from 'lib/tag-service';
+import { sendPushNotification } 
+  from 'lib/push-service';
+
+Add state inside CommentsSheet:
+const [commentTaggedUsers, 
+  setCommentTaggedUsers] =
+  useState<TagUser[]>([]);
+
+Replace comment TextInput with 
+MentionInput, keeping existing 
+style props exactly:
+
+<MentionInput
+  value={commentText}
+  onChangeText={setCommentText}
+  onTagsChange={setCommentTaggedUsers}
+  placeholder="Add a comment..."
+  multiline={false}
+  style={/* existing style */}
+  placeholderTextColor={
+    /* existing value */
+  }
+/>
+
+After comment is posted and we have 
+newComment.id:
+
+if (newComment?.id && 
+    commentTaggedUsers.length > 0) {
+  const savedIds = 
+    await tagService.saveCommentTags(
+      newComment.id,
+      commentTaggedUsers.map(u => u.id)
+    );
+
+  if (savedIds.length > 0) {
+    await sendPushNotification(
+      savedIds,
+      `${currentDisplayName} mentioned you`,
+      'in a comment',
+      {
+        type: 'post_tag',
+        post_id: post.id,
+      },
+      `tag_comment_${newComment.id}`,
+    ).catch(console.error);
+  }
+
+  setCommentTaggedUsers([]);
+}
+
+CHANGE B: MentionText for post 
+description in PostCard.
+
+Add import:
+import MentionText from 
+  'components/MentionText';
+
+Add state in PostCard:
+const [tagUserMap, setTagUserMap] =
+  useState<Record<string, string>>({});
+
+Load map on mount:
+useEffect(() => {
+  if (!post.id) return;
+  tagService.getPostTagUserMap(post.id)
+    .then(setTagUserMap)
+    .catch(() => {});
+}, [post.id]);
+
+Replace description Text with 
+MentionText:
+<MentionText
+  text={post.description ?? ''}
+  style={/* existing style */}
+  userMap={tagUserMap}
+/>
+
+CHANGE C: MentionText for comments.
+Replace comment content Text with:
+<MentionText
+  text={comment.content}
+  style={/* existing style */}
+  userMap={{}}
+/>
+
+--- PART 6: notification routing ---
+
+Open app/_layout.tsx.
+
+Find routeFromNotification.
+
+Check if post_tag is already handled.
+If not, add BEFORE the default fallback:
+
+if (data?.type === 'post_tag' && 
+    data?.post_id) {
+  router.push({
+    pathname: '/pulls',
+    params: { 
+      startPostId: data.post_id 
+    },
+  } as any);
+  return;
+}
+
+--- PART 7: notification preferences ---
+
+Open app/notification-preferences.tsx.
+
+Find the Pulls group items array.
+Add:
+{
+  key: 'post_tag',
+  label: 'Tags & Mentions',
+  description: 
+    'When someone tags you 
+    in a Pull or comment',
+},
+
+Do not change any other logic,
+styling, or navigation.
