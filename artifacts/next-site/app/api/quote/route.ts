@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { sendQuoteAlerts } from '@/lib/twilio/send-quote-alert'
 
 function isValidEmail(email: string) {
   const at = email.indexOf('@')
@@ -55,7 +56,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Something went wrong. Please try again.' }, { status: 500 })
   }
 
-  const { error: insertError } = await supabase.from('quotes').insert({
+  const quote = {
     session_id: sessionId,
     name: b.name.trim(),
     email: b.email.trim(),
@@ -66,7 +67,9 @@ export async function POST(request: NextRequest) {
     move_size: typeof b.move_size === 'string' && b.move_size.trim() ? b.move_size.trim() : null,
     notes: typeof b.notes === 'string' && b.notes.trim() ? b.notes.trim() : null,
     // status defaults to 'new' via the column default — not set here
-  })
+  }
+
+  const { error: insertError } = await supabase.from('quotes').insert(quote)
 
   if (insertError) {
     console.error('[quote] Supabase insert error:', insertError)
@@ -75,6 +78,18 @@ export async function POST(request: NextRequest) {
       { status: 500 },
     )
   }
+
+  await sendQuoteAlerts({
+    name: quote.name,
+    email: quote.email,
+    phone: quote.phone,
+    moveDate: quote.move_date,
+    originAddress: quote.origin_address,
+    destinationAddress: quote.destination_address,
+    moveSize: quote.move_size,
+  }).catch((error) => {
+    console.error('[quote-sms] Unexpected alert failure:', error)
+  })
 
   return NextResponse.json({}, { status: 200 })
 }
