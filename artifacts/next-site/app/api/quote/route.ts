@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
+import twilio from 'twilio'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { sendQuoteAlerts } from '@/lib/twilio/send-quote-alert'
 
 function isValidEmail(email: string) {
   const at = email.indexOf('@')
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Something went wrong. Please try again.' }, { status: 500 })
   }
 
-  const quote = {
+  const { error: insertError } = await supabase.from('quotes').insert({
     session_id: sessionId,
     name: b.name.trim(),
     email: b.email.trim(),
@@ -67,9 +67,7 @@ export async function POST(request: NextRequest) {
     move_size: typeof b.move_size === 'string' && b.move_size.trim() ? b.move_size.trim() : null,
     notes: typeof b.notes === 'string' && b.notes.trim() ? b.notes.trim() : null,
     // status defaults to 'new' via the column default — not set here
-  }
-
-  const { error: insertError } = await supabase.from('quotes').insert(quote)
+  })
 
   if (insertError) {
     console.error('[quote] Supabase insert error:', insertError)
@@ -79,17 +77,33 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  await sendQuoteAlerts({
-    name: quote.name,
-    email: quote.email,
-    phone: quote.phone,
-    moveDate: quote.move_date,
-    originAddress: quote.origin_address,
-    destinationAddress: quote.destination_address,
-    moveSize: quote.move_size,
-  }).catch((error) => {
-    console.error('[quote-sms] Unexpected alert failure:', error)
-  })
+  try {
+    const accountSid = process.env.TWILIO_ACCOUNT_SID
+    const authToken = process.env.TWILIO_AUTH_TOKEN
+    const from = process.env.TWILIO_PHONE_NUMBER
+    const ownerPhone1 = process.env.OWNER_PHONE_1
+    const ownerPhone2 = process.env.OWNER_PHONE_2
+
+    if (!accountSid || !authToken || !from || !ownerPhone1 || !ownerPhone2) {
+      throw new Error('One or more required Twilio environment variables are missing')
+    }
+
+    const client = twilio(accountSid, authToken)
+    const body =
+      'New quote received, find it here: https://supermoversllc.com/admin/dashboard/quotes'
+    const results = await Promise.allSettled([
+      client.messages.create({ body, from, to: ownerPhone1 }),
+      client.messages.create({ body, from, to: ownerPhone2 }),
+    ])
+
+    results.forEach((result) => {
+      if (result.status === 'rejected') {
+        console.error('[quote] SMS alert failed:', result.reason)
+      }
+    })
+  } catch (error) {
+    console.error('[quote] SMS alert failed:', error)
+  }
 
   return NextResponse.json({}, { status: 200 })
 }
