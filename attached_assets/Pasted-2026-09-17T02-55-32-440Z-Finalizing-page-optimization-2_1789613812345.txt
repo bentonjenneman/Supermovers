@@ -1,0 +1,66 @@
+2026-09-17T02:55:32.440Z	▲  Finalizing page optimization ...
+2026-09-17T02:55:32.441Z	▲  Collecting build traces ...
+2026-09-17T02:55:40.641Z	▲  
+2026-09-17T02:55:40.659Z	▲  Route (app)                              Size     First Load JS
+2026-09-17T02:55:40.660Z	▲  ┌ ○ /                                    5.34 kB         101 kB
+2026-09-17T02:55:40.660Z	▲  ├ ○ /_not-found                          872 B          88.1 kB
+2026-09-17T02:55:40.661Z	▲  ├ ○ /about                               178 B          96.1 kB
+2026-09-17T02:55:40.661Z	▲  ├ ○ /admin                               1.35 kB        97.3 kB
+2026-09-17T02:55:40.661Z	▲  ├ ƒ /admin/dashboard/quotes              1.54 kB        88.8 kB
+2026-09-17T02:55:40.661Z	▲  ├ ƒ /admin/dashboard/reviews             1.41 kB        97.4 kB
+2026-09-17T02:55:40.661Z	▲  ├ ƒ /admin/dashboard/tracking            1.36 kB        88.6 kB
+2026-09-17T02:55:40.661Z	▲  ├ ƒ /api/admin/login                     0 B                0 B
+2026-09-17T02:55:40.661Z	▲  ├ ƒ /api/admin/logout                    0 B                0 B
+2026-09-17T02:55:40.661Z	▲  ├ ƒ /api/admin/quotes/[id]               0 B                0 B
+2026-09-17T02:55:40.661Z	▲  ├ ƒ /api/admin/reviews/[id]              0 B                0 B
+2026-09-17T02:55:40.661Z	▲  ├ ƒ /api/quote                           0 B                0 B
+2026-09-17T02:55:40.662Z	▲  ├ ƒ /api/review                          0 B                0 B
+2026-09-17T02:55:40.662Z	▲  ├ ƒ /api/session                         0 B                0 B
+2026-09-17T02:55:40.662Z	▲  ├ ○ /apple-icon.png                      0 B                0 B
+2026-09-17T02:55:40.662Z	▲  ├ ○ /contact                             22 kB           118 kB
+2026-09-17T02:55:40.662Z	▲  ├ ○ /icon.png                            0 B                0 B
+2026-09-17T02:55:40.663Z	▲  ├ ○ /privacy-policy                      142 B          87.4 kB
+2026-09-17T02:55:40.663Z	▲  ├ ○ /quote                               2.04 kB          98 kB
+2026-09-17T02:55:40.663Z	▲  ├ ○ /reviews                             1.73 kB        97.7 kB
+2026-09-17T02:55:40.663Z	▲  ├ ○ /robots.txt                          0 B                0 B
+2026-09-17T02:55:40.663Z	▲  ├ ○ /services                            178 B          96.1 kB
+2026-09-17T02:55:40.664Z	▲  ├ ○ /sitemap.xml                         0 B                0 B
+2026-09-17T02:55:40.664Z	▲  └ ○ /terms                               142 B          87.4 kB
+2026-09-17T02:55:40.664Z	▲  + First Load JS shared by all            87.3 kB
+2026-09-17T02:55:40.664Z	▲  ├ chunks/5b8f0dd8-23d250f88a17ee47.js  53.6 kB
+2026-09-17T02:55:40.664Z	▲  ├ chunks/749-c73557d606703e99.js       31.7 kB
+2026-09-17T02:55:40.664Z	▲  └ other shared chunks (total)          1.9 kB
+2026-09-17T02:55:40.664Z	▲  
+2026-09-17T02:55:40.664Z	▲  
+2026-09-17T02:55:40.664Z	▲  ƒ Middleware                             26.6 kB
+2026-09-17T02:55:40.664Z	▲  ○  (Static)   prerendered as static content
+2026-09-17T02:55:40.664Z	▲  ƒ  (Dynamic)  server-rendered on demand
+2026-09-17T02:55:40.951Z	▲  Traced Next.js server files in: 48.651ms
+2026-09-17T02:55:41.098Z	▲  Created all serverless functions in: 145.609ms
+2026-09-17T02:55:41.166Z	▲  Collected static files (public/, static/, .next/static): 7.388ms
+2026-09-17T02:55:41.255Z	▲  Build Completed in artifacts/next-site/.vercel/output [1m]
+2026-09-17T02:55:41.385Z	⚡️ Completed `npx vercel build`.
+2026-09-17T02:55:44.884Z	
+2026-09-17T02:55:44.885Z	⚡️ ERROR: Failed to produce a Cloudflare Pages build from the project.
+2026-09-17T02:55:44.885Z	⚡️ 
+2026-09-17T02:55:44.886Z	⚡️ 	The following routes were not configured to run with the Edge Runtime:
+2026-09-17T02:55:44.886Z	⚡️ 	  - /admin/dashboard/quotes
+2026-09-17T02:55:44.886Z	⚡️ 	  - /admin/dashboard/reviews
+2026-09-17T02:55:44.886Z	⚡️ 	  - /admin/dashboard/tracking
+2026-09-17T02:55:44.886Z	⚡️ 	  - /api/admin/login
+2026-09-17T02:55:44.886Z	⚡️ 	  - /api/admin/logout
+2026-09-17T02:55:44.886Z	⚡️ 	  - /api/admin/quotes/[id]
+2026-09-17T02:55:44.886Z	⚡️ 	  - /api/admin/reviews/[id]
+2026-09-17T02:55:44.886Z	⚡️ 	  - /api/quote
+2026-09-17T02:55:44.886Z	⚡️ 	  - /api/review
+2026-09-17T02:55:44.886Z	⚡️ 	  - /api/session
+2026-09-17T02:55:44.886Z	⚡️ 	  - /apple-icon.png
+2026-09-17T02:55:44.886Z	⚡️ 	  - /icon.png
+2026-09-17T02:55:44.886Z	⚡️ 
+2026-09-17T02:55:44.886Z	⚡️ 	Please make sure that all your non-static routes export the following edge runtime route segment config:
+2026-09-17T02:55:44.887Z	⚡️ 	  export const runtime = 'edge';
+2026-09-17T02:55:44.887Z	⚡️ 
+2026-09-17T02:55:44.887Z	⚡️ 	You can read more about the Edge Runtime on the Next.js documentation:
+2026-09-17T02:55:44.889Z	⚡️ 	  https://nextjs.org/docs/app/building-your-application/rendering/edge-and-nodejs-runtimes
+2026-09-17T02:55:44.889Z	
+2026-09-17T02:55:44.940Z	Failed: error occurred while running build command
