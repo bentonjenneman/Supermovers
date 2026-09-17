@@ -1,8 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server'
-import twilio from 'twilio'
 import { createAdminClient } from '@/lib/supabase/admin'
 
 export const runtime = 'edge'
+
+async function sendSms(
+  to: string,
+  body: string,
+  accountSid: string,
+  authToken: string,
+  from: string,
+) {
+  const url = `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`
+  const params = new URLSearchParams({ To: to, From: from, Body: body })
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${btoa(`${accountSid}:${authToken}`)}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: params.toString(),
+  })
+  if (!res.ok) {
+    const errorText = await res.text()
+    throw new Error(`Twilio API error ${res.status}: ${errorText}`)
+  }
+  return res.json()
+}
 
 function isValidEmail(email: string) {
   const at = email.indexOf('@')
@@ -90,12 +113,11 @@ export async function POST(request: NextRequest) {
       throw new Error('One or more required Twilio environment variables are missing')
     }
 
-    const client = twilio(accountSid, authToken)
     const body =
       'New quote received, find it here: https://supermoversllc.com/admin/dashboard/quotes'
     const results = await Promise.allSettled([
-      client.messages.create({ body, from, to: ownerPhone1 }),
-      client.messages.create({ body, from, to: ownerPhone2 }),
+      sendSms(ownerPhone1, body, accountSid, authToken, from),
+      sendSms(ownerPhone2, body, accountSid, authToken, from),
     ])
 
     results.forEach((result) => {
