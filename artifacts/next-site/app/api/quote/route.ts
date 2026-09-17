@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import twilio from 'twilio'
 import { createAdminClient } from '@/lib/supabase/admin'
 
+export const runtime = 'edge'
+
 function isValidEmail(email: string) {
   const at = email.indexOf('@')
   if (at < 1) return false

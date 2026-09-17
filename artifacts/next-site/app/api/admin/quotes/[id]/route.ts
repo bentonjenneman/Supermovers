@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 
+export const runtime = 'edge'
+
 const VALID_STATUSES = ['new', 'contacted', 'quoted', 'closed'] as const
 
 export async function PATCH(

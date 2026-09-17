@@ -23,6 +23,10 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'Super Movers | Athens, GA Moving, Delivery, and Junk Removal',
   description: 'Athens, GA movers offering local and long-distance moving, delivery, and Junk Removal. Free quotes, no hidden fees, up to 200 miles.',
+  icons: {
+    icon: '/icon.png',
+    apple: '/apple-icon.png',
+  },
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {

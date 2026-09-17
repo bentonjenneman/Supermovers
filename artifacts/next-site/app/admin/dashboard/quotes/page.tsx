@@ -2,6 +2,7 @@ import { unstable_noStore } from 'next/cache'
 import { createAdminClient } from '@/lib/supabase/admin'
 import QuotesTable from '@/components/admin/QuotesTable'
 
+export const runtime = 'edge'
 export const dynamic = 'force-dynamic'
 
 export interface Quote {

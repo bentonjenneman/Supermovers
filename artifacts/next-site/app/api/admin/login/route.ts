@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+export const runtime = 'edge'
+
 export async function POST(request: NextRequest) {
   const adminPassword = process.env.ADMIN_PASSWORD
   const adminSessionSecret = process.env.ADMIN_SESSION_SECRET
