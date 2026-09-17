@@ -1,12 +1,13 @@
 import { createClient } from '@supabase/supabase-js'
+import { getServerEnv } from '@/lib/env'
 
 /**
  * Service-role Supabase client — bypasses Row Level Security.
  * Only use server-side; never expose to the browser.
  */
 export function createAdminClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  const url = getServerEnv('NEXT_PUBLIC_SUPABASE_URL')
+  const key = getServerEnv('SUPABASE_SERVICE_ROLE_KEY')
 
   if (!url || !key) {
     throw new Error(

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { getServerEnv } from '@/lib/env'
 
 export const runtime = 'edge'
 
@@ -103,11 +104,11 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const accountSid = process.env.TWILIO_ACCOUNT_SID
-    const authToken = process.env.TWILIO_AUTH_TOKEN
-    const from = process.env.TWILIO_PHONE_NUMBER
-    const ownerPhone1 = process.env.OWNER_PHONE_1
-    const ownerPhone2 = process.env.OWNER_PHONE_2
+    const accountSid = getServerEnv('TWILIO_ACCOUNT_SID')
+    const authToken = getServerEnv('TWILIO_AUTH_TOKEN')
+    const from = getServerEnv('TWILIO_PHONE_NUMBER')
+    const ownerPhone1 = getServerEnv('OWNER_PHONE_1')
+    const ownerPhone2 = getServerEnv('OWNER_PHONE_2')
 
     if (!accountSid || !authToken || !from || !ownerPhone1 || !ownerPhone2) {
       throw new Error('One or more required Twilio environment variables are missing')

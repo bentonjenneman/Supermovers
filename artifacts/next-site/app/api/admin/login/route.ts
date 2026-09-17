@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getServerEnv } from '@/lib/env'
 
 export const runtime = 'edge'
 
 export async function POST(request: NextRequest) {
-  const adminPassword = process.env.ADMIN_PASSWORD
-  const adminSessionSecret = process.env.ADMIN_SESSION_SECRET
+  const adminPassword = getServerEnv('ADMIN_PASSWORD')
+  const adminSessionSecret = getServerEnv('ADMIN_SESSION_SECRET')
 
   if (!adminPassword || !adminSessionSecret) {
     return NextResponse.json(
