@@ -6,7 +6,9 @@ import { getServerEnv } from '@/lib/env'
  * Only use server-side; never expose to the browser.
  */
 export function createAdminClient() {
-  const url = getServerEnv('NEXT_PUBLIC_SUPABASE_URL')
+  const url =
+    getServerEnv('SUPABASE_URL') ??
+    getServerEnv('NEXT_PUBLIC_SUPABASE_URL')
   const key = getServerEnv('SUPABASE_SERVICE_ROLE_KEY')
 
   if (!url || !key) {

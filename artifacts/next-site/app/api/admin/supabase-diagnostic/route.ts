@@ -13,7 +13,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const configuredUrl = getServerEnv('NEXT_PUBLIC_SUPABASE_URL')
+  const configuredUrl =
+    getServerEnv('SUPABASE_URL') ??
+    getServerEnv('NEXT_PUBLIC_SUPABASE_URL')
   const serviceRoleKey = getServerEnv('SUPABASE_SERVICE_ROLE_KEY')
   const result: Record<string, unknown> = {
     bindings: {
