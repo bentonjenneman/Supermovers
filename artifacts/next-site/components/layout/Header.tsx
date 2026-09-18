@@ -23,7 +23,7 @@ export default function Header() {
           {/* Logo + wordmark */}
           <Link href="/" className="flex items-center gap-2 shrink-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt="Super Movers logo" className="h-9 w-auto" />
+            <img src="/logo.png" alt="Super Movers logo" className="h-12 w-auto object-contain" />
             <span className="hidden sm:inline font-heading font-extrabold text-paper text-base leading-tight">
               SUPER MOVERS
             </span>

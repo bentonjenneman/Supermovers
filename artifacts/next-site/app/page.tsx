@@ -143,7 +143,7 @@ export default function Home() {
             <img
               src="/logo.png"
               alt="Super Movers logo"
-              className="h-24 md:h-32 w-auto mx-auto mt-8 mb-4 object-contain opacity-90 hover:opacity-100 transition-opacity"
+              className="h-44 md:h-56 w-auto mx-auto mt-8 mb-4 object-contain opacity-95 hover:opacity-100 transition-opacity"
             />
           </div>
 
