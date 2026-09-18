@@ -12,15 +12,17 @@ export default function Home() {
           alt=""
           fill
           priority
+          sizes="100vw"
           aria-hidden="true"
-          className="object-cover object-center scale-110 blur-xl opacity-50 -z-30"
+          className="object-cover object-center scale-110 blur-xl opacity-50 md:scale-100 md:blur-none md:opacity-100 md:object-[center_38%] -z-20"
         />
         <Image
           src="/crew-optimized.jpg"
           alt="Super Movers team standing with their branded vehicle"
           fill
           priority
-          className="object-contain object-top md:object-center -z-20"
+          sizes="100vw"
+          className="object-contain object-top md:hidden -z-20"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/45 to-ink/90 -z-10" />
 
