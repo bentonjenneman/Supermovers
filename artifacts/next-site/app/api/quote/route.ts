@@ -36,7 +36,7 @@ async function sendQuoteEmail(to: string, apiKey: string, adminLink: string) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: 'Super Movers <notifications@send.supermoversllc.com>',
+      from: 'Super Movers <notifications@supermoversllc.com>',
       to: [to],
       subject: 'New quote received',
       html: `<p>A new quote request just came in.</p><p><a href="${adminLink}">View it in the admin dashboard</a></p>`,
