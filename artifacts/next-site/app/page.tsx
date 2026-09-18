@@ -9,12 +9,20 @@ export default function Home() {
       <section className="relative h-[133.333vw] min-h-[540px] max-h-[620px] py-8 md:h-auto md:max-h-none md:py-32 text-center overflow-hidden flex flex-col items-center justify-center md:min-h-[85vh]">
         <Image
           src="/crew-optimized.jpg"
+          alt=""
+          fill
+          priority
+          aria-hidden="true"
+          className="object-cover object-center scale-110 blur-xl opacity-50 -z-30"
+        />
+        <Image
+          src="/crew-optimized.jpg"
           alt="Super Movers team standing with their branded vehicle"
           fill
           priority
-          className="object-contain object-top md:object-cover md:object-[center_62%] bg-ink -z-20"
+          className="object-contain object-top md:object-center -z-20"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/50 to-ink/90 -z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/45 to-ink/90 -z-10" />
 
         <div className="relative flex flex-col items-center gap-3 md:gap-6 px-4 w-full max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
           <span className="bg-brand-red text-white text-[11px] md:text-sm font-bold px-3 md:px-4 py-1.5 md:py-2 rounded uppercase tracking-wider shadow-lg shadow-brand-red/20">
