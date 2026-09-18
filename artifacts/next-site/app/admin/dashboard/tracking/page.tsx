@@ -135,7 +135,7 @@ export default async function TrackingPage() {
 
   return (
     <main>
-      <h1>Tracking</h1>
+      <h1 className="font-heading font-extrabold text-paper text-2xl sm:text-3xl mb-5">Tracking</h1>
       <TrackingDashboard summary={summary} sessions={sessions} />
     </main>
   )

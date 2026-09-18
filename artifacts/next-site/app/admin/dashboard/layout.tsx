@@ -35,18 +35,18 @@ export default async function AdminDashboardLayout({ children }: { children: Rea
   return (
     <div className="min-h-screen bg-ink">
       {/* Header */}
-      <div className="bg-ink border-b border-border px-6 py-4 flex justify-between items-center">
-        <span className="font-heading font-bold text-paper text-lg">Super Movers Admin</span>
+      <div className="bg-ink border-b border-border px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center gap-3">
+        <span className="font-heading font-bold text-paper text-base sm:text-lg">Super Movers Admin</span>
         <LogoutButton />
       </div>
 
       {/* Tab bar */}
-      <div className="px-6 py-4">
+      <div className="px-4 sm:px-6 py-3 sm:py-4 overflow-x-auto">
         <AdminNav newQuotes={newQuotes} pendingReviews={pendingReviews} />
       </div>
 
       {/* Content */}
-      <div className="max-w-6xl mx-auto px-6 pb-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-12">
         {children}
       </div>
     </div>

@@ -16,7 +16,12 @@ export default function LogoutButton() {
   }
 
   return (
-    <Button variant="secondary" onClick={handleLogout} disabled={loading}>
+    <Button
+      variant="secondary"
+      onClick={handleLogout}
+      disabled={loading}
+      className="text-xs sm:text-sm px-3 sm:px-5 py-2 whitespace-nowrap"
+    >
       {loading ? 'Logging out…' : 'Log out'}
     </Button>
   )

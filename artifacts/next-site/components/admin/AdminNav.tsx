@@ -18,14 +18,14 @@ export default function AdminNav({ newQuotes, pendingReviews }: Props) {
   ]
 
   return (
-    <div className="bg-surface rounded-full p-1 inline-flex gap-1">
+    <nav aria-label="Admin sections" className="bg-surface rounded-full p-1 inline-flex gap-1 min-w-max">
       {tabs.map(({ href, label, badge }) => {
         const active = pathname === href
         return (
           <Link
             key={href}
             href={href}
-            className={`px-5 py-2 rounded-full font-body font-semibold text-sm transition-colors inline-flex items-center ${
+            className={`px-3 sm:px-5 py-2 rounded-full font-body font-semibold text-xs sm:text-sm transition-colors inline-flex items-center ${
               active ? 'bg-ink text-paper shadow-sm' : 'text-ink-muted hover:text-paper'
             }`}
           >
@@ -38,6 +38,6 @@ export default function AdminNav({ newQuotes, pendingReviews }: Props) {
           </Link>
         )
       })}
-    </div>
+    </nav>
   )
 }

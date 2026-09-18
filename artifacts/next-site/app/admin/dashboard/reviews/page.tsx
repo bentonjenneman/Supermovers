@@ -38,7 +38,7 @@ export default async function ReviewsPage() {
 
   return (
     <main>
-      <h1>Reviews</h1>
+      <h1 className="font-heading font-extrabold text-paper text-2xl sm:text-3xl mb-5">Reviews</h1>
       <ReviewsQueue pendingReviews={pending} publishedReviews={published} />
     </main>
   )

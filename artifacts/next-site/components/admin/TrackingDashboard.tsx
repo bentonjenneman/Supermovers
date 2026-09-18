@@ -23,7 +23,7 @@ export default function TrackingDashboard({
   return (
     <>
       {/* Stat cards */}
-      <div className="flex gap-4 mb-8 flex-wrap">
+      <div className="grid grid-cols-1 min-[380px]:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-8">
         <StatCard label="Sessions (30d)" value={summary.totalSessions} />
         <StatCard label="Pageviews (30d)" value={summary.totalPageviews} />
         <StatCard label="Conversions (30d)" value={summary.conversions} />
@@ -101,7 +101,7 @@ export default function TrackingDashboard({
 
 function StatCard({ label, value }: { label: string; value: number | null }) {
   return (
-    <div className="bg-surface border border-border rounded-lg p-5 flex-1 min-w-[140px]">
+    <div className="bg-surface border border-border rounded-lg p-4 sm:p-5">
       <div className="font-body text-xs text-ink-muted uppercase tracking-wide mb-1">
         {label}
       </div>

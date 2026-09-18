@@ -40,7 +40,7 @@ export default async function QuotesPage() {
   const quotes = await getQuotes()
   return (
     <main>
-      <h1>Quotes</h1>
+      <h1 className="font-heading font-extrabold text-paper text-2xl sm:text-3xl mb-5">Quotes</h1>
       <QuotesTable initialQuotes={quotes} />
     </main>
   )

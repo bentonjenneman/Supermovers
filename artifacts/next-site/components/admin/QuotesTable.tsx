@@ -65,8 +65,65 @@ export default function QuotesTable({ initialQuotes }: { initialQuotes: Quote[] 
   }
 
   return (
-    <div className="bg-surface rounded-lg border border-border overflow-x-auto">
-      <table className="w-full">
+    <>
+      <div className="space-y-4 md:hidden">
+        {quotes.map((q) => (
+          <article key={q.id} className="bg-surface rounded-xl border border-border p-4">
+            <div className="flex items-start justify-between gap-3 mb-4">
+              <div className="min-w-0">
+                <h2 className="font-heading font-bold text-paper text-lg break-words">{q.name}</h2>
+                <p className="font-body text-xs text-ink-muted mt-1" suppressHydrationWarning>
+                  {new Date(q.created_at).toLocaleString()}
+                </p>
+              </div>
+              <div
+                className={`${
+                  STATUS_COLORS[q.status as Status] ?? STATUS_COLORS.new
+                } rounded-full px-3 py-1 text-xs font-bold shrink-0`}
+              >
+                <select
+                  value={q.status}
+                  onChange={(e) => handleStatusChange(q.id, e.target.value as Status)}
+                  aria-label={`Status for ${q.name}`}
+                  className="bg-transparent border-none text-inherit font-inherit text-xs focus:outline-none cursor-pointer appearance-none"
+                  style={{ colorScheme: 'dark' }}
+                >
+                  {STATUS_OPTIONS.map((s) => (
+                    <option key={s} value={s} style={{ background: '#141414', color: '#F5F1ED' }}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <dl className="grid grid-cols-1 min-[360px]:grid-cols-2 gap-x-4 gap-y-3">
+              <MobileField label="Phone" value={q.phone} />
+              <MobileField label="Move date" value={q.move_date ?? '—'} />
+              <MobileField label="Email" value={q.email} breakAll />
+              <MobileField label="Move size" value={q.move_size ?? '—'} />
+              <MobileField label="From" value={q.origin_address ?? '—'} />
+              <MobileField label="To" value={q.destination_address ?? '—'} />
+            </dl>
+
+            <div className="border-t border-border mt-4 pt-4">
+              <h3 className="font-body font-semibold text-xs text-ink-muted uppercase tracking-wide mb-2">
+                Notes
+              </h3>
+              <p className="font-body text-sm leading-relaxed text-paper whitespace-pre-wrap break-words">
+                {q.notes || '—'}
+              </p>
+            </div>
+
+            {rowError?.id === q.id && (
+              <p className="font-body text-xs text-brand-red mt-3">{rowError.message}</p>
+            )}
+          </article>
+        ))}
+      </div>
+
+      <div className="hidden md:block bg-surface rounded-lg border border-border overflow-x-auto">
+        <table className="w-full min-w-[1120px]">
         <thead>
           <tr className="bg-ink">
             {[
@@ -109,7 +166,7 @@ export default function QuotesTable({ initialQuotes }: { initialQuotes: Quote[] 
               <td className="px-4 py-3 font-body text-sm text-paper">{q.origin_address ?? '—'}</td>
               <td className="px-4 py-3 font-body text-sm text-paper">{q.destination_address ?? '—'}</td>
               <td className="px-4 py-3 font-body text-sm text-paper">{q.move_size ?? '—'}</td>
-              <td className="px-4 py-3 font-body text-sm text-paper max-w-[180px] truncate">
+              <td className="px-4 py-3 font-body text-sm leading-relaxed text-paper min-w-[260px] max-w-[360px] whitespace-pre-wrap break-words align-top">
                 {q.notes ?? '—'}
               </td>
               <td className="px-4 py-3">
@@ -140,7 +197,29 @@ export default function QuotesTable({ initialQuotes }: { initialQuotes: Quote[] 
             </tr>
           ))}
         </tbody>
-      </table>
+        </table>
+      </div>
+    </>
+  )
+}
+
+function MobileField({
+  label,
+  value,
+  breakAll = false,
+}: {
+  label: string
+  value: string
+  breakAll?: boolean
+}) {
+  return (
+    <div className="min-w-0">
+      <dt className="font-body font-semibold text-[11px] text-ink-muted uppercase tracking-wide">
+        {label}
+      </dt>
+      <dd className={`font-body text-sm text-paper mt-0.5 ${breakAll ? 'break-all' : 'break-words'}`}>
+        {value}
+      </dd>
     </div>
   )
 }
