@@ -26,7 +26,7 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/45 to-ink/90 -z-10" />
 
-        <div className="relative flex flex-col items-center gap-3 md:gap-6 px-4 w-full max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="relative -translate-y-5 md:translate-y-0 flex flex-col items-center gap-3 md:gap-6 px-4 w-full max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
           <span className="bg-brand-red text-white text-[11px] md:text-sm font-bold px-3 md:px-4 py-1.5 md:py-2 rounded uppercase tracking-wider shadow-lg shadow-brand-red/20">
             Free quotes, 7 days a week
           </span>
