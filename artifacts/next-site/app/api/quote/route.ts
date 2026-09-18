@@ -28,6 +28,27 @@ async function sendSms(
   return res.json()
 }
 
+async function sendQuoteEmail(to: string, apiKey: string, adminLink: string) {
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: 'Super Movers <notifications@send.supermoversllc.com>',
+      to: [to],
+      subject: 'New quote received',
+      html: `<p>A new quote request just came in.</p><p><a href="${adminLink}">View it in the admin dashboard</a></p>`,
+    }),
+  })
+  if (!res.ok) {
+    const errorText = await res.text()
+    throw new Error(`Resend API error ${res.status}: ${errorText}`)
+  }
+  return res.json()
+}
+
 function isValidEmail(email: string) {
   const at = email.indexOf('@')
   if (at < 1) return false
@@ -128,6 +149,30 @@ export async function POST(request: NextRequest) {
     })
   } catch (error) {
     console.error('[quote] SMS alert failed:', error)
+  }
+
+  try {
+    const apiKey = getServerEnv('RESEND_API_KEY')
+    const ownerEmail1 = getServerEnv('OWNER_EMAIL_1')
+    const ownerEmail2 = getServerEnv('OWNER_EMAIL_2')
+
+    if (!apiKey || !ownerEmail1 || !ownerEmail2) {
+      console.error('[quote] Email alert failed: One or more required email environment variables are missing')
+    } else {
+      const adminLink = 'https://supermoversllc.com/admin/dashboard/quotes'
+      const results = await Promise.allSettled([
+        sendQuoteEmail(ownerEmail1, apiKey, adminLink),
+        sendQuoteEmail(ownerEmail2, apiKey, adminLink),
+      ])
+
+      results.forEach((result) => {
+        if (result.status === 'rejected') {
+          console.error('[quote] Email alert failed:', result.reason)
+        }
+      })
+    }
+  } catch (error) {
+    console.error('[quote] Email alert failed:', error)
   }
 
   return NextResponse.json({}, { status: 200 })
