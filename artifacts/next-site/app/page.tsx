@@ -6,37 +6,37 @@ export default function Home() {
   return (
     <main className="overflow-x-hidden">
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <section className="relative py-24 md:py-32 text-center overflow-hidden flex flex-col items-center justify-center min-h-[85vh]">
+      <section className="relative h-[133.333vw] min-h-[540px] max-h-[620px] py-8 md:h-auto md:max-h-none md:py-32 text-center overflow-hidden flex flex-col items-center justify-center md:min-h-[85vh]">
         <Image
-          src="/hero.jpg"
-          alt="Super Movers crew loading a moving truck"
+          src="/crew-optimized.jpg"
+          alt="Super Movers team standing with their branded vehicle"
           fill
           priority
-          className="object-cover -z-20"
+          className="object-contain object-top md:object-cover md:object-[center_62%] bg-ink -z-20"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/50 to-ink/90 -z-10" />
 
-        <div className="relative flex flex-col items-center gap-6 px-4 w-full max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
-          <span className="bg-brand-red text-white text-xs md:text-sm font-bold px-4 py-2 rounded uppercase tracking-wider shadow-lg shadow-brand-red/20">
+        <div className="relative flex flex-col items-center gap-3 md:gap-6 px-4 w-full max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <span className="bg-brand-red text-white text-[11px] md:text-sm font-bold px-3 md:px-4 py-1.5 md:py-2 rounded uppercase tracking-wider shadow-lg shadow-brand-red/20">
             Free quotes, 7 days a week
           </span>
 
-          <h1 className="font-heading font-extrabold text-white text-4xl md:text-6xl lg:text-7xl leading-tight">
+          <h1 className="font-heading font-extrabold text-white text-3xl md:text-6xl lg:text-7xl leading-tight">
             Moving, Delivery, and <br className="hidden md:block" /> Junk Removal
           </h1>
 
-          <p className="font-body text-white/90 text-lg md:text-xl max-w-2xl mx-auto font-medium">
+          <p className="font-body text-white/90 text-base md:text-xl max-w-2xl mx-auto font-medium">
             Athens, GA movers. We travel up to 200 miles, provide free quotes, and never charge hidden fees.
           </p>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-4 mt-4 w-full sm:w-auto">
-            <Button variant="primary" href="/quote" className="text-lg px-8 py-4 shadow-xl shadow-brand-red/30 hover:scale-105 transition-transform duration-300">
+          <div className="flex flex-col sm:flex-row justify-center gap-2 md:gap-4 mt-2 md:mt-4 w-full sm:w-auto">
+            <Button variant="primary" href="/quote" className="text-base md:text-lg px-8 py-3 md:py-4 shadow-xl shadow-brand-red/30 hover:scale-105 transition-transform duration-300">
               Get a free quote
             </Button>
             <Button
               variant="secondary"
               href="tel:+14705624020"
-              className="text-lg px-8 py-4 border-2 border-white/80 text-white hover:bg-white hover:text-ink hover:border-white transition-all duration-300"
+              className="text-base md:text-lg px-8 py-3 md:py-4 border-2 border-white/80 text-white hover:bg-white hover:text-ink hover:border-white transition-all duration-300"
             >
               Call (470) 562-4020
             </Button>
