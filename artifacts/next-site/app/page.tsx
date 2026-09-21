@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <main className="overflow-x-hidden">
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <section className="relative h-[133.333vw] min-h-[540px] max-h-[620px] py-8 md:h-auto md:max-h-none md:py-32 text-center overflow-hidden flex flex-col items-center justify-center md:min-h-[85vh]">
+      <section className="relative h-[133.333vw] md:h-auto md:min-h-[82vh] text-center overflow-hidden">
         <Image
           src="/crew-optimized.jpg"
           alt=""
@@ -14,7 +14,7 @@ export default function Home() {
           priority
           sizes="100vw"
           aria-hidden="true"
-          className="object-cover object-center scale-110 blur-xl opacity-50 md:scale-100 md:blur-none md:opacity-100 md:object-[center_38%] -z-20"
+          className="object-cover object-center scale-110 blur-xl opacity-45 md:scale-100 md:blur-none md:opacity-100 md:object-[center_38%] -z-20"
         />
         <Image
           src="/crew-optimized.jpg"
@@ -24,31 +24,31 @@ export default function Home() {
           sizes="100vw"
           className="object-contain object-top md:hidden -z-20"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/45 to-ink/90 -z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/10 via-transparent to-ink/90 md:from-ink/20 md:via-transparent md:to-ink/85 -z-10" />
 
-        <div className="relative -translate-y-5 md:translate-y-0 flex flex-col items-center gap-3 md:gap-6 px-4 w-full max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="absolute inset-x-0 bottom-12 md:bottom-24 flex flex-col items-center gap-2 md:gap-4 px-4 w-full max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
           <span className="bg-brand-red text-white text-[11px] md:text-sm font-bold px-3 md:px-4 py-1.5 md:py-2 rounded uppercase tracking-wider shadow-lg shadow-brand-red/20">
             Free quotes, 7 days a week
           </span>
 
-          <h1 className="font-heading font-extrabold text-white text-3xl md:text-6xl lg:text-7xl leading-tight">
-            Moving, Delivery, and <br className="hidden md:block" /> Junk Removal
+          <h1 className="font-heading font-extrabold text-white text-4xl md:text-6xl lg:text-7xl leading-none drop-shadow-lg">
+            We move it all.
           </h1>
 
-          <p className="font-body text-white/90 text-base md:text-xl max-w-2xl mx-auto font-medium">
-            Athens, GA movers. We travel up to 200 miles, provide free quotes, and never charge hidden fees.
+          <p className="font-body text-white/95 text-sm md:text-lg mx-auto font-semibold tracking-wide drop-shadow-md">
+            Athens, GA &bull; Up to 200 miles &bull; No hidden fees
           </p>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-2 md:gap-4 mt-2 md:mt-4 w-full sm:w-auto">
-            <Button variant="primary" href="/quote" className="text-base md:text-lg px-8 py-3 md:py-4 shadow-xl shadow-brand-red/30 hover:scale-105 transition-transform duration-300">
+          <div className="flex flex-col sm:flex-row justify-center gap-2 md:gap-3 mt-1 md:mt-2 w-full sm:w-auto">
+            <Button variant="primary" href="/quote" className="text-base md:text-lg px-8 py-2.5 md:py-3.5 shadow-xl shadow-brand-red/30 hover:scale-105 transition-transform duration-300">
               Get a free quote
             </Button>
             <Button
               variant="secondary"
               href="tel:+14705624020"
-              className="text-base md:text-lg px-8 py-3 md:py-4 border-2 border-white/80 text-white hover:bg-white hover:text-ink hover:border-white transition-all duration-300"
+              className="text-base md:text-lg px-8 py-2.5 md:py-3.5 border-2 border-white/80 text-white hover:bg-white hover:text-ink hover:border-white transition-all duration-300"
             >
-              Call (470) 562-4020
+              (470) 562-4020
             </Button>
           </div>
         </div>
