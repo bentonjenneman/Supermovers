@@ -7,7 +7,7 @@ export default function Terms() {
             Terms and conditions
           </h1>
           <p className="font-body text-sm text-ink-muted mb-8">
-            Last updated: August 9, 2026
+            Last updated: November 14, 2026
           </p>
 
           <h2 className="font-heading font-bold text-paper text-lg mb-2">
@@ -35,16 +35,17 @@ export default function Terms() {
             Reviews
           </h2>
           <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">
-            Reviews submitted through this site are subject to approval before publishing.
-            By submitting a review, you confirm it reflects your honest experience. We
-            reserve the right to decline to publish any submission.
+            Reviews shown on this site were posted by customers on Google. We choose which
+            reviews to feature and may add or remove featured reviews at any time. The
+            featured reviews are a selection, not a complete list. You can see all reviews
+            on our Google profile.
           </p>
 
           <h2 className="font-heading font-bold text-paper text-lg mt-8 mb-2">
             Intellectual property
           </h2>
           <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">
-            The content, design, and branding of this site are owned by Super Movers LLC
+            The content, design, and branding of this site are owned by SuperMovers LLC
             and may not be copied or reused without permission.
           </p>
 
@@ -61,7 +62,7 @@ export default function Terms() {
             Limitation of liability
           </h2>
           <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">
-            To the extent permitted by law, Super Movers LLC is not liable for indirect or
+            To the extent permitted by law, SuperMovers LLC is not liable for indirect or
             incidental damages arising from use of this website.
           </p>
 

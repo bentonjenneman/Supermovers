@@ -5,7 +5,7 @@ import { getServerEnv } from '@/lib/env'
  * Service-role Supabase client — bypasses Row Level Security.
  * Only use server-side; never expose to the browser.
  */
-export function createAdminClient() {
+export function createAdminClient(options?: { noStore?: boolean }) {
   const url =
     getServerEnv('SUPABASE_URL') ??
     getServerEnv('NEXT_PUBLIC_SUPABASE_URL')
@@ -26,6 +26,12 @@ export function createAdminClient() {
   }
 
   return createClient(cleanUrl, key, {
+    ...(options?.noStore ? {
+      global: {
+        fetch: (input: RequestInfo | URL, init?: RequestInit) =>
+          fetch(input, { ...init, cache: 'no-store' }),
+      },
+    } : {}),
     auth: {
       autoRefreshToken: false,
       persistSession: false,

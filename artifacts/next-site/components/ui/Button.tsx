@@ -17,6 +17,7 @@ interface ButtonBaseProps {
 
 interface ButtonAsLink extends ButtonBaseProps {
   href: string
+  external?: boolean
   disabled?: never
   type?: never
   onClick?: never
@@ -24,6 +25,7 @@ interface ButtonAsLink extends ButtonBaseProps {
 
 interface ButtonAsButton extends ButtonBaseProps {
   href?: never
+  external?: never
   disabled?: boolean
   type?: 'button' | 'submit' | 'reset'
   onClick?: React.MouseEventHandler<HTMLButtonElement>
@@ -40,6 +42,13 @@ export default function Button({
   const cls = `${base} ${variants[variant]} ${className}`.trim()
 
   if ('href' in rest && rest.href) {
+    if (rest.external) {
+      return (
+        <a href={rest.href} target="_blank" rel="noopener noreferrer" className={cls}>
+          {children}
+        </a>
+      )
+    }
     return (
       <Link href={rest.href} className={cls}>
         {children}

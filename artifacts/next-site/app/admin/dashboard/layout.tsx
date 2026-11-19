@@ -16,9 +16,9 @@ async function getCounts(): Promise<{ newQuotes: number; pendingReviews: number 
         .select('id', { count: 'exact', head: true })
         .eq('status', 'new'),
       supabase
-        .from('reviews')
+        .from('google_reviews')
         .select('id', { count: 'exact', head: true })
-        .eq('published', false),
+        .eq('status', 'pending'),
     ])
     return {
       newQuotes: quotesRes.count ?? 0,
@@ -36,7 +36,7 @@ export default async function AdminDashboardLayout({ children }: { children: Rea
     <div className="min-h-screen bg-ink">
       {/* Header */}
       <div className="bg-ink border-b border-border px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center gap-3">
-        <span className="font-heading font-bold text-paper text-base sm:text-lg">Super Movers Admin</span>
+        <span className="font-heading font-bold text-paper text-base sm:text-lg">SuperMovers Admin</span>
         <LogoutButton />
       </div>
 

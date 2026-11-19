@@ -9,6 +9,8 @@ const navLinks = [
   { label: 'Services', href: '/services' },
   { label: 'About', href: '/about' },
   { label: 'Reviews', href: '/reviews' },
+  { label: 'Careers', href: '/careers' },
+  { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact' },
 ]
 
@@ -21,16 +23,21 @@ export default function Header() {
         <div className="flex items-center justify-between h-16 gap-4">
 
           {/* Logo + wordmark */}
-          <Link href="/" className="flex items-center gap-2 shrink-0">
+          <Link href="/" aria-label="SuperMovers home" className="flex items-center gap-2 shrink-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt="Super Movers logo" className="h-12 w-auto object-contain" />
-            <span className="hidden sm:inline font-heading font-extrabold text-paper text-base leading-tight">
-              SUPER MOVERS
-            </span>
+            <img src="/logo.png" alt="SuperMovers logo" className="h-12 w-auto object-contain" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/supermovers-wordmark.png"
+              alt="SuperMovers"
+              width={626}
+              height={162}
+              className="hidden h-auto w-36 object-contain sm:block"
+            />
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden lg:flex items-center gap-4 xl:gap-6">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -66,7 +73,7 @@ export default function Header() {
 
           {/* Hamburger — mobile only */}
           <button
-            className="md:hidden p-2 text-paper"
+            className="lg:hidden p-2 text-paper"
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             onClick={() => setMenuOpen((prev) => !prev)}
           >
@@ -87,7 +94,7 @@ export default function Header() {
 
       {/* Mobile nav drawer */}
       {menuOpen && (
-        <div className="md:hidden border-t border-border bg-ink px-4 pb-4 pt-2">
+        <div className="lg:hidden border-t border-border bg-ink px-4 pb-4 pt-2">
           <nav className="flex flex-col gap-3">
             {navLinks.map((link) => (
               <Link

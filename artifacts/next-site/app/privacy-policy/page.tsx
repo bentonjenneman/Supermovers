@@ -7,7 +7,7 @@ export default function PrivacyPolicy() {
             Privacy policy
           </h1>
           <p className="font-body text-sm text-ink-muted mb-8">
-            Last updated: August 9, 2026
+            Last updated: November 14, 2026
           </p>
 
           <h2 className="font-heading font-bold text-paper text-lg mb-2">
@@ -23,8 +23,17 @@ export default function PrivacyPolicy() {
           <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">
             When you submit a form: If you request a quote, we collect your name, email,
             phone number, and any move details you provide (move date, addresses, size of
-            move, notes). If you leave a review, we collect your name, star rating, and
-            review text.
+            move, notes).
+          </p>
+
+          <h2 className="font-heading font-bold text-paper text-lg mt-8 mb-2">
+            Google reviews
+          </h2>
+          <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">
+            Our Reviews page shows reviews that customers posted publicly on Google,
+            including the reviewer&apos;s public name and profile photo as shown on Google.
+            We don&apos;t collect reviews on this site. When you leave a review on Google,
+            it is governed by Google&apos;s terms and privacy policy.
           </p>
 
           <h2 className="font-heading font-bold text-paper text-lg mt-8 mb-2">
@@ -50,7 +59,7 @@ export default function PrivacyPolicy() {
           </h2>
           <p className="font-body text-ink-muted text-sm leading-relaxed mb-3">
             Information you submit is stored securely using Supabase, our database
-            provider. Access to quote and review submissions is restricted to Super Movers
+            provider. Access to quote and review submissions is restricted to SuperMovers
             staff.
           </p>
 

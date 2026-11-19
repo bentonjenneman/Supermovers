@@ -1,0 +1,133 @@
+.section {
+  padding: 64px 28px;
+  color: #f5f1ed;
+  background: #060606;
+  font-family: var(--font-inter), sans-serif;
+  scroll-margin-top: 80px;
+}
+
+.inner { max-width: 1080px; margin: 0 auto; }
+.header { max-width: 640px; margin: 0 auto 44px; text-align: center; }
+.eyebrow {
+  margin-bottom: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: #b6aeaa;
+}
+.header h2 {
+  margin: 0;
+  font-family: var(--font-poppins), sans-serif;
+  font-size: clamp(30px, 4vw, 42px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -.035em;
+}
+.underline { width: 72px; height: 5px; border-radius: 999px; background: #990000; margin: 20px auto; }
+.header p:last-child { color: #a8a29e; font-size: 16px; line-height: 1.7; margin: 0; }
+.steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.steps::before {
+  content: '';
+  position: absolute;
+  height: 1px;
+  left: 40px;
+  right: 40px;
+  top: 26px;
+  background: linear-gradient(90deg, #990000, #552222 55%, #262626);
+}
+.step { position: relative; min-width: 0; }
+.marker {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  color: #fff;
+  background: #990000;
+  box-shadow: 0 0 0 8px #060606;
+  font-family: var(--font-poppins), sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  margin: 0 0 22px 24px;
+}
+.card {
+  padding: 26px 25px 28px;
+  border: 1px solid #292525;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #191616, #111 70%);
+  min-height: 252px;
+  transition: border-color .25s ease, transform .25s ease;
+}
+.card:hover { border-color: #703030; transform: translateY(-3px); }
+.cardTop { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+.label { color: #b6aeaa; font-size: 10px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; }
+.icon { width: 23px; height: 23px; color: #e7deda; stroke-width: 1.5; }
+.card h3 { font-family: var(--font-poppins), sans-serif; font-size: 20px; font-weight: 700; letter-spacing: -.025em; line-height: 1.3; margin: 0 0 13px; }
+.card p { margin: 0; font-size: 14px; line-height: 1.75; color: #aaa3a0; }
+.cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 26px 30px;
+  margin-top: 28px;
+  border-radius: 18px;
+  border: 1px solid #263047;
+  background: linear-gradient(110deg, #16233f, #0e1523);
+}
+.cta h3 { font-family: var(--font-poppins), sans-serif; margin: 0 0 5px; font-size: 19px; font-weight: 700; line-height: 1.35; letter-spacing: -.02em; }
+.cta p { margin: 0; color: #b5bbc7; font-size: 13px; line-height: 1.6; }
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  flex-shrink: 0;
+  min-height: 48px;
+  padding: 14px 22px;
+  border-radius: 9px;
+  background: #990000;
+  color: #fff;
+  text-decoration: none;
+  font-family: var(--font-poppins), sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background-color .2s ease;
+}
+.button:hover { background: #770000; }
+.button:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+.button svg { width: 18px; height: 18px; }
+
+@media (max-width: 767px) {
+  .section { padding: 44px 20px; }
+  .header { margin-bottom: 32px; }
+  .header p:last-child { font-size: 14px; }
+  .steps { grid-template-columns: 1fr; gap: 23px; }
+  .steps::before { top: 0; bottom: 0; left: 22px; width: 1px; height: auto; right: auto; background: linear-gradient(#990000, #262626); }
+  .step { padding-left: 62px; padding-top: 0; }
+  .marker { position: absolute; left: 0; top: 17px; margin: 0; width: 44px; height: 44px; font-size: 16px; border-radius: 12px; box-shadow: 0 0 0 6px #060606; }
+  .card { padding: 22px 20px 24px; min-height: 0; border-radius: 15px; }
+  .cardTop { margin-bottom: 18px; }
+  .card h3 { font-size: 19px; }
+  .card p { font-size: 13px; line-height: 1.8; }
+  .cta { margin-top: 28px; padding: 25px 22px; flex-direction: column; align-items: stretch; gap: 20px; text-align: center; }
+  .cta h3 { font-size: 20px; }
+  .button { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .button { transition: none; }
+  .card:hover { transform: none; }
+}

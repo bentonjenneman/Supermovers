@@ -14,7 +14,9 @@ export default function AdminNav({ newQuotes, pendingReviews }: Props) {
   const tabs = [
     { href: '/admin/dashboard/quotes', label: 'Quotes', badge: newQuotes },
     { href: '/admin/dashboard/reviews', label: 'Reviews', badge: pendingReviews },
+    { href: '/admin/dashboard/editor', label: 'Editor', badge: 0 },
     { href: '/admin/dashboard/tracking', label: 'Tracking', badge: 0 },
+    { href: '/admin/dashboard/blog', label: 'Blog', badge: 0 },
   ]
 
   return (
