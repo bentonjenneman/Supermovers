@@ -1,6 +1,8 @@
 # Next.js build output — never commit generated artefacts
 .next/
 out/
+/.vercel/output/
+/.vercel/node/
 
 # Dependencies
 node_modules/

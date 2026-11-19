@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import * as d3 from 'd3'
 import * as topojson from 'topojson-client'
+import { ATHENS_COORDS, CONTACT_SERVICE_RADIUS_MILES } from '@/lib/contact-service-area'
 
 const SHOWN_STATES = new Set([
   'Georgia',
@@ -18,26 +19,21 @@ const SHOWN_STATES = new Set([
 
 const projection = d3
   .geoMercator()
-  .center([-84.0, 34.1])
-  .scale(5300)
+  .center(ATHENS_COORDS)
+  .scale(10000)
   .translate([450, 280])
 
 const pathGen = d3.geoPath(projection)
 
-const ATHENS_COORDS: [number, number] = [-83.3576, 33.9519]
-
 const CITIES: { name: string; coords: [number, number] }[] = [
   { name: 'Atlanta',      coords: [-84.388,  33.749]  },
-  { name: 'Augusta',      coords: [-81.9748, 33.4735] },
-  { name: 'Macon',        coords: [-83.6324, 32.8407] },
-  { name: 'Columbus',     coords: [-84.9877, 32.461]  },
-  { name: 'Savannah',     coords: [-81.0912, 32.0809] },
-  { name: 'Greenville',   coords: [-82.394,  34.8526] },
-  { name: 'Columbia',     coords: [-81.0348, 34.0007] },
-  { name: 'Charlotte',    coords: [-80.8431, 35.2271] },
-  { name: 'Chattanooga',  coords: [-85.3097, 35.0456] },
-  { name: 'Knoxville',    coords: [-83.9207, 35.9606] },
-  { name: 'Asheville',    coords: [-82.5515, 35.5951] },
+  { name: 'Gainesville',  coords: [-83.8291, 34.2901] },
+  { name: 'Toccoa',       coords: [-83.3272, 34.5821] },
+  { name: 'Hartwell',     coords: [-82.9280, 34.3496] },
+  { name: 'Elberton',     coords: [-82.8728, 34.1049] },
+  { name: 'Washington',   coords: [-82.7423, 33.7352] },
+  { name: 'Madison',      coords: [-83.4760, 33.5790] },
+  { name: 'Covington',    coords: [-83.8466, 33.6054] },
 ]
 
 interface StatePath { id: string; d: string; isGeorgia: boolean }
@@ -68,7 +64,8 @@ export default function ServiceAreaMap() {
             })),
         )
 
-        const circle = d3.geoCircle().center(ATHENS_COORDS).radius(2.895)()
+        const circle = d3.geoCircle().center(ATHENS_COORDS)
+          .radius((CONTACT_SERVICE_RADIUS_MILES / 3958.7613) * (180 / Math.PI))()
         setCircleD(pathGen(circle) ?? '')
         setLoaded(true)
       })
@@ -91,7 +88,12 @@ export default function ServiceAreaMap() {
           <p className="font-body text-ink-muted text-sm">Loading map…</p>
         </div>
       ) : (
-        <svg viewBox="0 0 900 560" width="100%">
+        <svg viewBox="0 0 900 560" width="100%" role="img" aria-label="Georgia service area within 75 miles of Athens; coverage stops at the state border">
+          <defs>
+            <clipPath id="contact-georgia-coverage">
+              {statePaths.filter(s => s.isGeorgia).map(s => <path key={s.id} d={s.d} />)}
+            </clipPath>
+          </defs>
           {/* State fills */}
           {statePaths.map((s) => (
             <path
@@ -103,10 +105,11 @@ export default function ServiceAreaMap() {
             />
           ))}
 
-          {/* 200-mile radius circle */}
+          {/* Clip the 75-mile radius at Georgia's state border. */}
           {circleD && (
             <path
               d={circleD}
+              clipPath="url(#contact-georgia-coverage)"
               fill="#990000"
               fillOpacity={0.16}
               stroke="#990000"
@@ -168,7 +171,7 @@ export default function ServiceAreaMap() {
       <div className="flex items-center gap-2 mt-3 px-1">
         <div className="w-4 h-4 rounded-sm border-2 border-brand-red bg-brand-red/35 shrink-0" />
         <span className="font-body text-sm text-paper">
-          200-mile service radius from Athens, GA
+          75-mile service radius from Athens, GA — Georgia only
         </span>
       </div>
     </div>

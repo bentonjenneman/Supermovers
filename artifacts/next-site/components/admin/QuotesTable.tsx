@@ -101,7 +101,7 @@ export default function QuotesTable({ initialQuotes }: { initialQuotes: Quote[] 
               <MobileField label="Phone" value={q.phone} />
               <MobileField label="Move date" value={q.move_date ?? '—'} />
               <MobileField label="Email" value={q.email} breakAll />
-              <MobileField label="Move size" value={q.move_size ?? '—'} />
+              <MobileField label="Move Type" value={q.move_size ?? '—'} />
               <MobileField label="From" value={q.origin_address ?? '—'} />
               <MobileField label="To" value={q.destination_address ?? '—'} />
             </dl>
@@ -128,7 +128,7 @@ export default function QuotesTable({ initialQuotes }: { initialQuotes: Quote[] 
           <tr className="bg-ink">
             {[
               'Submitted', 'Name', 'Email', 'Phone',
-              'Move date', 'From', 'To', 'Size', 'Notes', 'Status',
+              'Move date', 'From', 'To', 'Move Type', 'Notes', 'Status',
             ].map((h) => (
               <th
                 key={h}

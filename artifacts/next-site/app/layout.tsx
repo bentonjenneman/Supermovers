@@ -21,10 +21,10 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Super Movers | Athens, GA Moving, Delivery, and Junk Removal',
+  title: 'SuperMovers | Athens, GA Moving, Delivery, and Junk Removal',
   description: 'Athens, GA movers offering local and long-distance moving, delivery, and Junk Removal. Free quotes, no hidden fees, up to 200 miles.',
   icons: {
-    icon: '/icon.png',
+    icon: [{ url: '/icon.png', type: 'image/png' }, { url: '/favicon.ico', type: 'image/x-icon' }],
     apple: '/apple-icon.png',
   },
 }
@@ -40,7 +40,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               __html: JSON.stringify({
                 '@context': 'https://schema.org',
                 '@type': ['MovingCompany', 'LocalBusiness'],
-                name: 'Super Movers',
+                name: 'SuperMovers',
                 telephone: '+14705624020',
                 areaServed: {
                   '@type': 'GeoCircle',
