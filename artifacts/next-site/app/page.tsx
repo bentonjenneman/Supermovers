@@ -9,6 +9,7 @@ import { getHomeReviews } from '@/lib/google-reviews/home'
 import { getBannerSettings } from '@/lib/banner-settings'
 import HomeBanner from '@/components/home/HomeBanner'
 import { SERVICE_CARDS } from '@/lib/service-cards'
+import LeaveGoogleReviewBadge from '@/components/LeaveGoogleReviewBadge'
 import GoogleReviewsBadge, { type GoogleBadgeStats } from '@/components/GoogleReviewsBadge'
 
 export const runtime = 'edge'
@@ -59,7 +60,7 @@ export default async function Home() {
     getBannerSettings(),
   ])
   const { show_satisfaction_badge_home, show_google_badge_home, reviews_url } = badgeSettings
-  const hasBadges = show_satisfaction_badge_home || show_google_badge_home
+  const hasBadges = show_satisfaction_badge_home || show_google_badge_home || badgeSettings.show_leave_review_badge_home
 
   return (
     <main className="overflow-x-hidden bg-ink">
@@ -85,7 +86,7 @@ export default async function Home() {
           className={`mx-auto flex w-full max-w-[1440px] flex-col px-5 md:px-12 pt-3 md:pt-10 pb-20 md:pb-24 ${hasBadges ? 'justify-between' : 'justify-end'}`}
         >
           {hasBadges && (
-            <div className="flex items-center justify-between gap-3 md:gap-6 md:items-start">
+            <div className="flex items-center justify-between gap-3 md:gap-6">
               {show_satisfaction_badge_home ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -98,7 +99,9 @@ export default async function Home() {
               ) : (
                 <span className="hidden md:block" />
               )}
-              {show_google_badge_home && (
+              {badgeSettings.show_leave_review_badge_home ? (
+                <LeaveGoogleReviewBadge href={badgeSettings.write_review_url} className="ml-auto md:ml-0" />
+              ) : show_google_badge_home && (
                 <HomeGoogleBadge href={reviews_url} stats={badgeSettings} />
               )}
             </div>

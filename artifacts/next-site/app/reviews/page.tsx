@@ -5,6 +5,8 @@ import { relativeDateLabel, type PublicReview } from '@/lib/google-reviews/publi
 import ReviewsCarousel from '@/components/ReviewsCarousel'
 import Button from '@/components/ui/Button'
 import GoogleReviewsBadge from '@/components/GoogleReviewsBadge'
+import LeaveGoogleReviewBadge from '@/components/LeaveGoogleReviewBadge'
+import { getBadgeSettings } from '@/lib/home-badge-settings'
 
 export const runtime = 'edge'
 export const dynamic = 'force-dynamic'
@@ -71,7 +73,8 @@ async function getReviews(): Promise<{ reviews: PublicReview[]; stats: PublicSta
 }
 
 export default async function Reviews() {
-  const { reviews, stats } = await getReviews()
+  const [{ reviews, stats }, badges] = await Promise.all([getReviews(), getBadgeSettings()])
+  const showLeaveReview = badges.settings?.show_leave_review_badge_reviews === true
 
   return (
     <main>
@@ -87,8 +90,10 @@ export default async function Reviews() {
             <h1 className="font-heading font-extrabold text-white text-3xl md:text-4xl">Reviews</h1>
             <p className="font-body text-white/80 text-base mt-3">What customers say about us on Google.</p>
           </div>
-          <div className={`order-3 min-w-0 ${stats?.google_badge_enabled ? '' : 'hidden lg:block'}`}>
-            {stats?.google_badge_enabled && (
+          <div className={`order-3 min-w-0 text-center ${stats?.google_badge_enabled || showLeaveReview ? '' : 'hidden lg:block'}`}>
+            {showLeaveReview ? (
+              <LeaveGoogleReviewBadge href={stats?.write_review_url} />
+            ) : stats?.google_badge_enabled && (
               <GoogleReviewImage stats={stats} />
             )}
           </div>

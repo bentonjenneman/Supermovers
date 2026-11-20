@@ -6,6 +6,8 @@ export interface BadgeSettings {
   google_badge_enabled: boolean
   show_satisfaction_badge_home: boolean
   show_google_badge_home: boolean
+  show_leave_review_badge_home?: boolean
+  show_leave_review_badge_reviews?: boolean
 }
 
 export interface BadgeSettingsResult {
@@ -14,6 +16,7 @@ export interface BadgeSettingsResult {
   reviewsUrl: string | null
   averageRating: number | null
   totalReviewCount: number | null
+  writeReviewUrl?: string | null
 }
 
 // Keep existing Reviews controls usable before the owner applies the home flags SQL.
@@ -22,11 +25,19 @@ export async function getBadgeSettings(): Promise<BadgeSettingsResult> {
   try {
     const client = createAdminClient()
     const result = await client.from('google_profile_stats')
-      .select('badge_enabled, google_badge_enabled, show_satisfaction_badge_home, show_google_badge_home, reviews_url, average_rating, total_review_count')
+      .select('*')
       .eq('id', true).single()
     if (!result.error) {
-      const { reviews_url, average_rating, total_review_count, ...settings } = result.data
-      return { settings, homeFlagsReady: true, reviewsUrl: reviews_url ?? null, averageRating: average_rating ?? null, totalReviewCount: total_review_count ?? null }
+      const data = result.data
+      const settings: BadgeSettings = {
+        badge_enabled: data.badge_enabled === true,
+        google_badge_enabled: data.google_badge_enabled === true,
+        show_satisfaction_badge_home: data.show_satisfaction_badge_home === true,
+        show_google_badge_home: data.show_google_badge_home === true,
+        show_leave_review_badge_home: data.show_leave_review_badge_home,
+        show_leave_review_badge_reviews: data.show_leave_review_badge_reviews,
+      }
+      return { settings, homeFlagsReady: typeof data.show_google_badge_home === 'boolean', reviewsUrl: data.reviews_url ?? null, averageRating: data.average_rating ?? null, totalReviewCount: data.total_review_count ?? null, writeReviewUrl: data.write_review_url ?? null }
     }
     const missingHomeColumns = ['42703', 'PGRST204'].includes(result.error.code) &&
       /show_(satisfaction|google)_badge_home/.test(result.error.message)
@@ -49,12 +60,14 @@ export async function getBadgeSettings(): Promise<BadgeSettingsResult> {
 }
 
 export async function getHomeBadgeSettings() {
-  const { settings, reviewsUrl, averageRating, totalReviewCount } = await getBadgeSettings()
+  const { settings, reviewsUrl, averageRating, totalReviewCount, writeReviewUrl } = await getBadgeSettings()
   return {
     show_satisfaction_badge_home: settings?.show_satisfaction_badge_home === true,
     show_google_badge_home: settings?.show_google_badge_home === true,
     reviews_url: reviewsUrl,
     average_rating: averageRating,
     total_review_count: totalReviewCount,
+    show_leave_review_badge_home: settings?.show_leave_review_badge_home === true,
+    write_review_url: writeReviewUrl,
   }
 }

@@ -23,10 +23,17 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid home-page badge settings.' }, { status: 400 })
   }
   try {
+    const leaveReviewFlags: Record<string, boolean> = {}
+    for (const key of ['show_leave_review_badge_home', 'show_leave_review_badge_reviews']) {
+      if (!(key in body)) continue
+      if (typeof body[key] !== 'boolean') return NextResponse.json({ error: 'Invalid review button visibility.' }, { status: 400 })
+      leaveReviewFlags[key] = body[key] as boolean
+    }
     const supabase = createAdminClient()
     const { error } = await supabase.from('google_profile_stats').update({
       badge_enabled: body.badge_enabled,
       google_badge_enabled: body.google_badge_enabled,
+      ...leaveReviewFlags,
       ...(hasHomeSettings ? {
         show_satisfaction_badge_home: body.show_satisfaction_badge_home,
         show_google_badge_home: body.show_google_badge_home,
