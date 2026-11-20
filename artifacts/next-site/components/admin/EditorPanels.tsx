@@ -9,6 +9,7 @@ import type { GoogleProfileStats } from '@/lib/google-reviews/types'
 import BannerPanel from './BannerPanel'
 import ProfilePanel from './google-reviews/ProfilePanel'
 import GoogleReviewsBadge from '@/components/GoogleReviewsBadge'
+import LeaveGoogleReviewBadge from '@/components/LeaveGoogleReviewBadge'
 
 interface EditorPanelsProps {
   stats: BadgeSettings | null
@@ -46,6 +47,8 @@ function BadgesPanel({ stats, homeFlagsReady, googleProfile }: Omit<EditorPanels
       google_badge_enabled: current.google_badge_enabled === previous.google_badge_enabled ? stats.google_badge_enabled : current.google_badge_enabled,
       show_satisfaction_badge_home: current.show_satisfaction_badge_home === previous.show_satisfaction_badge_home ? stats.show_satisfaction_badge_home : current.show_satisfaction_badge_home,
       show_google_badge_home: current.show_google_badge_home === previous.show_google_badge_home ? stats.show_google_badge_home : current.show_google_badge_home,
+      show_leave_review_badge_home: current.show_leave_review_badge_home === previous.show_leave_review_badge_home ? stats.show_leave_review_badge_home : current.show_leave_review_badge_home,
+      show_leave_review_badge_reviews: current.show_leave_review_badge_reviews === previous.show_leave_review_badge_reviews ? stats.show_leave_review_badge_reviews : current.show_leave_review_badge_reviews,
     }))
   }, [stats])
 
@@ -63,6 +66,8 @@ function BadgesPanel({ stats, homeFlagsReady, googleProfile }: Omit<EditorPanels
         credentials: 'include',
         body: JSON.stringify(homeFlagsReady ? sent : {
           badge_enabled: sent.badge_enabled, google_badge_enabled: sent.google_badge_enabled,
+          show_leave_review_badge_home: sent.show_leave_review_badge_home,
+          show_leave_review_badge_reviews: sent.show_leave_review_badge_reviews,
         }),
       })
       if (!response.ok) {
@@ -113,6 +118,22 @@ function BadgesPanel({ stats, homeFlagsReady, googleProfile }: Omit<EditorPanels
             )}
           </div>
         ))}
+        <section className="space-y-3 border-t border-border pt-6" aria-labelledby="leave-review-badge-title">
+          <h2 id="leave-review-badge-title" className="font-heading font-bold">Leave a Google Review</h2>
+          <LeaveGoogleReviewBadge href={googleProfile?.write_review_url} />
+          <p className="text-sm text-ink-muted">G-only on mobile; full button on desktop. Replaces the rating badge in the same position when both are enabled.</p>
+          {typeof stats?.show_leave_review_badge_home !== 'boolean' && <p role="status" className="text-sm text-amber-300">Run the new review-button badge SQL in Supabase to enable these checkboxes.</p>}
+          {([
+            ['show_leave_review_badge_reviews', 'Show on Reviews page'],
+            ['show_leave_review_badge_home', 'Show on home page'],
+          ] as const).map(([field, label]) => (
+            <label key={field} className="flex w-fit items-center gap-2 text-sm">
+              <input type="checkbox" aria-label={`${label}: Leave a Google Review`} className="accent-brand-red" checked={values[field] === true} disabled={busy || typeof stats?.[field] !== 'boolean'} onChange={e => void toggle(field, e.target.checked)} />
+              {label}
+            </label>
+          ))}
+          <p className="text-sm text-ink-muted">To change its destination, edit the Leave-a-review link in Google badge and profile settings above. It defaults to your supplied Google review link.</p>
+        </section>
         {error && <p role="alert" className="text-sm text-red-400">{error}</p>}
         {success && <p role="status" className="text-sm text-emerald-400">{success}</p>}
       </div>

@@ -81,17 +81,19 @@ test('Editor displays Google profile fields alongside both badges, and Reviews k
   const utils = load('components/admin/google-reviews/utils.ts')
   const profilePanel = load('components/admin/google-reviews/ProfilePanel.tsx', { ...uiMocks, './utils': utils })
   const badge = load('components/GoogleReviewsBadge.tsx', uiMocks)
+  const leaveBadge = load('components/LeaveGoogleReviewBadge.tsx', uiMocks)
   const editor = load('components/admin/EditorPanels.tsx', {
     ...uiMocks,
     './google-reviews/utils': utils,
     './google-reviews/ProfilePanel': profilePanel,
     '@/components/GoogleReviewsBadge': badge,
+    '@/components/LeaveGoogleReviewBadge': leaveBadge,
     './BannerPanel': { default: () => null },
   })
   const stats = { badge_enabled: true, google_badge_enabled: false, show_satisfaction_badge_home: false, show_google_badge_home: true }
   const renderEditor = googleProfile => renderToStaticMarkup(React.createElement(editor.default, { stats, homeFlagsReady: true, googleProfile }))
   const html = renderEditor({ ...validProfile, average_rating: 4.7, total_review_count: 300, stats_source: 'manual' })
-  assert.equal((html.match(/type="checkbox"/g) ?? []).length, 4)
+  assert.equal((html.match(/type="checkbox"/g) ?? []).length, 6)
   assert.match(html, /Google Reviews, 4\.7 out of 5 stars, 300\+ reviews.*Google badge and profile settings.*https:\/\/g\.page\/example/)
   assert.match(html, /Leave-a-review link/)
   assert.match(html, /Average rating/)
@@ -108,6 +110,30 @@ test('Editor displays Google profile fields alongside both badges, and Reviews k
   const reviewsHtml = renderToStaticMarkup(React.createElement(reviews.default, { reviews: [], stats: null }))
   assert.match(reviewsHtml, /Add a review.*Pending.*Published.*Hidden/)
   assert.doesNotMatch(reviewsHtml, /Google badge and profile settings|id="gp-reviews"/)
+})
+
+test('review invitation badge links to the supplied URL and hides its label below desktop width', () => {
+  const { jsx } = require('react/jsx-runtime')
+  const { renderToStaticMarkup } = require('react-dom/server')
+  const badge = load('components/LeaveGoogleReviewBadge.tsx', { 'react/jsx-runtime': require('react/jsx-runtime') })
+  const render = href => renderToStaticMarkup(jsx(badge.default, { href }))
+  assert.match(render(null), /href="https:\/\/g.page\/r\/CXTwRL-orU0jEBM\/review"/)
+  assert.match(render('https://g.page/custom/review'), /href="https:\/\/g.page\/custom\/review"/)
+  assert.match(render(null), /src="\/google-g.png"/)
+  assert.match(render(null), /hidden whitespace-nowrap.*md:inline/)
+})
+
+test('new review invitation visibility saves independently and rejects non-boolean values', async () => {
+  const body = { badge_enabled: true, google_badge_enabled: true, show_leave_review_badge_home: true, show_leave_review_badge_reviews: false }
+  const { routes, calls } = setup(badges)
+  assert.equal((await routes.PUT(request(body))).status, 200)
+  const saved = calls.find(c => c.method === 'update').args[0]
+  assert.equal(saved.show_leave_review_badge_home, true)
+  assert.equal(saved.show_leave_review_badge_reviews, false)
+  assert.equal(saved.google_badge_enabled, true)
+  const invalid = setup(badges)
+  assert.equal((await invalid.routes.PUT(request({ ...body, show_leave_review_badge_home: 'yes' }))).status, 400)
+  assert.equal(invalid.calls.length, 0)
 })
 
 test('Google badge renders a partial star and count from saved stats without inventing missing numbers', () => {
